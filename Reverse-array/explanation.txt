@@ -1,0 +1,50 @@
+✅ Given Question:
+Reverse an array of integers (int[]) in descending (reverse sorted) order.
+
+✅ Given Data:
+An array of integers (int[]) which may be in any order.
+
+✅ Intuition:
+To reverse or reverse-sort an array, we can either:
+
+Sort the array in descending order using Java’s built-in methods.
+Or, reverse the array in-place using a two-pointer technique.
+Each method has its own trade-offs in terms of time and space efficiency.
+
+
+------------------------------------------
+Approach 1: Using Sorting + Streams
+------------------------------------------
+    - Convert the original `int[]` array to an `Integer[]` because `Collections.reverseOrder()` 
+      works only on objects, not primitives.
+    - Use `Arrays.sort()` with `Collections.reverseOrder()` to sort in descending order.
+    - Convert the sorted `Integer[]` back to `int[]` using streams.
+    - Copy the reversed values back into the original array (if in-place modification is needed).
+
+    Time Complexity:
+    - Boxing the array: O(n)
+    - Sorting using reverse order: O(nlogn)
+    - Unboxing back to int[]: O(n)
+    - Total Time Complexity: O(nlogn)
+
+    Space Complexity:
+    - Temporary storage for `Integer[]` and resulting `int[]`: O(n)
+    - Total Space Complexity: O(n)
+
+
+------------------------------------------
+Approach 2: Using Two Pointers
+------------------------------------------
+    - Use a two-pointer approach where one pointer starts at the beginning of the array,
+      and the other starts at the end.
+    - Swap the elements at the two pointers and move them toward the center.
+    - This approach reverses the array in-place without using extra space.
+
+    Time Complexity:
+    - Only half of the array is traversed (n / 2 swaps): O(n)
+    - Total Time Complexity: O(n)
+
+    Space Complexity:
+    - No extra space is used (in-place reversal): O(1)
+
+

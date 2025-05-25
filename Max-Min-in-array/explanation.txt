@@ -1,0 +1,45 @@
+✅ Given Question : 
+Find the minimum and maximum element from a given array
+
+✅ Given Data: 
+An array of integers (int[]) which may be in any order.
+
+✅ Intuition:
+To find the minimum and maximum element from a given array, we can use a simple algorithm that iterates over the array and keeps track of the minimum and maximum values encountered so far.
+Alternatively, sorting the array can get us the minimum and maximum elements directly without keeping track of anything.
+
+
+ -----------------------------------
+ Approach 1: Using Internal Sorting
+ -----------------------------------
+      - The first idea is to sort the given array using an internal sorting method (Arrays.sort).
+      - Once sorted, the first element of the array is the minimum, and the last is the maximum.
+      
+      Time Complexity:
+      - Sorting: O(n log n)
+      - Retrieving min and max (first and last elements): O(1)
+      - Total Time Complexity: O(n log n)
+      
+      Space Complexity:
+      - If in-place sorting is used (like Arrays.sort), space complexity is O(1)
+
+
+ ------------------------------------------
+ Approach 2: Without Sorting (Linear Scan)
+ ------------------------------------------
+      - Instead of sorting, we can find the minimum and maximum by simply traversing the array once.
+      - Initialize two variables:
+          - min = Integer.MAX_VALUE (a very large number)
+          - max = Integer.MIN_VALUE (a very small number)
+      - For each element in the array:
+          - Compare it with min, and update min if the current element is smaller.
+          - Compare it with max, and update max if the current element is larger.
+      - This way, we get both the minimum and maximum in a single pass.
+      
+      Time Complexity:
+      - Single traversal through the array: O(n)
+      - Total Time Complexity: O(n)
+      
+      Space Complexity:
+      - Only a few extra variables are used for tracking min and max: O(1)
+      - No extra space required proportional to input size.
