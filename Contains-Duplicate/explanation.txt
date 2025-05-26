@@ -1,0 +1,57 @@
+✅ Given Question:
+Determine whether a given array of integers contains any duplicates.
+
+✅ Given Data:
+An array of integers int[] numbers, which may contain positive, negative, or zero values.
+
+✅ Intuition:
+We need to detect if any value appears at least twice in the array. There are three different approaches:
+
+    1) Sorting and comparing adjacent elements.
+    2) Using a HashMap to count occurrences.
+    3) Using a HashSet to check uniqueness on-the-go.
+
+-----------------------------------
+Approach 1: Sorting and Checking Adjacent Elements
+-----------------------------------
+    - The array is first sorted so that duplicate elements are placed next to each other.
+    - Then, a single pass is made to compare each element with its previous one.
+    - If any two adjacent elements are the same, a duplicate is found.
+
+    Time Complexity:
+        - Sorting the array: O(n log n)
+        - Traversing the array: O(n)
+        - Total Time Complexity: O(n log n)
+
+    Space Complexity:
+        - No extra data structures used, sorting done in-place: O(1)
+
+
+-----------------------------------
+Approach 2: Using HashMap to Count Frequencies
+-----------------------------------
+    - Traverse the array and use a HashMap to count the frequency of each element.
+    - After building the frequency map, check if any value occurs more than once.
+    - A value with frequency > 1 indicates a duplicate.
+
+    Time Complexity:
+        - Insertion into map: O(n)
+        - Traversing map values: O(n)
+        - Total Time Complexity: O(n)
+
+    Space Complexity:
+        - A HashMap is used to store counts: O(n)
+
+
+-----------------------------------
+Approach 3: Using HashSet to Check for Uniqueness (BEST)
+-----------------------------------
+    - Traverse the array and insert each element into a HashSet.
+    - If the element already exists in the set, it's a duplicate.
+    - HashSet’s add() method returns false if the element already exists.
+
+    Time Complexity:
+        - Each insert/check is O(1), for n elements: O(n)
+
+    Space Complexity:
+        - A HashSet is used to store unique elements: O(n)

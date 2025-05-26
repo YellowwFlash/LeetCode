@@ -1,0 +1,46 @@
+✅ Given Question:
+Find the maximum subarray sum from a given array of integers.
+
+✅ Given Data:
+An array of integers int[] numbers, which may contain positive, negative, or zero values.
+
+✅ Intuition:
+A subarray is a contiguous part of the array. The goal is to find the subarray with the maximum possible sum.
+There are two standard approaches:
+
+    1) Brute force by trying all possible subarrays.
+
+    2) Using Kadane’s Algorithm which is optimized and uses dynamic programming principle
+
+-----------------------------------
+Approach 1: Brute Force using Two Loops
+-----------------------------------
+    - This approach calculates the sum of every possible subarray and keeps track of the maximum sum encountered.
+    - Two nested loops are used:
+      - Outer loop selects the start index of the subarray.
+      - Inner loop selects the end index and accumulates the sum for each subarray.
+    - After calculating each subarray sum, the result is updated if the current sum is greater.
+
+    Time Complexity:
+        - Outer loop runs n times, and the inner loop runs up to n times.
+        - Total Time Complexity: O(n²)
+
+    Space Complexity:
+        - Only a few extra variables are used (current, result): O(1)
+
+
+-----------------------------------
+Approach 2: Kadane’s Algorithm (Optimized)
+-----------------------------------
+    - Kadane’s Algorithm is a dynamic programming-based approach.
+    - It maintains a running sum (current) and resets it to 0 whenever the sum becomes negative.
+    - It keeps updating the result with the maximum subarray sum seen so far.
+
+    Modifications Made:
+        - Update result before resetting current to zero to handle cases with all-negative values.
+
+    Time Complexity:
+        - Only one pass through the array is required: O(n)
+
+    Space Complexity:
+        - No extra space proportional to input size, only scalar variables used: O(1)
