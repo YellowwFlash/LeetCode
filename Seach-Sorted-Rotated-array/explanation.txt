@@ -1,0 +1,44 @@
+✅ Given Question : 
+Find the given target in the given sorted and rotated array
+
+✅ Given Data: 
+An array of integers (int[]) which is sorted but rotated on an unknown pivot. A target which might or might not exist in given array
+
+✅ Intuition:
+The first thing that comes to mind is using a linear search to find the given element or just -1 if not found. This is a tedious case.
+However, we can use a binary search approach to find the element in the array. The idea is to eliminate one half just like we do in 
+traditional binary search. If examined correctly, the given array will always have a sorted portion and an unsorted portion from the mid.
+We can use this property to eliminate one half of the array in each step.
+
+
+ -------------------------------------------------
+ Approach 1: Linear Search (Brute Force)
+ -------------------------------------------------
+      - Traverse the array from the beginning to the end.
+      - Compare each element with the target.
+      - If a match is found, return the index.
+      - If no match is found by the end, return -1.
+      
+      Time Complexity:
+        - Full traversal of the array: O(n)
+        - Total Time Complexity: O(n)
+      
+      Space Complexity:
+        - No extra space used apart from basic variables: O(1)
+
+
+ ------------------------------------------------------------
+ Approach 2: Modified Binary Search for Rotated Array
+ ------------------------------------------------------------
+      - Use binary search with additional checks to handle the rotation.
+      - At each step, determine whether the left or right portion of the array is sorted.
+      - Based on which portion is sorted and whether the target lies in that portion, adjust the left and right pointers accordingly.
+      - This allows eliminating half of the array in each step.
+      - Midpoint calculation uses: mid = left + (right - left) / 2 to avoid overflow.
+
+      Time Complexity:
+        - Logarithmic due to binary search steps: O(log n)
+        - Total Time Complexity: O(log n)
+
+      Space Complexity:
+        - No extra space required beyond a few variables: O(1)

@@ -1,0 +1,31 @@
+✅ Given Question : 
+Find the next lexicographically greater permutation of a given array of numbers. If no such permutation exists, rearrange the array to its lowest possible order (i.e., sorted in ascending order).
+
+✅ Given Data: 
+An array of integers (int[]) that may represent any permutation of numbers. The task is to transform it into the next permutation in-place using constant extra memory.
+
+✅ Intuition:
+The key insight is to recognize that the next permutation is the next higher number possible using the same digits. 
+To do this efficiently, we can scan the array from right to left to find a pivot point (where the order breaks), 
+then find the smallest element greater than the pivot, swap them, and finally reverse the suffix to make it the next smallest lexicographic order.
+
+ ------------------------------------------------------
+ Approach: In-Place Next Permutation using Two Pointers
+ ------------------------------------------------------
+      - Traverse the array from the end to find the first element that is smaller than the next one.
+      - This marks the pivot point where the permutation starts decreasing.
+      - If no such element is found, the array is in descending order — reverse it to get the lowest order.
+      - Otherwise:
+          - Find the smallest element greater than the pivot in the suffix.
+          - Swap this element with the pivot.
+          - Reverse the suffix starting just after the pivot to get the smallest possible order.
+      - This gives us the next lexicographical permutation.
+
+      Time Complexity:
+        - Traversing from right to find pivot: O(n)
+        - Traversing to find element to swap: O(n)
+        - Reversing the suffix: O(n)
+        - Total Time Complexity: O(n)
+
+      Space Complexity:
+        - No extra space used beyond a few variables: O(1)
