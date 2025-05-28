@@ -1,0 +1,66 @@
+✅ Given Question:
+Find the missing and repeating number from an array that should contain numbers from 1 to n.
+
+✅ Given Data:
+An array of integers int[] numbers of size n, where one number is missing and one number is repeating. All other numbers from 1 to n are present exactly once.
+
+✅ Intuition:
+Since the array should contain all numbers from 1 to n, any deviation in the sum or pattern can help identify the missing and repeated elements. There are three classic approaches:
+
+    1) Sort the array and look for adjacent duplicates.
+    2) Use a HashMap to count occurrences.
+    3) Use mathematical formulas for sum and square-sum of first n numbers.
+
+-----------------------------------
+Approach 1: Using Sorting
+-----------------------------------
+    - Sort the array to bring duplicate values next to each other.
+    - Traverse through the sorted array and compare adjacent elements to find the repeating number.
+    - Calculate the sum of all elements in the array.
+    - Subtract this sum from the expected sum of 1 to n, and adjust with the repeated number to get the missing one.
+
+    Time Complexity:
+        - Sorting takes O(n log n), traversal takes O(n)
+        - Total Time Complexity: O(n log n)
+
+    Space Complexity:
+        - Sorting is done in-place; only a few scalar variables are used: O(1)
+
+-----------------------------------
+Approach 2: Using HashMap
+-----------------------------------
+    - Use a HashMap to store frequencies of each number as you traverse the array.
+    - When a frequency > 1 is encountered, that number is the repeated one.
+    - Also calculate the sum of all elements.
+    - Compute the missing number using the formula:
+        missing = (expected sum - actual sum) + repeated
+
+    Time Complexity:
+        - One pass through the array: O(n)
+        - HashMap operations are O(1) on average
+        - Total Time Complexity: O(n)
+
+    Space Complexity:
+        - Uses extra space for HashMap: O(n)
+
+-----------------------------------
+Approach 3: Mathematical Approach
+-----------------------------------
+    - Let x be the repeated number and y be the missing number.
+    - Calculate actual sum and actual square sum of array elements.
+    - Use the known formulas:
+        - Expected sum: S = n(n+1)/2
+        - Expected square sum: S2 = n(n+1)(2n+1)/6
+        - x - y = actualSum - S
+        - x² - y² = actualSquaredSum - S2
+
+    - From above, derive:
+        - x + y = (x² - y²) / (x - y)
+        - Solve for x and y using linear equations.
+
+    Time Complexity:
+        - Single pass through the array: O(n)
+        - Total Time Complexity: O(n)
+
+    Space Complexity:
+        - Only scalar variables used: O(1)

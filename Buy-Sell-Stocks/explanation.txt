@@ -1,0 +1,25 @@
+✅ Given Question:  
+Find the maximum profit from buying and selling a stock, where you are allowed to complete only one transaction (i.e., buy once and sell once).
+
+✅ Given Data:  
+An array of integers `int[] prices`, where each element represents the stock price on a given day. You must choose a day to buy the stock and a different day in the future to sell it to maximize your profit.
+
+✅ Intuition:  
+To maximize profit, we need to buy at the lowest price before the highest future price. Rather than using nested loops, we track the minimum price seen so far while traversing the array and compute potential profit at each step. We update the maximum profit accordingly.
+
+-----------------------------------  
+Approach: Single Pass with Min Tracking  
+-----------------------------------  
+- Initialize `minPrice` as the price on the first day.  
+- Initialize `maxProfit` as 0.  
+- Traverse the array starting from the second day:  
+    - Calculate potential profit by subtracting `minPrice` from the current day's price.  
+    - Update `maxProfit` if this profit is greater than the previous max.  
+    - Update `minPrice` if the current day's price is lower than the previous min.  
+- Return the `maxProfit`.
+
+Time Complexity:  
+- Single traversal of the array: O(n)
+
+Space Complexity:  
+- Only scalar variables used (`minPrice`, `maxProfit`): O(1)
