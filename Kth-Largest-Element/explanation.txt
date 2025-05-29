@@ -1,0 +1,58 @@
+✅ Given Question : 
+Find the Kth largest element in an array
+
+✅ Given Data: 
+An array of integers (int[]) which may be in any order, and an integer k representing the position (from the largest) to retrieve.
+
+✅ Intuition:
+To find the Kth largest element efficiently, we can consider different strategies based on sorting or heaps. 
+- Sorting the array allows direct access to the (n-k)th element.
+- A max heap lets us extract the largest elements one by one.
+- A min heap of size k helps us keep track of only the top k largest elements with optimal performance.
+
+ -----------------------------------
+ Approach 1: Using Internal Sorting
+ -----------------------------------
+      - First, sort the array in ascending order using Arrays.sort.
+      - After sorting, the largest element will be at the last index.
+      - To find the Kth largest, we simply return the element at index: nums.length - k.
+      
+      Time Complexity:
+      - Sorting: O(n log n)
+      - Retrieving Kth largest: O(1)
+      - Total Time Complexity: O(n log n)
+      
+      Space Complexity:
+      - Arrays.sort is in-place: O(1)
+
+ ------------------------------------------
+ Approach 2: Using Priority Queue (Max Heap)
+ ------------------------------------------
+      - Create a PriorityQueue with a reverse comparator to act as a Max Heap.
+      - Insert all elements into the heap.
+      - Poll (remove) the top of the heap (largest element) k - 1 times.
+      - The next element at the top is the Kth largest.
+      
+      Time Complexity:
+      - Inserting n elements into a heap: O(n log n)
+      - Polling k - 1 elements: O(k log n)
+      - Total Time Complexity: O(n log n)
+      
+      Space Complexity:
+      - A heap containing n elements: O(n)
+
+ ---------------------------------------------------
+ Approach 3: Using Min Heap of Size K (Optimized)
+ ---------------------------------------------------
+      - Create a min heap (PriorityQueue) to store only k elements.
+      - Traverse the array:
+          - Add each number to the heap.
+          - If the heap size exceeds k, remove the smallest element.
+      - After processing all elements, the top of the heap is the Kth largest.
+      
+      Time Complexity:
+      - Each insert/delete operation in a heap of size k: O(log k)
+      - For n elements: O(n log k)
+      
+      Space Complexity:
+      - Heap of size k: O(k)

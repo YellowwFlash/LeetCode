@@ -1,0 +1,44 @@
+✅ Given Question : 
+Calculate the total amount of trapped rainwater between buildings of varying heights represented as an array.
+
+✅ Given Data: 
+An integer array where each element represents the height of a building at that index.
+
+✅ Intuition:
+Rainwater is trapped between taller buildings. At each index, the water that can be trapped depends on the **minimum** of the **maximum heights** on the left and right sides, minus the height at that index.
+
+ -----------------------------------
+ Approach 1: Prefix and Suffix Max Arrays
+ -----------------------------------
+      - Create two arrays:
+          - `prefix[i]`: maximum height to the left (including i)
+          - `suffix[i]`: maximum height to the right (including i)
+      - For each index, compute trapped water using:
+          - water = min(prefix[i], suffix[i]) - height[i]
+      - Add all valid water values for total result.
+      
+      Time Complexity:
+      - O(n) for prefix array
+      - O(n) for suffix array
+      - O(n) for final water computation
+      - Total: O(n)
+      
+      Space Complexity:
+      - Two extra arrays of size n: O(n)
+
+ -----------------------------------
+ Approach 2: Two Pointers Technique (Space Optimized)
+ -----------------------------------
+      - Use two pointers `left` and `right`, initialized at the start and end.
+      - Maintain two variables: `maxLeft` and `maxRight` to store max height seen so far from both sides.
+      - Move the pointer that has the smaller height value.
+      - If current height is less than its respective max, water is trapped:
+          - water += maxLeft - height[left] or maxRight - height[right]
+      - Else, update the max value.
+      - Continue until both pointers meet.
+      
+      Time Complexity:
+      - Single traversal: O(n)
+      
+      Space Complexity:
+      - No extra arrays used: O(1)
