@@ -1,0 +1,39 @@
+✅ Given Question:  
+Find the maximum product of a contiguous subarray from a given array of integers.
+
+✅ Given Data:  
+An array of integers (int[]), which may include positive, negative numbers, and zeros.
+
+✅ Intuition:  
+A subarray's product can be affected drastically by the presence of zeros and negative numbers.  
+- Zeros reset the product, so we need to consider segments separated by zeros.  
+- Negative numbers can flip the sign of the product, so we must consider both prefix and suffix directions for the maximum product.  
+Hence, traversing the array from both directions (prefix and suffix) while handling zeros intelligently can help identify the maximum product.
+
+---
+
+--------------------------------------
+Approach 1: Using Prefix-Suffix Product
+--------------------------------------
+
+- Initialize three variables:
+  - `prefix` = 1 (running product from the start),
+  - `suffix` = 1 (running product from the end),
+  - `max` = Integer.MIN_VALUE (to store the global maximum).
+
+- Traverse the array from both ends in a single loop:
+  - For each index `i`:
+    - Multiply the current number with `prefix` (i.e., left-to-right running product).
+    - Multiply the corresponding element from the end of the array with `suffix` (i.e., right-to-left running product).
+    - If `prefix` or `suffix` becomes 0 (due to encountering a zero), reset it to 1 to start a new product segment.
+    - Update `max` with the maximum value among `max`, `prefix`, and `suffix`.
+
+- Return `max` as the result, which represents the maximum product found across all subarrays.
+
+Time Complexity:
+    - Single pass through the array: O(n)  
+    - Total Time Complexity: O(n)
+
+Space Complexity:
+    - Constant extra space for variables (`prefix`, `suffix`, `max`): O(1)  
+    - No extra space proportional to the input size.

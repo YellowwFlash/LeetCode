@@ -1,0 +1,51 @@
+✅ Given Question:  
+Return an array where each element at index `i` is the product of all elements in the original array except `nums[i]`.
+
+✅ Given Data:  
+An array of integers (int[]), which may include positive, negative, and zero values. The product should be calculated without using division, and with O(n) time complexity.
+
+✅ Intuition:  
+To find the product of all elements except the one at index `i`, multiply the product of all elements to the left of `i` (prefix) and the product of all elements to the right of `i` (suffix).  
+This can be done using extra arrays or optimized with constant space by combining prefix and suffix computations.
+
+---
+
+--------------------------------------
+Approach 1: Using Prefix and Suffix Arrays
+--------------------------------------
+
+- Create two arrays:  
+  - `prefix[]` to store the product of all elements before the current index.  
+  - `suffix[]` to store the product of all elements after the current index.
+
+- For each index `i`, the result is the multiplication of `prefix[i]` and `suffix[i]`.
+
+- This requires three passes over the array:  
+  1. Compute prefix products.  
+  2. Compute suffix products.  
+  3. Multiply prefix and suffix to get the result.
+
+Time Complexity:  
+    - Three linear passes: O(n)  
+    - Total: O(n)
+
+Space Complexity:  
+    - Two extra arrays of size n for prefix and suffix: O(n)  
+    - Result array also of size n.
+
+---
+
+-----------------------------------------------
+Approach 2: Optimized Two-Pass with Constant Extra Space
+-----------------------------------------------
+
+- Use the result array to store prefix products in the first pass.
+- In the second pass, traverse from the end maintaining a suffix product variable, multiply the current result by this suffix, and update the suffix.
+- This way, only the output array and a single variable are used, reducing extra space.
+
+Time Complexity:  
+    - Two linear passes: O(n)  
+    - Total: O(n)
+
+Space Complexity:  
+    - Only output array and one variable for suffix: O(1) extra space (excluding output array).
