@@ -1,0 +1,41 @@
+✅ Given Question:
+Determine whether a sorted and rotated array contains a pair of elements that sum up to a given target.
+
+✅ Given Data:
+An array of integers int[] nums which is sorted in ascending order and then rotated. An integer target which is the desired sum.
+
+✅ Intuition:
+A sorted array can normally use the two-pointer technique to find a pair with a given sum in linear time.
+However, because the array is rotated, normal two-pointer logic won't work directly. We need to identify the pivot (the point of rotation) and then simulate a circular two-pointer traversal from the smallest and largest elements.
+
+Also, binary search is not suitable here because:
+- Binary search only works when searching for a single value in a sorted segment.
+- Here, we are checking combinations (pairs of values), which is not feasible with binary search as it doesn't help check pairwise sums efficiently in rotated context.
+
+-----------------------------------
+Approach: Modified Two Pointers for Rotated Array
+-----------------------------------
+    - First, find the pivot index — the index where the sorted array was rotated. This helps identify:
+        - The smallest element: (pivot + 1) % n
+        - The largest element: pivot
+    - Initialize two pointers:
+        - left at the smallest element
+        - right at the largest element
+    - While left != right:
+        - Calculate the sum of nums[left] and nums[right].
+        - If sum == target: return true.
+        - If sum < target: move left to the next element in circular fashion.
+        - If sum > target: move right to the previous element in circular fashion.
+    - If loop ends, no such pair exists: return false.
+
+    Time Complexity:
+        - Pivot finding: O(n)
+        - Pair search: O(n)
+        - Total: O(n)
+
+    Space Complexity:
+        - Constant extra space: O(1)
+
+    Note:
+        - Binary search cannot be used here because we are looking for a *pair* whose sum matches a target.
+        - Binary search finds individual elements in a sorted array, but this task requires testing multiple combinations, which is why the two-pointer strategy is adapted for a rotated scenario.

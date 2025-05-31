@@ -1,0 +1,31 @@
+✅ Given Question:
+Find the minimum element in a sorted and rotated array.
+
+✅ Given Data:
+An array of integers int[] nums, which is sorted in ascending order and then rotated. The array contains no duplicate elements.
+
+✅ Intuition:
+A rotated sorted array maintains the sorted order in at least one half (either left or right) after rotation.
+The minimum element is guaranteed to be in the unsorted portion. By applying a binary search, we can eliminate the sorted half and continue searching in the unsorted half, reducing time complexity.
+
+-----------------------------------
+Approach: Modified Binary Search
+-----------------------------------
+    - Use two pointers: low and high to represent the current bounds of the search space.
+    - While low <= high:
+        - Find the mid-point of the current range.
+        - If the left half (nums[low] to nums[mid]) is sorted:
+            - The minimum element could be nums[low], so update min.
+            - Search in the right half (mid + 1 to high).
+        - Else (the right half is sorted):
+            - The minimum element could be nums[mid], so update min.
+            - Search in the left half (low to mid - 1).
+
+    - Repeat this until the search space is exhausted.
+    - The variable min keeps track of the minimum value seen so far.
+
+    Time Complexity:
+        - Each step cuts the search space in half: O(log n)
+
+    Space Complexity:
+        - Only scalar variables are used: O(1)
