@@ -1,0 +1,56 @@
+✅ Given Question:  
+Find the maximum amount of water a container can store between two vertical lines on a coordinate plane, given an array where each element represents the height of a line at that index.
+
+✅ Given Data:  
+An array of non-negative integers `int[] height`, where each value represents the height of a vertical line. We want to choose two lines that, along with the x-axis, form a container holding the maximum water.
+
+✅ Intuition:  
+The key observation is that the amount of water a container can store between two lines is determined by:
+    - The distance between the two lines (i.e., `j - i`)
+    - The height of the shorter line, since water cannot overflow the shorter boundary.
+
+So, for two indices `i` and `j` (`i < j`), the water area is calculated as:
+=> Area = min(height[i], height[j]) * (j - i)
+
+Why `min`? Because water can only fill up to the height of the shorter line. 
+If area is calculated with the taller line, it'll be overestimated — the water will spill over the shorter one first.
+
+Therefore, to maximize the area, we need:
+    - A large width (`j - i`)
+    - Tall lines — but both lines need to be tall, or at least the shorter one should be.
+
+This gives rise to the optimized approach using the two-pointer technique, where we start with the widest possible container and try to shrink the width while attempting to find taller lines to improve the area.
+
+-----------------------------------------  
+Approach 1: Brute-force with Two Nested Loops  
+-----------------------------------------  
+- Iterate through all pairs `(i, j)` where `i < j`.  
+- For each pair, calculate water area as `min(height[i], height[j]) * (j - i)`.  
+- Track and update the maximum area seen so far.
+
+Time Complexity:  
+    - O(n²): Two nested loops.
+
+Space Complexity:  
+    - O(1): Only scalar variables used.
+
+-------------------------------------  
+Approach 2: Optimized Two-Pointer Method  
+-------------------------------------  
+- Initialize two pointers: one at the beginning (`left`) and one at the end (`right`).  
+- While `left < right`:  
+    - Calculate the area: `min(height[left], height[right]) * (right - left)`  
+    - Update max area if needed.  
+    - Move the pointer pointing to the shorter line (since moving the taller won't help).  
+- Return the maximum area found.
+
+Time Complexity:  
+    - O(n): Single traversal from both ends.
+
+Space Complexity:  
+    - O(1): Only a few integer variables used.
+
+✅ Benefits of Optimized Approach:  
+- Much faster than brute-force.  
+- Intuitive and uses minimal extra memory.  
+- Perfect for large input arrays.

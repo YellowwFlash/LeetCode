@@ -1,0 +1,51 @@
+✅ Given Question:  
+Find all unique triplets in an array that sum up to zero. Each triplet must consist of three distinct elements (by index), and no duplicate triplets should be returned.
+
+✅ Given Data:  
+An integer array `int[] numbers`, where each element can be positive, negative, or zero. The goal is to find all combinations of three numbers such that 
+their sum is exactly 0, and no duplicate combinations are included in the result.
+
+✅ Intuition:  
+The brute-force approach checks every possible triplet, but it's slow. To optimize, we can sort the array and use a two-pointer technique, which avoids nested loops and makes duplicate elimination easier. 
+By fixing one number and searching the other two with pointers, we reduce time complexity significantly.
+
+-----------------------------------------  
+Approach 1: Brute-force (Three Nested Loops)  
+-----------------------------------------  
+- Use three nested loops to iterate over all combinations (i, j, k) where i < j < k.  
+- Check if the sum numbers[i] + numbers[j] + numbers[k] == 0.  
+- If true, sort the triplet and add it to a Set to automatically eliminate duplicates.  
+- Convert the Set to a List at the end to return the result.
+
+Time Complexity:  
+    - O(n³): Three nested loops.
+
+Space Complexity:  
+    - O(k): For storing unique triplets in the Set, where k is the number of valid triplets.
+
+------------------------------------------------  
+Approach 2: Optimized Using Sorting + Two Pointers  
+------------------------------------------------  
+- First, sort the array to make it easier to avoid duplicates and use two pointers.  
+- Fix one element numbers[i], and use two pointers:  
+    - j = i + 1 (start of the remaining subarray)  
+    - k = n - 1 (end of the array)  
+- While j < k:  
+    - Calculate the sum numbers[i] + numbers[j] + numbers[k]  
+    - If the sum is zero, add the triplet to the result set  
+    - If the sum is less than zero, increment j to increase the sum  
+    - If the sum is greater than zero, decrement k to reduce the sum  
+    - Skip duplicate values for i, j, and k to ensure uniqueness  
+- Finally, convert the Set to a List and return.
+
+Time Complexity:  
+    - O(n²): One outer loop and two-pointer traversal inside.
+
+Space Complexity:  
+    - O(k): For storing the unique triplets in the result set.
+
+✅ Benefits of Optimized Approach:  
+    - Avoids unnecessary comparisons.  
+    - Significantly faster on large arrays.  
+    - Sorting simplifies duplicate handling.  
+    - Space-efficient, only uses a Set for results.
