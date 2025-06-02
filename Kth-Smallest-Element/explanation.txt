@@ -1,0 +1,42 @@
+✅ Given Question :  
+Find the Kth smallest element in an array
+
+✅ Given Data:  
+An array of integers (int[]) which may be in any order, and an integer k representing the position (from the smallest) to retrieve.
+
+✅ Intuition:  
+To find the Kth smallest element efficiently, we can consider different strategies based on sorting or heaps.  
+- Sorting the array allows direct access to the (k - 1)th element.
+- A max heap of size k helps track the k smallest elements while discarding larger ones.
+- This is optimal when full sorting is not needed and performance matters for large arrays.
+
+-----------------------------------
+Approach 1: Using Internal Sorting
+-----------------------------------
+     - First, sort the array in ascending order using Arrays.sort.
+     - After sorting, the smallest element is at index 0, and the Kth smallest is at index (k - 1).
+     - Simply return the element at index (k - 1).
+
+     Time Complexity:
+     - Sorting: O(n log n)
+     - Retrieving Kth smallest: O(1)
+     - Total Time Complexity: O(n log n)
+
+     Space Complexity:
+     - Arrays.sort is in-place: O(1)
+
+---------------------------------------------
+Approach 2: Using Priority Queue (Max Heap)
+---------------------------------------------
+     - Create a PriorityQueue with a reverse comparator to act as a Max Heap.
+     - Traverse the array, and insert each number into the heap.
+     - Maintain the heap size to exactly k:
+         - If the heap size exceeds k, remove the largest element.
+     - After processing all elements, the top of the heap is the Kth smallest.
+
+     Time Complexity:
+     - For each of n elements: insertion/removal takes O(log k)
+     - Total Time Complexity: O(n log k)
+
+     Space Complexity:
+     - Heap of size k: O(k)
