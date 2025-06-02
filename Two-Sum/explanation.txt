@@ -1,0 +1,46 @@
+✅ Given Question:  
+Find two distinct indices in an array such that the sum of the numbers at those indices equals a given target value.
+
+✅ Given Data:  
+An integer array `nums` and an integer `target`.  
+Return the indices of the two numbers such that `nums[i] + nums[j] == target` and `i != j`.
+
+✅ Intuition:  
+We need to find two numbers whose sum equals the target.  
+Instead of checking all pairs, we can use a hash map to store numbers we've seen so far.  
+For each number, we check if its complement (`target - current number`) exists in the map.
+
+---
+
+-----------------------------------  
+Approach 1: Brute Force using Two Loops  
+-----------------------------------
+
+- Loop through the array with two nested loops.
+- For every pair `(i, j)`, check if `nums[i] + nums[j] == target`.
+- Return the indices when a match is found.
+
+Time Complexity:
+- O(n²), since we check every pair.
+
+Space Complexity:
+- O(1), no extra space used.
+
+---
+
+-----------------------------------  
+Approach 2: Using HashMap for Faster Lookup  
+-----------------------------------
+
+- Initialize a HashMap to store the numbers and their indices.
+- Traverse the array:
+    - For each element, compute the complement as `target - nums[i]`.
+    - If the complement is already in the map, return its index and the current index.
+    - Else, store `nums[i]` and its index in the map.
+
+Time Complexity:
+- O(n), since each element is visited once.
+
+Space Complexity:
+- O(n), for storing up to n elements in the HashMap.
+
