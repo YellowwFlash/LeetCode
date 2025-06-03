@@ -1,0 +1,39 @@
+✅ Given Question:
+Given a list of intervals, merge all the overlapping intervals and return an array of the merged intervals.
+
+✅ Given Data:
+A 2D array `int[][] intervals` where each sub-array represents an interval [start, end].
+
+✅ Intuition:
+The problem requires us to combine intervals that overlap into a single interval. 
+A naive brute-force approach would require comparing each interval with every other one (O(n^2)), but this can be optimized.
+
+If we first sort the intervals by their start time, we can traverse them linearly and merge overlapping intervals on the go.
+
+Sorting ensures that all overlapping intervals will appear consecutively. 
+This allows us to check only the current interval against the last interval in the result list to decide whether they should be merged.
+
+-----------------------------------
+Approach: Sorting and Merging Intervals
+-----------------------------------
+    - First, sort the intervals by their start time using `Arrays.sort()`.
+    - Initialize an empty list `result` to store merged intervals.
+    - Traverse through each interval:
+        - If the result list is empty OR the current interval does not overlap with the last one in the result:
+            - Simply add the current interval to the result list.
+        - Else:
+            - Merge the current interval with the last one in the result by updating the end time to the maximum of the two.
+    - After processing all intervals, convert the result list to a 2D array and return it.
+
+    Time Complexity:
+        - Sorting the array: O(n log n)
+        - Traversal and merging: O(n)
+        - Total: O(n log n)
+
+    Space Complexity:
+        - Output space (result): O(n)
+        - No additional space apart from the result list.
+
+    Note:
+        - This approach works efficiently because sorting brings all potential overlaps next to each other.
+        - The use of `result.get(result.size() - 1)` ensures constant-time access to the last merged interval for quick comparisons and updates.

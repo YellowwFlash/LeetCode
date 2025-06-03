@@ -1,0 +1,42 @@
+✅ Given Question:
+Given an array of integers, find the minimum number of merge operations required to make the array a palindrome.
+
+✅ Given Data:
+An integer array `int[] numbers` where each merge operation can only be performed between adjacent elements.
+
+✅ Intuition:
+To make an array a palindrome, we want the left and right sides to mirror each other.
+By using two pointers (left and right), we can compare elements at both ends. If they are equal, we move inward.
+ If not, we merge the smaller value with its neighbor to balance the two sides.
+The idea is to always merge the smaller value, which is the greedy choice that reduces the number of operations.
+
+Merging only adjacent elements means we must carefully shift the left or right pointer based on which side is smaller to maintain the ability to continue merging.
+
+-----------------------------------
+Approach: Greedy Two-Pointer Merge
+-----------------------------------
+    - Initialize two pointers: `left = 0` and `right = n - 1`.
+    - Initialize a counter `result` to store the number of merge operations.
+    - While `left < right`:
+        - If `numbers[left] == numbers[right]`: 
+            - No merge needed. Move both pointers inward.
+        - Else if `numbers[left] < numbers[right]`:
+            - Merge `numbers[left]` with `numbers[left + 1]`.
+            - Increment `result`.
+            - Move `left` pointer one step forward.
+        - Else:
+            - Merge `numbers[right]` with `numbers[right - 1]`.
+            - Increment `result`.
+            - Move `right` pointer one step backward.
+    - When the loop ends, the array can be considered a palindrome.
+    - Return `result` as the minimum number of merge operations.
+
+    Time Complexity:
+        - O(n), where n is the length of the array (each element is visited at most once)
+
+    Space Complexity:
+        - O(1), in-place merging without extra memory
+
+    Note:
+        - The algorithm modifies the input array. If original data is needed elsewhere, consider copying it before processing.
+        - This approach guarantees the minimum number of merge operations due to its greedy nature: always merging the smaller value into the larger.
