@@ -1,0 +1,67 @@
+✅ Given Question:
+Given an integer array and an integer k, find the total number of continuous subarrays whose sum is divisible by k.
+
+✅ Given Data:
+An integer array `int[] numbers` and an integer `k`.
+
+✅ Intuition:
+The core idea is to use prefix sums and track the modulo of these sums. 
+If the difference between two prefix sums is divisible by `k`, then the subarray between them is also divisible by `k`.
+Instead of checking every subarray (which would be O(n^2)), it can be optimized by using a HashMap to count frequencies of prefix sum mod values.
+When the same modulo appears again, it means that a subarray with sum divisible by `k` exists between those indices.
+
+Also, negative numbers must be handled correctly by ensuring that the modulo result is always non-negative.
+
+📌 Small Example to Understand `(sum % k + k) % k`:
+    Suppose sum = -1 and k = 5
+    - In Java, (-1 % 5) = -1 (Java's `%` operator keeps the sign of the dividend)
+    - To correct this into a non-negative modulo:
+        => (-1 % 5 + 5) % 5 = (4) % 5 = 4
+    This ensures that our map keys (mod values) stay consistent and non-negative.
+
+-----------------------------------
+Approach: Prefix Sum with HashMap
+-----------------------------------
+    - Initialize a variable `sum` to keep track of the cumulative sum.
+    - Use a HashMap `mods` to store the frequency of each modulo `sum % k`.
+    - Insert an initial entry in the map: `mods.put(0, 1)` to handle cases where a prefix itself is divisible by `k`.
+    - For each number in the array:
+        - Add it to `sum`.
+        - Compute the correct modulo: `(sum % k + k) % k` to avoid negatives.
+        - If this modulo already exists in the map:
+            - It means subarrays ending at the current index have sums divisible by `k`.
+            - Add the frequency of this mod to the answer.
+        - Update the frequency of the current mod in the map.
+
+    Time Complexity:
+        - Single pass through the array: O(n)
+        - HashMap operations are O(1) on average
+        - Total: O(n)
+
+    Space Complexity:
+        - HashMap may store up to `k` different mod values: O(k)
+
+   ✅ Note:
+        - The mod operation with adjustment `(sum % k + k) % k` ensures the modulo is non-negative even for negative sums.
+        - Using a map of mod frequencies lets us instantly know how many valid subarrays can end at the current index.
+
+-------------------------------------------------------
+Approach 2: Optimized Using Array (When k is small)
+-------------------------------------------------------
+    - Since modulo values range from `0` to `k-1`, we can use an integer array of size `k` instead of a HashMap.
+    - Initialize an array `map[k]`, and set `map[0] = 1` to handle the zero-prefix case.
+    - Iterate through the array:
+        - Keep a running sum of elements.
+        - Compute modulo: if it is negative, adjust by adding `k`.
+        - Add `map[mod]` to the count since it indicates how many times this mod has occurred before.
+        - Increment `map[mod]` to update its frequency.
+
+    Time Complexity:
+        - Single pass through the array: O(n)
+
+    Space Complexity:
+        - Integer array of size `k`: O(k)
+
+    ✅ Note:
+        - This approach is more space-efficient and slightly faster than the HashMap version when `k` is reasonably small.
+        - Using an array avoids the overhead of map lookups and insertions.

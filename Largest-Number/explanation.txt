@@ -1,0 +1,38 @@
+✅ Given Question:
+Given an array of integers, arrange them such that they form the largest possible number and return it as an integer.
+
+✅ Given Data:
+An integer array `int[] nums` where each element is a non-negative number.
+
+✅ Intuition:
+The challenge is to reorder the numbers to form the largest possible number when concatenated. Simply sorting in descending order won't work because the concatenation of two numbers can yield different results depending on their order.
+
+For example, between "9" and "34", "934" is greater than "349", so "9" should come before "34".
+
+To handle this, we convert the integers into strings and sort them using a custom comparator. This comparator decides the order based on which concatenation of two strings (`a + b` or `b + a`) forms a larger number.
+
+-----------------------------------
+Approach: Sorting with Custom Comparator
+-----------------------------------
+    - Convert each integer in the array to a string.
+    - Sort the string array with a custom comparator:
+        - For any two strings `a` and `b`, compare `(b + a)` with `(a + b)`.
+        - This ensures the higher concatenated value comes first.
+    - Join the sorted array into a single string.
+    - Handle edge case:
+        - If the resulting string starts with "0" (e.g., ["0", "0"]), return "0" instead of "000...".
+    - Convert the final string to an integer using `Integer.parseInt()`.
+
+    Time Complexity:
+        - Converting numbers to strings: O(n)
+        - Sorting the array: O(n log n)
+        - Joining strings: O(n)
+        - Total: O(n log n)
+
+    Space Complexity:
+        - String array: O(n)
+        - Final result string: O(n)
+
+    Note:
+        - The key to this problem is understanding that "compare by concatenation" is more accurate than numeric value comparison when constructing the largest number.
+        - The custom comparator `(b + a).compareTo(a + b)` ensures we prioritize the order that gives a larger combined string value.

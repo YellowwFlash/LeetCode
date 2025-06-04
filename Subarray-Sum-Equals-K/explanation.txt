@@ -1,0 +1,47 @@
+✅ Given Question:
+Given an integer array and an integer k, find the total number of continuous subarrays whose sum equals to k.
+
+✅ Given Data:
+An integer array `int[] nums` and an integer `k`.
+
+✅ Intuition:
+The problem is to count all subarrays that add up exactly to `k`. A brute-force approach would be to check every possible subarray, which takes O(n^2) time.
+
+Instead, we can use prefix sums and a HashMap to optimize this process. The idea is to keep track of the cumulative sum as we iterate through the array.
+
+If at any point `prefixSum - k` exists in our map, it means there's a previous prefix that, when subtracted from the current prefix, gives us a subarray that sums to `k`.
+
+This transforms the problem into a "prefix sum with hash lookup" problem.
+
+-------------------------------------------------------
+Approach: Prefix Sum with HashMap for Exact Sum
+-------------------------------------------------------
+    - Initialize a variable `prefixSum = 0` and a map to store frequency of prefix sums.
+    - Insert an initial value: `map.put(0, 1)` to account for subarrays that sum to `k` starting from index 0.
+    - Traverse the array:
+        - Add the current number to `prefixSum`.
+        - Compute `prefixSum - k`.
+        - If this value exists in the map:
+            - It means a subarray with sum `k` ends at the current index.
+            - Add the frequency of that value to the answer.
+        - Update the map with the current `prefixSum` frequency.
+
+    Time Complexity:
+        - Single pass through the array: O(n)
+        - HashMap operations are O(1) on average
+        - Total: O(n)
+
+    Space Complexity:
+        - HashMap stores at most `n` different prefix sums: O(n)
+
+📌 Small Example:
+    Input: nums = [1, 2, 3], k = 3
+    - Prefix sums: [1, 3, 6]
+    - At index 1 (prefixSum = 3), prefixSum - k = 0 → found in map → count = 1
+    - At index 2 (prefixSum = 6), prefixSum - k = 3 → found again → count = 2
+
+    Answer: 2 subarrays → [1,2] and [3]
+
+✅ Note:
+    - This approach works efficiently even for large arrays.
+    - The key is recognizing that `prefixSum - k` being in the map means a valid subarray exists between the current index and an earlier one.
