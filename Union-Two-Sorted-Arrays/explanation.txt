@@ -1,0 +1,43 @@
+✅ Given Question:
+Given two sorted arrays, merge them into one sorted array using the two-pointer technique.
+
+✅ Given Data:
+Two sorted integer arrays `int[] num1` and `int[] num2`.
+
+✅ Intuition:
+The goal is to merge two sorted arrays into a single sorted array efficiently. Instead of inserting and sorting again, we use the two-pointer approach (merge logic from merge sort) to build the result in linear time.
+The pointers `i` and `j` traverse arrays `num1` and `num2` respectively, while `k` is used to build the resulting merged array.
+
+-------------------------------------------------------
+Approach: Merge Two Sorted Arrays (Two Pointers)
+-------------------------------------------------------
+    - Initialize three pointers: i, j, and k.
+        - i -> index for num1
+        - j -> index for num2
+        - k -> index for result[]
+    - While both arrays have elements:
+        - If num1[i] == num2[j], insert it once and increment both.
+        - If num1[i] < num2[j], insert num1[i] and increment i.
+        - Else, insert num2[j] and increment j.
+    - Copy any remaining elements from num1 or num2.
+
+    Time Complexity:
+        - One full pass through both arrays: O(n + m)
+
+    Space Complexity:
+        - Extra space for result array: O(n + m)
+
+📌 Small Example:
+    Input:
+        num1 = [1, 3, 5]
+        num2 = [2, 3, 6]
+
+    Steps:
+        - Merge: 1, 2, 3 (once), 5, 6
+    Output:
+        [1, 2, 3, 5, 6]
+
+✅ Note:
+    - The arrays must be sorted before applying this technique.
+    - This approach retains all values and does not remove duplicates unless both values are equal and aligned.
+    - To implement a true "set union", a post-processing step would be needed to remove duplicates.

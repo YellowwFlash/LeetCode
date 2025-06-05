@@ -1,0 +1,45 @@
+✅ Given Question:  
+Rotate an integer array to the right by `k` positions using the reversal algorithm.
+
+✅ Given Data:  
+An integer array `int[] numbers` and an integer `k`.
+
+✅ Intuition:  
+The goal is to rotate the array to the right by `k` steps. A naive solution would shift each element one by one, `k` times, resulting in O(n * k) time complexity.
+A more efficient approach uses the reversal algorithm. This algorithm rotates the array in-place using three reverse operations. The key insight is that a right rotation by `k` can be achieved by:
+
+1. Reversing the entire array.
+2. Reversing the first `n - k` elements.
+3. Reversing the last `k` elements.
+
+This rearranges the elements correctly in O(n) time and O(1) space.
+
+
+-------------------------------------------------------
+Approach: Array Rotation Using Reversal Algorithm
+-------------------------------------------------------
+
+- Compute the effective `k` as `k % n` to handle cases where `k > n`.
+- Reverse the entire array.
+- Reverse the first `n - k` elements.
+- Reverse the remaining `k` elements.
+
+
+Time Complexity:
+- Each reversal is O(n) in total.
+- Total time complexity: O(n)
+
+Space Complexity:
+- Only constant space is used: O(1)
+
+
+📌 Small Example: 
+Input: `numbers = [1, 2, 3, 4, 5, 6, 7]`, `k = 3`
+
+Steps:
+- After reversing the entire array: `[7, 6, 5, 4, 3, 2, 1]`
+- Reverse the first `n - k = 4` elements: `[4, 5, 6, 7, 3, 2, 1]`
+- Reverse the last `k = 3` elements: `[4, 5, 6, 7, 1, 2, 3]`
+
+✅ Final Output: `[5, 6, 7, 1, 2, 3, 4]` — which is a rotation of 3 positions to the right.
+
