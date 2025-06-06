@@ -1,0 +1,42 @@
+✅ Given Question:
+Given an array that contains only 1s and 0s, return the count of the maximum number of consecutive 1s in the array.
+
+✅ Given Data:
+An integer array int[] nums that consists only of 0s and 1s.
+
+✅ Intuition:
+We need to find the longest sequence of consecutive 1s in the array.
+
+To solve this efficiently, we can use a simple linear scan:
+    - Maintain a counter to track the current streak of 1s.
+    - Whenever a 0 is encountered, compare the current streak with the maximum found so far, update if needed, and reset the counter.
+    - After the loop, perform a final update in case the array ends with a streak of 1s.
+
+This method avoids unnecessary storage and checks, and gives us the result in a single pass.
+
+-----------------------------------
+Approach: Counting Consecutive 1s
+-----------------------------------
+    - Initialize two variables:
+        - max = 0 (to store the maximum consecutive 1s found)
+        - count = 0 (to count the current streak of 1s)
+    - Traverse each number in the array:
+        - If the number is 1, increment count.
+        - If the number is 0:
+            - Update max = max(max, count)
+            - Reset count to 0
+    - After the loop, update max one last time:
+        - max = max(max, count)
+        - This handles the case where the array ends with 1s.
+
+    Return max as the result.
+
+    Time Complexity:
+        - O(n), where n is the length of the array (single traversal)
+
+    Space Complexity:
+        - O(1), no extra space used
+
+    Note:
+        - The final update after the loop is necessary to ensure we consider the last sequence of 1s if it reaches the end of the array.
+        - Without that final update, the code will miss cases where the array ends in a streak of 1s.

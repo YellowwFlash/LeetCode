@@ -1,0 +1,50 @@
+✅ Given Question:
+Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+✅ Given Data:
+An integer array int[] nums of length n, containing unique values from the range [0, n] (inclusive of both ends), with one number missing.
+
+✅ Intuition:
+We are given n numbers, but the complete range has n + 1 values (from 0 to n). Since exactly one number is missing, we can find it using mathematical or sorting logic.
+A brute-force approach would involve checking which number from the full range is not present, but that would take O(n^2) time if implemented naively. 
+However, we can do better using efficient methods. Two optimized approaches are:
+
+-----------------------------------
+Approach-1: Sorting and Comparing Index
+-----------------------------------
+    - Sort the array using Arrays.sort().
+    - Traverse the sorted array.
+    - For each index i, check if nums[i] == i.
+        - If not, return i as the missing number.
+    - If all indices match, return nums.length (i.e., n) as the missing number.
+
+    Time Complexity:
+        - Sorting the array: O(n log n)
+        - Traversal: O(n)
+        - Total: O(n log n)
+
+    Space Complexity:
+        - In-place sorting or O(1) extra space (if allowed), otherwise O(n)
+
+    Note:
+        - This approach assumes that after sorting, the number at each index should match the index value.
+        - If nums[i] != i, then i is the missing number.
+
+-----------------------------------
+Approach-2: Using Summation Formula
+-----------------------------------
+    - Calculate the expected sum of numbers from 0 to n using the formula: totalSum = n * (n + 1) / 2
+    - Calculate the actual sum of elements in the array.
+    - The missing number is: totalSum - actualSum
+
+    Time Complexity:
+        - Summation traversal: O(n)
+
+    Space Complexity:
+        - O(1), no extra space used
+
+    Note:
+        - This approach is efficient and handles all cases, including when the missing number is 0 or n.
+        - It uses basic arithmetic and avoids sorting.
+
+

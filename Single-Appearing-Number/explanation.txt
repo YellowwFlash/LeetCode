@@ -1,0 +1,59 @@
+✅ Given Question:
+Given a non-empty array of integers `arr`, every element appears exactly twice except for one element, which appears only once. Return that single element.
+
+✅ Given Data:
+An integer array int[] nums where:
+    - All elements appear twice except for one unique element that appears once.
+    - Array is non-empty.
+
+✅ Intuition:
+The problem asks us to find the element that is not repeated in an array where all others appear exactly twice.
+
+This can be solved using two main approaches:
+1. A frequency map using HashMap (intuitive and easy to understand).
+2. Bit manipulation using XOR (optimized and clever).
+
+-----------------------------------
+Approach-1: Using HashMap (Intuitive Approach)
+-----------------------------------
+    - Create a HashMap to store the frequency of each number.
+    - Traverse the array:
+        - For each number, update its frequency in the map using map.getOrDefault().
+    - After building the frequency map, traverse its entries:
+        - Return the key (number) with value equal to 1.
+
+    Time Complexity:
+        - O(n) for building the map
+        - O(n) for scanning the map
+        - Total: O(n)
+
+    Space Complexity:
+        - O(n) for the map
+
+    Note:
+        - This approach is simple and intuitive but requires extra space.
+        - It works well for small inputs or when readability is important.
+
+-----------------------------------
+Approach-2: Using XOR Operator (Optimized Approach)
+-----------------------------------
+    - Initialize result = 0.
+    - Traverse the array:
+        - XOR each number with result.
+        - Use the property: a ^ a = 0 and a ^ 0 = a
+    - After the loop, result holds the number that appears once.
+
+    Time Complexity:
+        - O(n), single pass through the array
+
+    Space Complexity:
+        - O(1), no extra space used
+
+    Note:
+        - This approach is space-efficient and fast.
+        - It relies on XOR properties and is harder to derive intuitively but performs better.
+
+✅ Conclusion:
+- The HashMap approach is easier to understand and implement.
+- The XOR approach is optimal in terms of time and space.
+- Both approaches correctly solve the problem depending on the use case and constraints.
