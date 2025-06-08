@@ -1,0 +1,75 @@
+✅ Given Question:
+Given an integer array and an integer `k`, find the length of the longest continuous subarray whose sum equals `k`.
+
+✅ Given Data:
+An integer array `int[] nums` and an integer `k`.
+
+✅ Intuition:
+The problem is to find the longest subarray whose sum equals exactly `k`.  
+A brute-force solution would try every possible subarray and compute its sum, which results in O(n²) time complexity.
+
+We can optimize using:
+- HashMap + Prefix Sum for arrays with positive, negative, or zero values.
+- Two-pointer (sliding window) approach for arrays with only positive integers.
+
+---
+
+-------------------------------------------------------
+Approach 1: Prefix Sum with HashMap for Exact Sum
+-------------------------------------------------------
+- Initialize a variable `prefixSum = 0` and a map to store first occurrence index of each prefix sum.
+- Traverse the array:
+  - Add the current number to `prefixSum`.
+  - If `prefixSum == k`, then subarray from index 0 to `i` has sum k → update `maxLength`.
+  - Compute `remainder = prefixSum - k`.
+  - If this remainder exists in the map:
+    - A subarray with sum k exists → update `maxLength`.
+  - If `prefixSum` is not already in the map:
+    - Store `prefixSum` with index `i`.
+
+Time Complexity:
+- O(n) for a single pass
+- HashMap operations are O(1) on average
+
+Space Complexity:
+- O(n) for the HashMap
+
+---
+
+-------------------------------------------------------
+Approach 2: Two Pointers (Only for Positive Numbers)
+-------------------------------------------------------
+- Use two pointers: `left` and `right`.
+- Start with `currentSum = nums[0]` and `right = 0`.
+- While `right < n`:
+  - Shrink the window from the left if `currentSum > k`.
+  - If `currentSum == k`, update `maxLength`.
+  - Move `right` forward and include `nums[right]` in `currentSum`.
+
+Time Complexity:
+- O(n), each element is visited at most twice
+
+Space Complexity:
+- O(1)
+
+---
+
+📌 Small Example:
+Input: `nums = [1, 2, 3]`, `k = 3`
+
+Using HashMap:
+- Prefix sums: [1, 3, 6]
+- At index 1 (`prefixSum = 3`), `prefixSum - k = 0` → found in map → length = 2
+- At index 2 (`prefixSum = 6`), `prefixSum - k = 3` → found again → length = 1
+
+Answer: Longest subarray length = 2 → `[1, 2]`
+
+Using Two Pointers:
+- Works here because all numbers are positive
+
+---
+
+✅ Note:
+- HashMap approach works for all integers (positive, negative, zero).
+- Two-pointer approach only works when all numbers are positive.
+- Always choose the method based on the input constraints.
