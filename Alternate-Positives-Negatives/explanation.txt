@@ -1,0 +1,54 @@
+✅ Given Question:
+Given an array of integers containing an equal number of positive and negative values,
+rearrange the array so that the elements are placed in alternating positive and negative order.
+The final arrangement should always start with a positive number, followed by a negative, and so on.
+
+✅ Given Data:
+An integer array int[] nums where:
+    - The count of positive numbers is equal to the count of negative numbers.
+    - The array is non-empty.
+    - The arrangement must alternate: +, -, +, -, ...
+
+✅ Intuition:
+The main idea is to take advantage of the equal number of positive and negative integers and place them in the required alternating order.
+Two primary approaches can be used based on whether we use extra space or perform operations in-place.
+
+------------------------------------------------------------
+Approach-1: Using Two Lists and Alternating Insertion (With Extra Space)
+------------------------------------------------------------
+    - Traverse the array once and collect all positive numbers into one list and all negative numbers into another.
+    - Then traverse again, alternatingly inserting one positive and one negative element back into the original array (or a new result array).
+    - Place positive numbers at even indices and negative numbers at odd indices.
+    - Since counts are equal, both lists will empty out exactly as the array fills.
+
+    Time Complexity:
+        - O(n), where n is the length of the array.
+
+    Space Complexity:
+        - O(n), for the extra lists storing positives and negatives.
+
+    Note:
+        - Simple and intuitive.
+        - Good when extra space is allowed.
+        - Easily extendable to return a new array without modifying the input.
+
+------------------------------------------------------------
+Approach-2: Single-Pass with a Result Array (Optimized with Indexing)
+------------------------------------------------------------
+    - Initialize a result array of the same size as the input.
+    - Use two pointers:
+        - One for placing positives at even indices.
+        - One for placing negatives at odd indices.
+    - Traverse the original array once, inserting each number at its appropriate position.
+    - This avoids the performance penalty of shifting elements (as with remove operations in ArrayLists).
+
+    Time Complexity:
+        - O(n), single traversal with constant-time insertions.
+
+    Space Complexity:
+        - O(n), for the result array.
+
+    Note:
+        - More efficient than removing from lists.
+        - Cleaner implementation and faster in practice.
+        - Assumes equal numbers of positives and negatives.

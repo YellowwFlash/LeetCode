@@ -1,0 +1,51 @@
+✅ Given Question:
+Given an array, print all the elements which are leaders.
+A Leader is an element that is greater than all of the elements on its right side in the array.
+
+✅ Given Data:
+An integer array int[] nums where:
+    - The array is non-empty.
+    - Leaders are defined as elements greater than all elements to their right.
+
+✅ Intuition:
+A leader in the array is an element that is not exceeded by any element to its right.
+There are two main ways to solve this problem: a brute force approach and an optimized approach.
+
+-----------------------------------
+Approach-1: Brute Force Using Two Loops
+-----------------------------------
+    - For each element, check all elements to its right.
+    - If no element on the right is greater, then the current element is a leader.
+    - Print or collect such elements.
+
+    Time Complexity:
+        - O(n²), since for each element, we may scan all elements to the right.
+
+    Space Complexity:
+        - O(1), no extra space is required.
+
+    Notes:
+        - Simple and intuitive, directly implements problem definition.
+        - Not efficient for large arrays.
+        - Suitable for learning and small inputs.
+
+-----------------------------------
+Approach-2: Optimized Backward Traversal
+-----------------------------------
+    - Initialize the leader as the last element (always a leader).
+    - Traverse the array from right to left.
+    - Keep track of the maximum element seen so far (current leader).
+    - If an element is greater than the current leader, it becomes the new leader.
+    - Print or collect leaders as they are found.
+
+    Time Complexity:
+        - O(n), single pass through the array.
+
+    Space Complexity:
+        - O(1), uses only constant extra space.
+
+    Notes:
+        - Much more efficient and scalable.
+        - Recommended approach for real-world and interview use.
+        - Remember to output the last element as it is always a leader.
+

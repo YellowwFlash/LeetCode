@@ -1,0 +1,54 @@
+✅ Given Question:  
+Given an integer array `nums` consisting only of the integers 0, 1, and 2, sort the array in-place such that all 0s come first, followed by all 1s, then all 2s.
+
+✅ Given Data:  
+An integer array `int[] nums` where:  
+- Elements are only 0, 1, or 2.  
+- You must sort the array in-place (without using extra sorting structures beyond constant space).  
+- Array is non-empty.
+
+✅ Intuition:  
+Since we are only working with three distinct integers (0, 1, and 2), we can efficiently count the number of times each value appears and then overwrite the original array with the correct number of each.
+
+This can be solved using two main approaches:  
+1. Frequency Counting (simple and intuitive).  
+2. Dutch National Flag Algorithm (in-place optimized solution).
+
+------------------------------------------------------
+Approach-1: Frequency Count (Simple and Intuitive)
+------------------------------------------------------
+
+    - Create a frequency array of size 3 to store counts of 0s, 1s, and 2s.
+    - Traverse the array and increment the frequency of each value accordingly.
+    - Then, rewrite the array using the frequency array: fill in the numbers 0, 1, and 2 the number of times they occurred.
+
+    Time Complexity:  
+    - O(n) for counting  
+    - O(n) for overwriting  
+    - Total: O(n)
+
+    Space Complexity:  
+    - O(1) — uses constant extra space (array of size 3)
+
+    Note:  
+    - Very easy to understand and implement.
+    - Doesn't require extra logic for pointer manipulation.
+
+
+----------------------------------------------------------------------
+Approach-2: Dutch National Flag Algorithm (Optimized In-Place)
+----------------------------------------------------------------------
+
+    - Use three pointers: `low`, `mid`, and `high`.
+    - `low` keeps track of where the 0s end, `high` where the 2s start, and `mid` traverses the array.
+    - Depending on the value at `mid`, you swap elements to the correct region and move the pointers accordingly.
+
+    Time Complexity:  
+    - O(n), single pass
+
+    Space Complexity:  
+    - O(1), no extra space used
+
+    Note:  
+    - This is the most efficient and standard approach for this type of problem.
+    - Slightly more complex than frequency count but highly optimal.

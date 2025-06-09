@@ -1,0 +1,43 @@
+✅ Given Question:
+Given a non-empty array of integers `nums`, return the majority element.
+The majority element is the element that appears more than ⌊n / 2⌋ times.
+You may assume that the majority element always exists in the array.
+
+✅ Given Data:
+An integer array int[] nums where:
+    - One element appears more than n / 2 times.
+    - The array is non-empty.
+
+✅ Intuition:
+If an element appears more than half the time in an array, it will "outvote" all other elements when using a counter-based system.
+This is the core idea behind the Boyer-Moore Majority Vote Algorithm.
+
+We use a counter to track a current candidate.
+If the count drops to zero, we choose a new candidate.
+If the current element equals the candidate, we increment the count.
+Otherwise, we decrement it.
+Since the majority element appears more than n/2 times, it will remain as the candidate by the end of the array.
+
+-----------------------------------
+Approach: Boyer-Moore Voting Algorithm
+-----------------------------------
+    - Initialize count = 0 and candidate = 0
+    - Traverse the array:
+        - If count == 0:
+            - Set candidate = current number
+        - If current number == candidate:
+            - Increment count
+        - Else:
+            - Decrement count
+    - After the loop ends, return candidate
+
+    Time Complexity:
+        - O(n), single pass through the array
+
+    Space Complexity:
+        - O(1), no extra space used
+
+    Note:
+        - This approach is optimal and elegant.
+        - It assumes a majority element always exists.
+        - If the majority is not guaranteed, a second pass is needed to verify the count.
