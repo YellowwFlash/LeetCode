@@ -1,0 +1,62 @@
+✅ Given Question:
+Given an integer array and an integer k, find the total number of continuous subarrays whose XOR equals to k.
+
+✅ Given Data:
+An integer array `int[] nums` and an integer `k`.
+
+✅ Intuition:
+The problem asks us to find the number of subarrays such that the **XOR of elements** in each subarray equals `k`. A brute-force method would be to check the XOR of every possible subarray, which would take O(n^2) time.
+
+Instead, we can optimize using **prefix XORs** and a **HashMap**. 
+
+Key idea:
+Let `prefixXor` be the XOR of all elements from index `0` to `i`.  
+If at any index `i`, there exists a `prefixXor[j]` such that:
+
+    prefixXor[i] ^ prefixXor[j] = k
+
+Then the subarray `(j+1 to i)` has XOR equal to `k`.
+
+Rearranging:
+    prefixXor[j] = prefixXor[i] ^ k
+
+So we look for the count of prefixXor values equal to `prefixXor[i] ^ k` that have occurred before.  
+We keep these counts in a HashMap as we traverse the array.
+
+-------------------------------------------------------
+Approach: Prefix XOR with HashMap for XOR = K
+-------------------------------------------------------
+    - Initialize a variable `prefixXor = 0` to store cumulative XOR.
+    - Create a HashMap to store the count of each prefixXor.
+    - Insert an initial value: `map.put(0, 1)` to account for subarrays starting at index 0.
+    - Traverse the array:
+        - Compute `prefixXor ^= nums[i]` (i.e., cumulative XOR).
+        - Compute `remainderXor = prefixXor ^ k`.
+        - If `remainderXor` exists in the map:
+            - It means a subarray with XOR `k` ends at the current index.
+            - Add its frequency to the result count.
+        - Update the map with the current `prefixXor` frequency.
+
+    Time Complexity:
+        - Single pass through the array: O(n)
+        - HashMap operations are O(1) on average
+        - Total: O(n)
+
+    Space Complexity:
+        - HashMap stores at most `n` different XOR values: O(n)
+
+📌 Small Example:
+    Input: nums = [4, 2, 2, 6, 4], k = 6
+
+    - Index 0: prefixXor = 4, 4^6=2, not in map → count = 0
+    - Index 1: prefixXor = 6, 6^6=0, map has 0 → count = 2
+    - Index 2: prefixXor = 4, 4^6=2, not in map → count = 1
+    - Index 3: prefixXor = 2, 2^6=4, map has 4 → count = 2
+    - Index 4: prefixXor = 6, 6^6=0, map has 0 → count = 3
+
+    Answer: 4 subarrays → [4,2], [2,6], [6], [4,2,2,6]
+
+✅ Note:
+    - This approach is efficient for large arrays.
+    - The trick is recognizing that XOR is reversible: `a ^ b = c` implies `a = b ^ c` and `b = a ^ c`.
+    - By storing prefix XORs, we can find in constant time how many subarrays end at the current index with the desired XOR.

@@ -1,0 +1,69 @@
+✅ Given Question:  
+Generate Pascal’s Triangle up to `n` rows. Each row contains the binomial coefficients, where every number is the sum of the two numbers directly above it. The triangle starts with a single 1 at the top.
+
+✅ Given Data:  
+An integer `n` representing the number of rows to generate in Pascal’s Triangle.
+
+✅ Intuition:  
+Pascal’s Triangle can be generated either by building each row from the previous row using addition, or by directly computing each element using mathematical combinations (binomial coefficients).  
+The first approach uses iterative summation, while the second uses a formula based on combinations, providing an optimized way to generate each row.
+
+------------------------------------  
+Approach 1: Iterative Construction Using Previous Rows  
+------------------------------------  
+- Handle base cases for small `n` (less than 1 or 2).  
+- Initialize a list to store each row as an integer array.  
+- Add the first two rows `[1]` and `[1,1]` manually.  
+- For each subsequent row (from the 3rd row onward):  
+    - Create a new array of size `i + 1` (where `i` is the current row index).  
+    - Set the first and last elements of the row to 1 (property of Pascal’s Triangle).  
+    - Fill the inner elements by summing pairs of adjacent elements from the previous row.  
+    - Add the newly constructed row to the list.  
+- Finally, print all rows from the list.
+
+Time Complexity:  
+    - O(n²) because for each row `i`, we compute `i` elements.
+
+Space Complexity:  
+    - O(n²) for storing all rows in the list.
+
+Pros:  
+    - Intuitive and easy to understand.  
+    - Directly mimics how Pascal’s Triangle is usually constructed.
+
+Cons:  
+    - Requires storing all rows.  
+    - Printing must be done separately.
+
+------------------------------------  
+Approach 2: Mathematical Combination Formula  
+------------------------------------  
+- Generate each row independently using the binomial coefficient formula:  
+    - Each element in row `r` and position `c` is `C(r-1, c-1)` = number of combinations choosing `c-1` from `r-1`.  
+- Start each row with 1 (since the first element is always 1).  
+- For each next element in the row, calculate it from the previous element using the formula:  
+    `element = previous_element * (row - col) / col`  
+    This uses a running product to avoid factorials, making it efficient and avoiding integer overflow.  
+- Collect each generated row as a list of integers.  
+- Repeat for all rows up to `n`.
+
+Time Complexity:  
+    - O(n²) overall, since we generate each of the `n` rows and each row has up to `n` elements.
+
+Space Complexity:  
+    - O(n²) for storing all rows as lists.
+
+Pros:  
+    - More mathematically elegant.  
+    - Avoids building on previous rows — each row is generated independently.  
+    - Efficient and avoids repeated addition.
+
+Cons:  
+    - Slightly less intuitive if you’re unfamiliar with combinations.  
+    - Requires careful handling of arithmetic to avoid overflow (uses `long`).
+
+✅ Summary:  
+Both approaches generate Pascal’s Triangle up to `n` rows effectively, with O(n²) complexity.  
+- The iterative approach builds each row based on the previous one using addition, which is straightforward and mirrors the triangle’s natural construction.  
+- The mathematical approach uses combinatorial formulas to generate each row independently, which is elegant and efficient, especially for generating specific rows without generating the entire triangle beforehand.
+

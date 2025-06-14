@@ -1,0 +1,48 @@
+✅ Given Question:  
+Find all unique quadruplets in an array that sum up to a given target. Each quadruplet must consist of four distinct elements (by index), and no duplicate quadruplets should be returned.
+
+✅ Given Data:  
+An integer array `int[] nums`, where elements can be positive, negative, or zero, and an integer `target`. The goal is to find all unique combinations of four numbers such that 
+their sum equals the target.
+
+✅ Intuition:  
+A brute-force approach would examine every possible group of four numbers, but this is extremely slow. To optimize, we can sort the array and reduce the problem using a layered approach similar to 3Sum:  
+Fix two elements and use a two-pointer strategy to find the other two.  
+Sorting the array helps in skipping duplicates efficiently and narrowing down valid combinations faster.
+
+-----------------------------------------  
+Approach 1: Brute-force (Four Nested Loops)  
+-----------------------------------------  
+- Iterate through every possible quadruplet (i, j, k, l) using four nested loops.
+- For each combination, check whether the sum of the four numbers equals the target.
+- Store the sorted quadruplet in a Set to ensure uniqueness.
+- Convert the Set to a List before returning the result.
+
+Time Complexity:  
+    - O(n⁴): Four nested loops over the array.
+
+Space Complexity:  
+    - O(k): For storing unique quadruplets in the result Set.
+
+------------------------------------------------  
+Approach 2: Optimized Using Sorting + Two Pointers  
+------------------------------------------------  
+- First, sort the array to facilitate duplicate handling and allow two-pointer traversal.
+- Use two nested loops to fix the first two elements of the quadruplet.
+- For each pair (i, j), use two pointers (k and l) to scan the remaining part of the array:
+    - `k` starts just after `j`, and `l` starts at the end of the array.
+- While k < l:
+    - Calculate the sum of the four elements.
+    - If the sum matches the target:
+        - Store the quadruplet in the result list.
+        - Move both pointers while skipping over duplicate values.
+    - If the sum is less than the target, move the left pointer (k) forward to increase the sum.
+    - If the sum is greater than the target, move the right pointer (l) backward to decrease the sum.
+- Skip duplicate values for `i` and `j` before processing to avoid repeated combinations.
+- Store the resulting quadruplets in a List, ensuring duplicates are never added.
+
+Time Complexity:  
+    - O(n³): Two nested loops and a two-pointer traversal.
+
+Space Complexity:  
+    - O(k): Where `k` is the number of unique quadruplets.

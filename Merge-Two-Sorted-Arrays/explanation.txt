@@ -1,0 +1,42 @@
+✅ Given Question:  
+Merge two sorted arrays `arr1` and `arr2` in-place such that after merging, both arrays remain sorted and contain all the elements in sorted order. No extra space should be used.
+
+✅ Given Data:  
+Two sorted integer arrays:  
+    - arr1 of size n  
+    - arr2 of size m  
+The task is to rearrange their elements so that the final combined set of elements across both arrays is sorted.
+
+✅ Intuition:  
+Since both arrays are already sorted, we only need to move elements between them in a way that maintains order — without using extra space.  
+Approach-1 does this by pushing larger elements from arr1 into arr2 (and vice versa) and sorting both arrays.  
+Approach-2 optimizes this with a Shell Sort–like technique that reduces the number of swaps using a decreasing gap.
+
+---------------------------------------------  
+Approach 1: Swap and Sort  
+---------------------------------------------  
+- Compare the largest element in arr1 with the smallest in arr2.
+- If arr1[end] > arr2[start], swap them.
+- Repeat while shrinking the window (end--, start++).
+- Finally, sort both arrays to maintain sorted order.
+
+Time Complexity:  
+    - O(n log n + m log m): Due to final sorting of both arrays.  
+Space Complexity:  
+    - O(1): In-place swaps and sorting.  
+
+----------------------------------------------------------  
+Approach 2: Shell Sort Based Gap Method (Optimized)  
+----------------------------------------------------------  
+- Treat both arrays as one combined array of length (n + m).
+- Start with a gap = (n + m)/2, and reduce it every pass using gap = (gap/2 + gap%2).
+- Compare and swap elements that are 'gap' apart:
+    1. Both in arr1  
+    2. One in arr1, one in arr2  
+    3. Both in arr2  
+- Repeat until gap becomes 0.
+
+Time Complexity:  
+    - O((n + m) * log(n + m)): Efficient comparison with fewer swaps.  
+Space Complexity:  
+    - O(1): Fully in-place, no additional memory used.  

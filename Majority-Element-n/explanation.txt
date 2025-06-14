@@ -1,0 +1,48 @@
+✅ Given Question:
+Given a non-empty array of integers `nums`, return all elements that appear more than ⌊n / 3⌋ times.
+
+✅ Given Data:
+An integer array int[] nums where:
+    - Zero, one, or two elements may appear more than n / 3 times.
+    - The array is non-empty.
+
+✅ Intuition:
+In any array of size `n`, there can be at most two elements that appear more than ⌊n / 3⌋ times.
+This is because if there were three or more such elements, their total count would exceed `n`, which is impossible.
+
+To identify such elements efficiently, we extend the Boyer-Moore Voting Algorithm, which is typically used to find a single majority element (> n/2 times). The extended version keeps track of two potential candidates and their respective counts.
+
+The process involves two main passes through the array:
+1. First Pass (Candidate Selection): 
+   - Maintain two candidates and their counts.
+   - If the current element matches one of the candidates, increment the corresponding count.
+   - If a candidate's count drops to zero, replace it with the current element.
+   - If the current element matches neither candidate and neither count is zero, decrease both counts.
+   - This filtering ensures only elements with a chance of appearing > n/3 times survive.
+
+2. Second Pass (Validation):
+   - After determining the potential candidates, count their actual occurrences in the array.
+   - If any candidate appears more than ⌊n / 3⌋ times, include it in the final result.
+
+-----------------------------------
+Approach: Extended Boyer-Moore Voting Algorithm
+-----------------------------------
+- Use two variables to hold potential majority candidates.
+- Use two counters to track their votes.
+- Traverse the array to filter potential candidates:
+    - If the current number is equal to a candidate, increase its count.
+    - If any candidate has zero count, assign the current number to it.
+    - If the current number matches neither and both counts are non-zero, decrement both.
+- After this pass, only the most frequent candidates remain.
+- In a second pass, count actual occurrences to confirm if they exceed ⌊n / 3⌋.
+
+✅ Time Complexity:
+- O(n), with two passes through the array.
+
+✅ Space Complexity:
+- O(1), constant extra space used regardless of input size.
+
+✅ Note:
+- This algorithm works even if there are fewer than two majority elements.
+- It's optimal for time and space when compared to naive counting approaches.
+- A second pass is crucial to confirm the validity of the filtered candidates.
