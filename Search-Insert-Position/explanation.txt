@@ -1,0 +1,50 @@
+✅ Given Question:
+You're given a sorted array and a target value.  
+Your task is to find the index where the target should be inserted so that the array remains sorted.  
+If the target already exists, return the index of its first occurrence.
+
+✅ Goal:
+Find the first position in the array where the value is greater than or equal to the target.
+
+✅ Example:
+Array: [1, 3, 5, 6], Target: 5 → Return 2  
+Array: [1, 3, 5, 6], Target: 2 → Return 1  
+
+✅ Intuition:
+We are essentially finding the lower bound of the target:
+> "The first index where the array value is greater than or equal to the target."
+
+There are two ways to approach this — one simple and one efficient.
+
+------------------------------------------------------------
+Approach-1: Linear Scan (Brute-force method) — O(n)
+------------------------------------------------------------
+🔹 How it works:
+- Go through the array from the beginning.
+- Check each element.
+- Stop when you find the first element that is greater than or equal to the target.
+- That index is where the target should be inserted.
+- If you reach the end and haven't found such an element, the target is greater than all values — insert it at the end.
+
+🔹 Time Complexity:  
+- O(n) → You might need to check every element in the worst case.
+
+🔹 Space Complexity:  
+- O(1) → No extra space is used.
+
+------------------------------------------------------------
+Approach-2: Binary Search (Optimized method) — O(log n)
+------------------------------------------------------------
+🔹 How it works:
+- Use binary search to efficiently find the insert position.
+- Start with the whole array as your search space.
+- Repeatedly check the middle element:
+    - If it’s greater than or equal to the target, the current index might be the answer, but check to the left for an earlier valid position.
+    - If it’s less than the target, ignore the left half and check the right.
+- Eventually, you’ll find the smallest index where the condition holds true.
+
+🔹 Time Complexity:  
+- O(log n) → The array size is halved at each step.
+
+🔹 Space Complexity:  
+- O(1) → Done in-place, no extra space needed.

@@ -1,0 +1,34 @@
+✅ Given Question:
+Identify the **pivot index** in a rotated sorted array — this is the index where the smallest element appears and where the array rotation begins.
+
+✅ Given Data:
+An integer array that was originally sorted in ascending order, but has been rotated at an unknown pivot. 
+
+✅ Intuition:
+In a rotated sorted array, the order is preserved except at one point — the pivot — where the largest element is immediately followed by the smallest. 
+For example, an originally sorted array [1, 2, 3, 4, 5] rotated 2 times becomes [4, 5, 1, 2, 3], and the pivot (smallest element) is at index 2.
+
+There are two main strategies to locate this pivot:
+
+---------------------------------------------------------
+Approach 1: Linear Scan to Find Rotation Point
+---------------------------------------------------------
+- Start scanning the array from the beginning.
+- Compare each element with the one before it.
+- At the point where a previous element is greater than the current one, it indicates a break in the ascending order — this is the rotation point.
+- The current element at that index is the smallest element, and that index is the pivot.
+
+🕒 Time Complexity: O(n) in the worst case (if no rotation or at the end)
+
+---------------------------------------------------------------
+Approach 2: Binary Search to Find the Smallest Element
+---------------------------------------------------------------
+- Use binary search to locate the smallest element by leveraging the properties of a rotated sorted array.
+- In any segment of the array, at least one side (left or right of the middle) will always be sorted.
+- If the entire range is sorted, the smallest element is at the beginning of that range.
+- If the left side is sorted but the right is not, discard the left half and search in the right.
+- If the right side is sorted but the left is not, discard the right half and search in the left.
+- While narrowing down, keep track of the smallest element seen so far and its index.
+
+🕒 Time Complexity: O(log n) in all typical cases (unless duplicates are introduced)
+

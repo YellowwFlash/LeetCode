@@ -43,4 +43,49 @@ public class SearchRotatedSorted {
 
         return -1;
     }
+
+    // Approach-3 -> Using shrink space concept for duplicates
+    public static boolean searchRotatedSortedSS(int[] numbers, int target) {
+        int n = numbers.length;
+        int left = 0, right = n - 1;
+
+        while (left <= right) {
+            // Calculate the mid
+            int mid = left + (right - left) / 2;
+
+            // If the mid == target, return true
+            if (numbers[mid] == target)
+                return true;
+
+            // In this case sorted part can't be determined, hence shrink the search space
+            else if (numbers[mid] == numbers[left] && numbers[left] == numbers[right]) {
+                left++;
+                right--;
+            }
+
+            // Left sorted array
+            else if (numbers[left] <= numbers[mid]) {
+                // Check if target lies in the left sorted portion
+                if (numbers[left] <= target && target < numbers[mid])
+                    right = mid - 1;
+
+                // If not, then go to the right unsorted portion
+                else
+                    left = mid + 1;
+            }
+
+            // Right sorted array
+            else {
+                // Check if target lies in the right sorted portion
+                if (numbers[mid] < target && numbers[right] >= target)
+                    left = mid + 1;
+
+                // If not, then go to left unsorted portion
+                else
+                    right = mid - 1;
+            }
+        }
+
+        return false;
+    }
 }

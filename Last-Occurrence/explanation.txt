@@ -1,0 +1,54 @@
+✅ Given Question:
+You're given a sorted array of integers and a target value `x`.
+Your task is to find:
+    - The first occurrence of `x`: the earliest position in the array where it appears.
+    - The last occurrence of `x`: the latest position in the array where it appears.
+If `x` is not found at all, return -1 for that case.
+
+✅ Given Data:
+You have:
+    - A sorted array `int[] nums` (can contain duplicates).
+    - A target number `x`.
+You are to return the first and last index where `x` appears.
+
+✅ Intuition:
+Since the array is sorted, all instances of the same number (like `x`) will appear together in a block.
+This means:
+    - The first time `x` appears is to the left of that block.
+    - The last time `x` appears is to the right of that block.
+
+So, once you find a match for `x`, you don’t stop — instead, you continue searching in the direction where more matches could exist.
+
+This is where binary search helps:
+    - Instead of checking every number, it jumps to the middle and decides where to go next.
+    - That cuts the search time dramatically.
+
+------------------------------------------------------------
+Approach-1: Finding the Last Occurrence (Rightmost `x`)
+------------------------------------------------------------
+    - You look at the middle of the range.
+    - If that number is equal to `x`:
+        - Store the index as a potential answer.
+        - But don't stop — move right to see if `x` appears again later.
+    - If the number is bigger than `x`, it’s too far right — move left.
+    - If it's smaller, it’s too early — move right.
+    - After the loop, the latest stored index is returned.
+
+------------------------------------------------------------
+Approach-2: Finding the First Occurrence (Leftmost `x`)
+------------------------------------------------------------
+    - Same idea, but now you're trying to find the first time `x` appears.
+    - If you find `x` at mid:
+        - Store that index.
+        - Then move left, just in case it appears earlier.
+    - If the number is smaller than `x`, move right.
+    - If it’s larger, move left.
+    - When the loop ends, the earliest stored match is returned.
+
+📌 If `x` doesn’t appear at all, `result` will remain `-1` and that’s returned correctly.
+
+🕒 Time Taken:
+    - Each search takes O(log n), since you’re halving the search space at every step.
+
+🧠 Space Used:
+    - Only a few variables used for tracking — no extra memory required (O(1)).

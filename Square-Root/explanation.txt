@@ -1,0 +1,62 @@
+✅ Given Question:
+Find the integer part (floor value) of the square root of a non-negative integer.
+
+✅ Given Data:
+- An integer `number >= 0`
+- We need to return the largest integer `x` such that `x * x <= number`
+
+✅ Intuition:
+The square root of a number can be found using built-in methods, brute-force scanning, or binary search. The goal is to return only the integer part of the square root (floor value), even if the actual square root is a decimal.
+
+------------------------------------------------------------
+Approach 1: Using Built-in Function
+------------------------------------------------------------
+    - Use Java's Math.sqrt() function to get the square root of the number.
+    - This returns a double, so cast it to an int to get the floor value.
+    - Simple and fast for general use.
+
+    Time Complexity:
+        - O(1) → Direct computation
+
+    Space Complexity:
+        - O(1)
+
+    Note:
+        - Internally optimized and suitable for general purposes.
+
+------------------------------------------------------------
+Approach 2: Linear Search (Brute Force)
+------------------------------------------------------------
+    - Start from 1 and go up to number / 2.
+    - For each `i`, check if `i * i <= number`.
+    - Keep track of the highest `i` satisfying this condition.
+    - This approach always gives the correct floor square root.
+
+    Time Complexity:
+        - O(n) → where n = number / 2
+
+    Space Complexity:
+        - O(1)
+
+    Note:
+        - Simple to understand but not efficient for large numbers.
+
+------------------------------------------------------------
+Approach 3: Binary Search (Optimized Approach)
+------------------------------------------------------------
+    - Use binary search in the range [1, number / 2].
+    - At each step, calculate mid and check:
+        - If mid*mid == number → return mid
+        - If mid*mid < number → mid could be the floor, search right
+        - If mid*mid > number → search left
+    - Keep track of the latest mid that satisfies mid*mid <= number
+
+    Time Complexity:
+        - O(log n) → Efficient for large inputs
+
+    Space Complexity:
+        - O(1)
+
+    Note:
+        - Best performance among all approaches.
+        - Returns exact root if perfect square, otherwise the floor value.

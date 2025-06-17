@@ -1,0 +1,42 @@
+✅ Given Question:
+Given a sorted array of integers and a target value `x`, implement a function to find the **lower bound** of `x`.
+The lower bound is defined as the **first index at which the value is greater than or equal to `x`**.
+If no such element exists, return the array length.
+
+✅ Given Data:
+An integer array int[] nums (sorted in non-decreasing order) and an integer target x.
+    - The array may contain duplicates.
+    - The array may contain negative, zero, or positive integers.
+    - The function should return the index of the first element >= x.
+    - If x is greater than all elements, return nums.length.
+
+✅ Intuition:
+The problem requires finding the **first occurrence** of an element that is **greater than or equal to x**.
+Since the array is sorted, binary search is a perfect fit — allowing us to discard half the array at each step.
+We use a variable `lower` to track the **smallest index** found so far that satisfies the condition.
+
+------------------------------------------------------------
+Approach-1: Using Binary Search and Tracking Minimum Index
+------------------------------------------------------------
+    - Initialize `low = 0`, `high = n - 1`, and `lower = n` (sentinel value representing "not found yet").
+    - While low <= high:
+        - Calculate the mid index.
+        - If nums[mid] >= x:
+            - This could be a candidate for lower bound, so store `lower = mid`.
+            - But continue searching in the **left half** (`high = mid - 1`) to find an earlier valid position.
+        - Else:
+            - If nums[mid] < x, search in the **right half** (`low = mid + 1`).
+    - After the loop ends, return the value of `lower`.
+
+    Time Complexity:
+        - O(log n), where n is the length of the array.
+
+    Space Complexity:
+        - O(1), constant space — no extra memory used.
+
+    Note:
+        - The function will return `n` if no element in the array is >= x.
+        - This is useful in scenarios like insert position logic (e.g., in binary search trees, sorted lists, etc.).
+        - Can be used in similar problems like:
+            - Finding the ceiling of a number.
+            - Locating the first occurrence of a value in sorted ranges.

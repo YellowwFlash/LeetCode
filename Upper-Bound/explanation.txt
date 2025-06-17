@@ -1,0 +1,47 @@
+✅ Given Question:
+Given a sorted array of integers and a target value `x`, implement a function to find the upper bound of `x`.
+The upper bound is defined as the first index at which the value is strictly greater than `x`.
+It is assumed that such an element will always exist in the array.
+
+✅ Given Data:
+An integer array int[] nums (sorted in non-decreasing order) and an integer target x.
+    - The array may contain duplicates.
+    - All elements less than, equal to, or greater than `x` are allowed.
+    - It is guaranteed that at least one element in the array is strictly greater than `x`.
+    - The function should return the index of the first element > x.
+
+✅ Intuition:
+This is a classic use-case for binary search where we want to locate a boundary condition in a sorted array.
+The idea is to find the smallest index `i` such that `nums[i] > x`. Since the array is sorted, we can use binary search to efficiently narrow down the valid range.
+
+------------------------------------------------------------
+Approach-1: Using Binary Search and Tracking Minimum Index
+------------------------------------------------------------
+    - Initialize `low = 0`, `high = n - 1`, and `upper = n` (sentinel value representing "not found yet").
+    - While low <= high:
+        - Calculate mid index: `mid = low + (high - low) / 2`.
+        - If nums[mid] > x:
+            - This could be a candidate for upper bound, so store `upper = mid`.
+            - But continue searching in the left half (`high = mid - 1`) to find an earlier valid position.
+        - Else:
+            - If nums[mid] <= x, search in the right half (`low = mid + 1`).
+    - After the loop ends, return the value of `upper`.
+
+    Time Complexity:
+        - O(log n), where n is the number of elements in the array.
+
+    Space Complexity:
+        - O(1), constant space — no extra memory used.
+
+    Note:
+        - The function assumes an upper bound always exists, so returning `n` is still valid if used with care.
+        - This method is helpful in algorithms like:
+            - Counting occurrences of a value (upper - lower)
+            - Finding insertion points in sorted arrays
+            - Binary search variants in competitive programming
+
+✅ Example:
+    nums = [1, 3, 3, 5, 7], x = 3
+    → Lower Bound = 1 (first index where nums[i] >= 3)
+    → Upper Bound = 3 (first index where nums[i] > 3)
+

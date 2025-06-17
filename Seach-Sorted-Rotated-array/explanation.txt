@@ -11,34 +11,52 @@ traditional binary search. If examined correctly, the given array will always ha
 We can use this property to eliminate one half of the array in each step.
 
 
- -------------------------------------------------
- Approach 1: Linear Search (Brute Force)
- -------------------------------------------------
-      - Traverse the array from the beginning to the end.
-      - Compare each element with the target.
-      - If a match is found, return the index.
-      - If no match is found by the end, return -1.
-      
-      Time Complexity:
+-------------------------------------------------
+Approach 1: Linear Search (Brute Force)
+-------------------------------------------------
+    - Traverse the array from the beginning to the end.
+    - Compare each element with the target.
+    - If a match is found, return the index.
+    - If no match is found by the end, return -1.
+    
+    Time Complexity:
         - Full traversal of the array: O(n)
         - Total Time Complexity: O(n)
-      
-      Space Complexity:
+    
+    Space Complexity:
         - No extra space used apart from basic variables: O(1)
 
 
- ------------------------------------------------------------
- Approach 2: Modified Binary Search for Rotated Array
- ------------------------------------------------------------
-      - Use binary search with additional checks to handle the rotation.
-      - At each step, determine whether the left or right portion of the array is sorted.
-      - Based on which portion is sorted and whether the target lies in that portion, adjust the left and right pointers accordingly.
-      - This allows eliminating half of the array in each step.
-      - Midpoint calculation uses: mid = left + (right - left) / 2 to avoid overflow.
+------------------------------------------------------------
+Approach 2: Modified Binary Search for Rotated Array
+------------------------------------------------------------
+    - Use binary search with additional checks to handle the rotation.
+    - At each step, determine whether the left or right portion of the array is sorted.
+    - Based on which portion is sorted and whether the target lies in that portion, adjust the left and right pointers accordingly.
+    - This allows eliminating half of the array in each step.
+    - Midpoint calculation uses: mid = left + (right - left) / 2 to avoid overflow.
+    - Does not handle duplicates — only works for arrays with unique elements.
 
-      Time Complexity:
+    Time Complexity:
         - Logarithmic due to binary search steps: O(log n)
         - Total Time Complexity: O(log n)
 
-      Space Complexity:
+    Space Complexity:
         - No extra space required beyond a few variables: O(1)
+
+
+------------------------------------------------------------------------------------
+Approach 3: Binary Search with Shrinking Space to Handle Duplicates
+------------------------------------------------------------------------------------
+    - In the presence of duplicates, determining the sorted half might be ambiguous.
+    - If elements at left, mid, and right are equal, increment left and decrement right to shrink search space.
+    - Then apply similar logic as in Approach 2 to determine which side is sorted and adjust bounds accordingly.
+    - This handles cases where duplicates cause ambiguity in deciding which half is sorted.
+
+    Time Complexity:
+        - Worst-case degradation to O(n) when all elements are duplicates
+        - Best/Average Case (no or few duplicates): O(log n)
+        - Total Time Complexity: O(log n) on average, O(n) in worst-case with many duplicates
+
+    Space Complexity:
+        - Only uses a few variables for pointers: O(1)

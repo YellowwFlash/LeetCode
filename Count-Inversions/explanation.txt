@@ -1,0 +1,68 @@
+✅ Given Question:  
+Count the number of inversions in an array.  
+An inversion is defined as a pair (i, j) such that i < j and arr[i] > arr[j].  
+The goal is to find the total number of such inversions in the given array.
+
+✅ Given Data:  
+A single unsorted integer array `nums` of length `n`.  
+You are required to count how many (i, j) pairs exist where i < j and nums[i] > nums[j].
+
+✅ Intuition:  
+Inversions indicate disorder in an array.  
+If the array is completely sorted in ascending order, there are 0 inversions.  
+If it's sorted in descending order, the number of inversions is maximum.  
+We can count inversions in two ways:
+- Brute-force approach by comparing every pair (i, j).
+- Optimized approach using merge sort that counts inversions while sorting.
+
+---------------------------------------------  
+Approach 1: Brute-Force Using Two Loops  
+---------------------------------------------  
+- Use two nested loops to compare every pair (i, j) where i < j.
+- For each such pair, check if nums[i] > nums[j].
+- If true, count it as an inversion.
+- This method is straightforward but becomes inefficient for large arrays.
+
+Time Complexity:  
+    - O(n^2): Since we check every possible pair (i, j).  
+Space Complexity:  
+    - O(1): No extra space is used.
+
+Steps:  
+1. Initialize `inversions = 0`.  
+2. Loop i from 0 to n-1.  
+3. For each i, loop j from i+1 to n-1.  
+4. If nums[i] > nums[j], increment `inversions`.  
+5. Return `inversions`.
+
+----------------------------------------------------------  
+Approach 2: Optimized Merge Sort Based Method  
+----------------------------------------------------------  
+- This is a divide-and-conquer approach that leverages merge sort.  
+- The array is recursively divided into halves, and inversions are counted:  
+    1. In the left half  
+    2. In the right half  
+    3. During the merge step (cross inversions)  
+- When merging, if an element from the right half is smaller than one in the left,  
+  it forms inversions equal to the number of remaining elements in the left half.
+
+✅ Why do we add `(mid - left + 1)`?  
+Because all the elements remaining in the left half from index `left` to `mid`  
+are greater than the current `right` element. And since `left < right` (by definition of merge step),  
+each of these pairs (left, right) is a valid inversion.
+
+✅ Intuition with Example:  
+Suppose we’re merging two sorted halves:  
+Left: [3, 5, 7]  
+Right: [1, 6, 8]  
+
+- Compare 3 and 1 → 3 > 1 → inversion!  
+  Since 3, 5, and 7 (all elements from left) are > 1, and they come before it,  
+  we add **3 inversions** at once (because left still has 3 elements: 3, 5, 7).
+
+This avoids checking every pair individually and speeds things up.
+
+   ✅Time Complexity:
+        - O(n log n): Due to recursive division and merging.
+   ✅Space Complexity:
+        - O(n): Temporary space used during merge.

@@ -1,0 +1,56 @@
+✅ Given Question:
+You're given a list of numbers that are already sorted, and a target number.
+Your task is to find two values from that list:
+    - The **floor**: the biggest number in the list that is still less than or equal to the target.
+    - The **ceil**: the smallest number in the list that is still greater than or equal to the target.
+
+✅ Given Data:
+You have:
+    - An array of numbers (already sorted from smallest to largest).
+    - A target number to compare against.
+You are guaranteed that:
+    - There's at least one number in the list that is smaller than or equal to the target (floor exists).
+    - There's at least one number in the list that is greater than or equal to the target (ceil exists).
+
+✅ Intuition:
+Since the list is already sorted, we don’t need to check every single number one by one.
+Instead, we can focus our search:
+    - If the middle number is too small or too big, we can ignore half the list.
+    - This makes the process much faster, especially when the list is long.
+
+Now, let’s look at how to find both values by carefully narrowing down our options.
+
+------------------------------------------------------------
+Approach-1: Finding Floor and Ceil by Narrowing Down
+------------------------------------------------------------
+
+🔹 Finding the Floor (the biggest number that’s just ≤ target):
+
+    - Start by looking at the whole list.
+    - Pick the number in the middle.
+        - If that number is less than or equal to the target:
+            - It could be the answer, but maybe there’s a bigger one further to the right.
+            - So, remember this number as a possible answer, and move to the right half of the list.
+        - If the number is bigger than the target:
+            - It’s too high to be the floor, so we move to the left side to find a smaller one.
+    - Keep doing this until you’ve checked all the possibilities.
+    - By the end, the last remembered number will be the floor.
+
+🔹 Finding the Ceil (the smallest number that’s just ≥ target):
+
+    - Again, look at the whole list.
+    - Check the number in the middle.
+        - If that number is greater than or equal to the target:
+            - It could be the answer, but maybe there’s a smaller one further to the left.
+            - So, remember this number and move to the left half of the list.
+        - If the number is smaller than the target:
+            - It’s too low to be the ceil, so we move to the right half.
+    - After checking all options, the last remembered number will be the ceil.
+
+    This method works because the list is sorted, so we always know which direction to search based on whether the current number is too big or too small.
+
+    Time Complexity:
+        - O(log n) for each of floor and ceil search → Total: O(log n)
+
+    Space Complexity:
+        - O(1), constant space used

@@ -1,0 +1,59 @@
+✅ Given Question:
+You're given a sorted array of integers and a target value `x`.
+Your task is to find:
+    - The number of times `x` appears in the array.
+
+✅ Given Data:
+You have:
+    - A sorted array `int[] nums` (can contain duplicates).
+    - A target number `x`.
+You are to return how many times `x` occurs in `nums`.
+
+✅ Intuition:
+Since the array is sorted, all occurrences of the same number (`x`) appear consecutively.
+This means:
+    - All instances of `x` form a contiguous block.
+    - To find the count of `x`, we can find:
+        - The first occurrence index of `x`.
+        - The position just after the last occurrence of `x`.
+    - The difference between these two positions gives the total count.
+
+Instead of scanning the whole array linearly, binary search helps find these positions quickly:
+    - It repeatedly halves the search space by checking the middle element.
+    - This gives an efficient O(log n) time complexity.
+
+------------------------------------------------------------
+Approach-1: Linear Scan to Count Occurrences
+------------------------------------------------------------
+    - Iterate over every number in the array.
+    - Increase a counter whenever the current number equals `x`.
+    - Return the final count.
+    - Time complexity: O(n).
+
+------------------------------------------------------------
+Approach-2: Binary Search Using First and Last Occurrence
+------------------------------------------------------------
+    - Use `findLower` to find the smallest index where `nums[index] >= x`.
+    - Use `findUpper` to find the smallest index where `nums[index] > x`.
+    - The count of `x` is `upper - lower`.
+
+How `findLower` works:
+    - Perform binary search.
+    - If `nums[mid]` is greater than or equal to `x`, record `mid` as a possible lower bound and move left.
+    - Otherwise, move right.
+    - Return the smallest such index or -1 if not found.
+
+How `findUpper` works:
+    - Perform binary search.
+    - If `nums[mid]` is greater than `x`, record `mid` as a possible upper bound and move left.
+    - Otherwise, move right.
+    - Return the smallest such index or -1 if not found.
+
+📌 If `x` does not exist in the array, `findLower` and `findUpper` return -1 or positions that result in a count of 0.
+
+🕒 Time Taken:
+    - Linear approach: O(n).
+    - Binary search approach: O(log n).
+
+🧠 Space Used:
+    - Only a few variables for indices and counts are used, so O(1).
