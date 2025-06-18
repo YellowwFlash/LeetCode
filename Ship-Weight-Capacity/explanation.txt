@@ -1,0 +1,85 @@
+✅ Given Question:
+    You are given an array `weights[]` where weights[i] represents the weight of the ith package, and an integer `days` which indicates the number of days within which all the packages must be shipped. The packages must be shipped in the order given.
+
+    You need to determine the minimum capacity of the ship so that all packages can be shipped within `days`.
+
+✅ Given Data:
+    - weights[]: an array of positive integers
+    - days: an integer representing the maximum number of days allowed to ship all weights
+    - Return the minimum ship capacity needed to achieve this
+
+✅ Intuition:
+    If the ship has a small capacity, it will take more days to ship all the packages.
+    If the ship has a large capacity, it can finish faster.
+    The goal is to find the smallest ship capacity that allows shipping all packages in at most `days`.
+
+    This can be solved using a binary search on the possible ship capacities. For each capacity, check whether it's possible to ship all packages in the given number of days.
+
+------------------------------------------------------------
+Approach 1: Linear Scan (Brute Force)
+------------------------------------------------------------
+    - Define the search space from max(weights[]) to sum(weights[])
+    - For each capacity in this range:
+        - Use a helper function to check if it's possible to ship within 'days' using that capacity
+        - If valid, return that capacity
+
+    Time Complexity:
+    O(n × range) → Very slow for large arrays or high weight sums
+
+    Space Complexity:
+    O(1)
+
+    Note:
+    Easy to implement but inefficient.
+    Used mainly for understanding or small input sizes.
+
+------------------------------------------------------------
+Approach 2: Binary Search on Answer Space (Optimized Approach)
+------------------------------------------------------------
+    - Set the low bound as the maximum weight in the array
+    - Set the high bound as the sum of all weights
+    - Use binary search over [max(weights), sum(weights)] to find the minimum valid capacity
+    - For each mid value:
+        - Use a helper function `isValidWeight(...)` to simulate shipping with that capacity
+        - If valid:
+            - Save result
+            - Search in the left half to try smaller capacity
+        - Else:
+            - Search in the right half to try a larger capacity
+
+    Time Complexity:
+    O(n × log(sum - max)) → Efficient even for large input
+
+    Space Complexity:
+    O(1)
+
+    Note:
+    This is the most efficient approach.
+    Works well for large inputs and guarantees the minimum possible valid capacity.
+
+------------------------------------------------------------
+Helper Function: isValidWeight
+------------------------------------------------------------
+    - Simulate the shipping process with a given capacity
+    - Traverse the weights array, summing up weights for the current day
+    - If adding a weight exceeds the capacity:
+        - Start a new day
+        - Reset current day sum to the current weight
+    - At the end, check if the total number of days used ≤ allowed `days`
+
+    Note:
+    This function ensures the package order is preserved and no package is split.
+
+------------------------------------------------------------
+Example:
+    weights = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], days = 5
+    Output: 15
+
+    Explanation:
+    Minimum ship capacity to deliver all packages in 5 days is 15.
+    One possible distribution:
+    Day 1: 1, 2, 3, 4, 5 → sum = 15
+    Day 2: 6, 7         → sum = 13
+    Day 3: 8            → sum = 8
+    Day 4: 9            → sum = 9
+    Day 5: 10           → sum = 10

@@ -1,0 +1,50 @@
+✅ Given Question:
+Koko loves to eat bananas. Given an array piles[] representing the number of bananas in each pile, and an integer H (number of hours available), find the minimum integer eating speed K (bananas per hour) such that Koko can eat all the bananas within H hours.
+
+✅ Given Data:
+- An integer array piles[] where each element is the size of a banana pile
+- An integer H representing the number of hours Koko has to eat all the bananas
+- Each hour, Koko chooses a pile and eats up to K bananas from it
+- If a pile has fewer than K bananas, she eats all of them in one hour
+- She eats only one pile per hour
+
+✅ Intuition:
+To solve this problem, we need to find the **minimum value of K** (eating speed) such that the total time taken to eat all piles is less than or equal to H. We can try all possible values of K linearly, or we can apply binary search since the answer lies within a predictable numeric range.
+
+------------------------------------------------------------
+Approach 1: Linear Search (Brute Force)
+------------------------------------------------------------
+    Loop through all possible eating speeds from 1 up to the maximum pile size.
+    For each speed K, calculate the total hours needed to eat all piles using that speed.
+    Return the first K that satisfies the condition of totalHours <= H.
+
+    Time Complexity:
+    O(max(piles) × n) — where n is the number of piles
+
+    Space Complexity:
+    O(1)
+
+
+------------------------------------------------------------
+Approach 2: Binary Search (Optimized Approach)
+------------------------------------------------------------
+    Use binary search to find the minimum valid eating speed.
+    Start with low = 1 and high = max(piles).
+    At each step:
+    - Calculate mid = (low + high) / 2
+    - Check if mid is a valid speed (i.e., totalHours <= H)
+    - If valid, search the left half (high = mid - 1) to find a smaller speed
+    - If not valid, search the right half (low = mid + 1)
+    Return low, which will be the smallest valid speed
+
+    Time Complexity:
+    O(n × log(max(piles))) — where n is the number of piles
+
+    Space Complexity:
+    O(1)
+
+
+ ✅ Optimization Tip:
+    Instead of using floating-point division and Math.ceil() in the isValid() function, we can use integer math:
+        hours += (pile + speed - 1) / speed
+    This avoids floating-point operations and improves performance and accuracy.

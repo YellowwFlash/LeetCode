@@ -1,0 +1,72 @@
+✅ Given Question:
+    Find the integer x such that x^n == number. If no such integer exists, return -1.
+
+✅ Given Data:
+    An integer number >= 0
+    An integer n > 0
+    We need to return an integer x such that x^n == number
+    If no such integer exists, return -1
+
+✅ Intuition:
+    The nth root of a number can be found using built-in methods, brute-force scanning, or binary search. The goal is to find an integer x such that x raised to the power n equals the given number. If such an integer root doesn't exist, return -1.
+
+------------------------------------------------------------
+Approach 1: Using Built-in Function
+------------------------------------------------------------
+    Use Java's Math.pow() function to get the nth root of the number.
+    Math.pow(number, 1.0 / n) gives the root as a double.
+    Cast the result to int to get the floor integer.
+    Check if the result raised to power n equals the original number.
+
+    Time Complexity:
+    O(1) → Direct computation
+
+    Space Complexity:
+    O(1)
+
+    Note:
+    Fast and simple, but may not be accurate due to floating-point precision.
+    Always validate by checking if the result raised to n equals number.
+
+------------------------------------------------------------
+Approach 2: Linear Search (Brute Force)
+------------------------------------------------------------
+    Start from 1 and go up to number / 2.
+    For each i, check if Math.pow(i, n) == number.
+    Return i if match is found.
+    If no such i exists, return -1.
+
+    Time Complexity:
+    O(n) → where n = number / 2
+
+    Space Complexity:
+    O(1)
+
+    Note:
+    Easy to implement but inefficient for large numbers.
+    Only suitable for small input values.
+
+------------------------------------------------------------
+Approach 3: Binary Search (Optimized Approach)
+------------------------------------------------------------
+    Use binary search in the range [1, number / 2] to find the integer root.
+    At each step, calculate mid and compute mid^n using a helper method.
+    If mid^n == number → return mid
+    If mid^n < number → search in right half
+    If mid^n > number → search in left half
+
+    To optimize the upper bound of the search:
+    Instead of using number / 2 as the upper limit, use:
+        high = (int)(Math.min(number, Math.pow(number, 1.0 / n))) + 1
+    This reduces the search space significantly for large values of number and n.
+
+    Time Complexity:
+    O(log n) → Efficient for large inputs
+
+    Space Complexity:
+    O(1)
+
+    Note:
+    Best performance among all approaches.
+    Overflow is avoided by checking during power computation.
+    Search bound optimization improves performance especially when number is large and n is high.

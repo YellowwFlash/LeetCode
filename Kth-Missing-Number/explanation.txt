@@ -1,0 +1,80 @@
+✅ Given Question:
+You are given a sorted array of distinct positive integers `nums[]` and an integer `k`.
+You need to find the kth missing positive number — i.e., the kth number that is missing from the sequence [1, 2, 3, ...] and is not in `nums[]`.
+
+✅ Given Data:
+- nums[]: Sorted array of positive integers
+- k: Target missing count
+- Return the kth missing positive number
+
+✅ Intuition:
+The numbers in nums are sorted, but there are gaps between them.
+Each missing number increases the count of numbers that are not in the array.
+We can either scan through the array and count these missing numbers one by one (linear approach), or use binary search to find the position where the kth missing number would logically fall.
+
+------------------------------------------------------------
+Approach 1: Linear Scan (Simple Loop)
+------------------------------------------------------------
+Loop through each number in the array:
+- If the current number is less than or equal to k, that means the kth missing number must be pushed further because one of the expected numbers is already taken by the array.
+- So, we increment k for every such number.
+- Once we find a number >= k, we stop and return k.
+
+Example:
+nums = [2, 3, 4, 7, 11], k = 5
+We go through the array:
+- 2 < 5 → k becomes 6
+- 3 < 6 → k becomes 7
+- 4 < 7 → k becomes 8
+- 7 < 8 → k becomes 9
+- 11 > 9 → break
+Return k = 9
+
+Time Complexity:
+O(n)
+
+Space Complexity:
+O(1)
+
+------------------------------------------------------------
+Approach 2: Binary Search (Optimized)
+------------------------------------------------------------
+The key observation is:
+- At index i (0-based), the number of missing numbers before it is:
+  missingCount = nums[i] - (i + 1)
+
+Why?
+- If there were no missing numbers, nums[i] would be (i + 1)
+- If nums[i] is larger, then the difference is how many numbers are missing before that point
+
+We use binary search to find the smallest index where the missing count becomes >= k:
+- Initialize left = 0, right = nums.length - 1
+- While left <= right:
+    - mid = (left + right) / 2
+    - if missingCount < k → go right
+    - else → go left
+- Finally, return left + k
+
+Why left + k?
+- After the loop, `left` is the number of elements in nums that are ≤ the kth missing number.
+- So, the kth missing number is simply the kth number not in the array, meaning:
+  kth missing = k + number of elements before it (left)
+
+Example:
+nums = [2, 3, 4, 7, 11], k = 5
+We calculate:
+missing at index 0 = 2 - 1 = 1
+missing at index 1 = 3 - 2 = 1
+missing at index 2 = 4 - 3 = 1
+missing at index 3 = 7 - 4 = 3
+missing at index 4 = 11 - 5 = 6
+
+We want the first index where missingCount >= k → that’s index 4 (missing = 6)
+
+Now, left = 4, so return left + k = 4 + 5 = 9
+
+Time Complexity:
+O(log n)
+
+Space Complexity:
+O(1)

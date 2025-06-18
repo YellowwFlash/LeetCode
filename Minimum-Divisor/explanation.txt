@@ -1,0 +1,67 @@
+✅ Given Question:
+You are given an integer array `nums` and an integer `threshold`. You need to find the smallest integer divisor such that the sum of all elements divided by the divisor (rounded up) is less than or equal to `threshold`.
+
+If no such divisor exists, return -1.
+
+✅ Given Data:
+- nums[]: an array of positive integers
+- threshold: a positive integer
+- Goal: Find the minimum divisor such that:
+    sum of ceil(nums[i] / divisor) for all i <= threshold
+
+✅ Intuition:
+This is a classic "search on answer space" problem. 
+The higher the divisor, the smaller the result of each division (rounded up), which means the total sum decreases.
+So, the function `sum(ceil(nums[i] / divisor))` is monotonically decreasing with increasing divisor — perfect for binary search.
+
+------------------------------------------------------------
+Approach 1: Linear Scan
+------------------------------------------------------------
+    - Loop through possible divisors from 1 to max(nums)
+    - For each divisor, calculate the total sum of ceil(nums[i] / divisor)
+    - The first divisor where the total sum is <= threshold is your answer
+
+    Time Complexity:
+    - O(n × max(nums))
+
+    Space Complexity:
+    - O(1)
+
+------------------------------------------------------------
+Approach 2: Binary Search (Efficient)
+------------------------------------------------------------
+    - Search space: [1, max(nums)] 
+    (The search space will start from 1 because that will be the smallest possible divisor for any number
+    and the space will end with max(nums) because that could be the largest possible divisor in the array)
+    - Use binary search to find the minimum valid divisor
+
+    Steps:
+    1. Set low = 1, high = max(nums)
+    2. While low <= high:
+        - mid = (low + high) / 2
+        - If total sum using mid as divisor <= threshold:
+            - Store mid as a potential answer
+            - Try smaller divisors (high = mid - 1)
+        - Else:
+            - Try larger divisors (low = mid + 1)
+
+    Time Complexity:
+    - O(n × log(max(nums)))
+
+    Space Complexity:
+    - O(1)
+
+------------------------------------------------------------
+Helper Function: isValidDivisor(nums, threshold, divisor)
+------------------------------------------------------------
+- For each num in nums:
+- Calculate ceil(num / divisor) efficiently using:
+    (num + divisor - 1) / divisor
+- If the total sum exceeds threshold, return false
+- Else, return true
+
+Why (num + divisor - 1) / divisor works:
+- It simulates ceiling division using integer math
+- Avoids using floating point (Math.ceil) and is faster
+
+

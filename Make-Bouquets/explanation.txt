@@ -1,0 +1,49 @@
+✅ Given Question:
+You are given an array bloomDay[], where bloomDay[i] represents the day the ith flower will bloom.
+You are also given two integers: m (number of bouquets needed) and k (number of adjacent flowers per bouquet).
+Your task is to find the minimum number of days needed to make at least `m` bouquets from the flowers, where each bouquet consists of exactly `k` adjacent bloomed flowers.
+
+If it is impossible to make `m` bouquets, return -1.
+
+✅ Given Data:
+- bloomDay[]: An array of size n, where bloomDay[i] >= 1
+- m: Number of bouquets to make
+- k: Number of adjacent flowers required for each bouquet
+
+✅ Intuition:
+The flowers bloom at different days. You need to find the earliest day on which you can collect at least `m` bouquets, each from `k` adjacent flowers that have already bloomed.
+
+This is a classic search problem: instead of testing every day one-by-one (brute force), we can binary search over the days to find the minimum valid one.
+
+------------------------------------------------------------
+Approach: Binary Search on Answer Space
+------------------------------------------------------------
+
+    1. Search Space:
+    - The minimum possible day is the earliest bloom day in the array.
+    - The maximum possible day is the latest bloom day in the array.
+
+    2. Binary Search:
+    - Use binary search over the range [min bloom day, max bloom day].
+    - For each mid-day:
+        - Use a helper function `isValidDay(...)` to check if we can make at least `m` bouquets on this day.
+        - If yes, store the current day as a potential answer and search the left half (earlier days).
+        - If no, search the right half (later days).
+
+    3. Validity Check (`isValidDay`):
+    - Traverse the bloomDay array.
+    - Count how many adjacent flowers have bloomed on or before the current day.
+    - When a flower hasn't bloomed, calculate how many bouquets can be made from the current streak using `count / k`.
+    - Reset count and continue.
+    - At the end, make sure to count any remaining flowers.
+    - Return true if total bouquets >= m.
+
+    4. Edge Case Handling:
+    - If it's not possible to make `m` bouquets at all, the binary search will return -1.
+
+    Time Complexity:
+    - O(n × log(maxDay - minDay)), where n is the size of bloomDay[]
+
+    Space Complexity:
+    - O(1)
+
