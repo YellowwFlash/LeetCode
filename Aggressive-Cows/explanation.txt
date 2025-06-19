@@ -1,0 +1,47 @@
+✅ Given Question:
+We are given an array positions[] that represents the positions of stalls along a number line. We need to place 'cows' number of cows in these stalls such that the minimum distance between any two cows is as large as possible. The goal is to return this maximum possible minimum distance.
+
+✅ Given Data:
+- An array positions[] of integers (positions of the stalls)
+- An integer cows representing how many cows we need to place
+- All cows must be placed in different stalls
+- We want to maximize the minimum distance between any two placed cows
+
+✅ Intuition:
+We want to spread the cows as far apart as possible, but we are restricted to placing them in the given stall positions. If we try a particular minimum distance and can still place all cows, we can try a larger one. If we can't, we need to try smaller distances. This gives us a way to use binary search on the possible distance values.
+
+------------------------------------------------------------
+Approach 1: Linear Search (Simple but slow)
+------------------------------------------------------------
+- First, sort the positions array.
+- Try all possible minimum distances one by one, from 1 up to the largest possible distance (which is the distance between the farthest stalls).
+- For each distance, check if it's possible to place all cows such that the gap between any two cows is at least that distance.
+- Stop when we find a distance that no longer works.
+
+🕒 Time Complexity:
+- Sorting takes O(n log n), where n is the number of stalls.
+- Trying each distance from 1 to (max - min) is O(d), where d is the range of stall positions.
+- For each distance, we check placement in O(n) time.
+- Final complexity: O(n log n + d × n)
+
+------------------------------------------------------------
+Approach 2: Binary Search (Efficient and preferred)
+------------------------------------------------------------
+- Sort the stall positions first.
+- Use binary search to find the largest minimum distance that still allows placing all cows.
+- Set low = 1 and high = (max - min), the range of possible answers.
+- At each step:
+  - Try the middle value as a candidate for the minimum distance.
+  - Use a greedy check to see if we can place all cows with at least this distance between them.
+  - If placement is possible, we try a bigger distance (move to the right half).
+  - If not, we try a smaller distance (move to the left half).
+- The process continues until we find the best possible distance.
+
+🕒 Time Complexity:
+- Sorting takes O(n log n)
+- Binary search runs in O(log d), where d is the range of stall positions
+- Each binary search step takes O(n) to check placement
+- Final complexity: O(n log n + n log d)
+
+✅ Optimization Tip:
+Instead of checking every possible distance one by one, binary search narrows down the correct answer much faster by reducing the search space by half each time. Always sort the input first when positions matter in such problems.

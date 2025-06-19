@@ -1,0 +1,69 @@
+✅ Given Question:
+We are given an array 'pages[]' where pages[i] represents the number of pages in the i-th book. We are also given an integer 'students' representing the number of students.
+(Exact same solution for questions : Painter's Partition, Split array-largest sum)
+
+The task is to allocate all books to the students such that:
+- Each student gets at least one book.
+- Each book is assigned to exactly one student.
+- Books assigned to a student must be contiguous.
+- The goal is to minimize the maximum number of pages assigned to any student.
+
+If it is not possible to allocate, return -1.
+
+✅ Given Data:
+- pages[]: An array of integers representing the pages in each book
+- students: An integer representing the number of students
+
+✅ Intuition:
+We need to distribute books so that no student is overburdened, and the most loaded student has as few pages as possible. The idea is to minimize the **maximum pages** allocated to any student. This is a classic case of searching for the minimum "maximum" value, which is perfect for binary search on the answer space.
+
+------------------------------------------------------------
+Approach 1: Linear Search (Brute Force)
+------------------------------------------------------------
+- First, calculate:
+    - The sum of all pages (upper bound of search)
+    - The maximum single book (lower bound of search)
+- Try every value between max(pages) and sum(pages)
+- For each possible maximum page limit:
+    - Try to allocate books such that no student receives more than this limit
+    - Return the first limit that allows a valid allocation
+
+🕒 Time Complexity:
+- Calculating sum and max: O(n)
+- Trying every page limit from max to sum: O(sum - max)
+- For each limit, check allocation in O(n)
+- Total: O((sum - max) × n)
+
+------------------------------------------------------------
+Approach 2: Binary Search (Efficient)
+------------------------------------------------------------
+- Use binary search on the range [max(pages), sum(pages)]
+- At each step:
+    - Take mid = (low + high) / 2 as the tentative maximum page limit
+    - Check if allocation is possible under this limit
+        - Allocate books greedily to students without exceeding the limit
+    - If possible:
+        - Store mid as a potential answer
+        - Try to minimize further (high = mid - 1)
+    - If not possible:
+        - Increase the limit (low = mid + 1)
+- Return the smallest valid limit found
+
+🕒 Time Complexity:
+- Binary search range: log(sum - max)
+- Each allocation check: O(n)
+- Total: O(n × log(sum - max))
+
+------------------------------------------------------------
+✅ Validation Logic (Greedy Check):
+- Iterate through the pages array
+- Track total pages assigned to the current student
+- If adding a book exceeds the current page limit:
+    - Assign the book to a new student
+- Count how many students are needed
+- If students used > given students: return false
+- Otherwise, return true only if exactly the given number of students are used
+
+------------------------------------------------------------
+✅ Edge Case:
+- If the number of books is less than the number of students, return -1 (not enough books to allocate at least one per student)

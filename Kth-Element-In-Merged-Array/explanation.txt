@@ -1,0 +1,35 @@
+✅ Given Question:
+You are given two sorted arrays, nums1 and nums2, and an integer k.
+The task is to return the k-th smallest element in the merged array,
+which would result from combining the two arrays in sorted order.
+
+✅ Given Data:
+- Two sorted integer arrays: nums1 and nums2
+- An integer k (1-based index of the element in the merged sorted array)
+
+✅ Intuition:
+Since both arrays are already sorted, we don't need to merge the entire arrays.
+We only need to simulate the merging process up to the k-th position.
+This makes it possible to avoid extra space in one approach.
+
+------------------------------------------------------------
+Approach 1: Extra Space (Full Merge)
+------------------------------------------------------------
+- Merge both sorted arrays into a new array.
+- Stop merging once we've added k elements.
+- Return the element at position k - 1 (0-based indexing).
+
+Time Complexity: O(n + m), where n = nums1.length and m = nums2.length
+Space Complexity: O(n + m), due to the extra array used for merging
+
+------------------------------------------------------------
+Approach 2: Pointer Technique (Without Extra Space)
+------------------------------------------------------------
+- Use two pointers to iterate through nums1 and nums2.
+- At each step, pick the smaller of the two current elements and move that pointer forward.
+- Count the total elements picked.
+- Stop once we've picked k elements and return the last picked value.
+
+Time Complexity: O(k), as we only traverse up to k elements
+Space Complexity: O(1), no extra space is used
+

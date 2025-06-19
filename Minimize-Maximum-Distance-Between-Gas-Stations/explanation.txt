@@ -1,0 +1,90 @@
+✅ Given Question:
+You're given an array of increasing positions along a highway where gas stations already exist. You are allowed to add up to 'k' additional gas stations anywhere between these positions. Your goal is to add these stations in such a way that the longest distance between any two adjacent gas stations becomes as small as possible. In other words, after placing the stations, the largest gap between any two gas stations should be minimized.
+
+✅ Given Data:
+- An array `positions[]` containing sorted positions of existing gas stations
+- An integer `k`, representing the maximum number of gas stations you can add
+- You can only place new stations between existing ones (not outside the range)
+- You must return the minimum possible value of the largest distance between two adjacent stations after placing the new ones
+
+✅ Intuition:
+This problem is a type of optimization problem, where we aim to minimize the **maximum** distance after performing up to `k` insertions. Since minimizing a maximum value under constraints is a common pattern, this naturally leads to trying a **binary search on the answer**.
+
+We consider three potential approaches:
+
+------------------------------------------------------------
+Approach 1: Greedy Linear Simulation
+------------------------------------------------------------
+In this approach, we simulate placing the gas stations one at a time in the current longest available segment.
+
+Step-by-step intuition:
+1. First, recognize that the initial gaps between stations are fixed. The largest of these is the biggest problem — it contributes most to the final answer.
+2. To reduce the largest gap, we place a station in that gap, splitting it into two smaller gaps.
+3. We repeat this process `k` times: always finding the currently largest gap (after taking into account how many stations have already been placed in it) and placing another station there.
+4. Each gap can be divided into multiple segments if multiple stations are added there.
+5. After placing all `k` stations, we go through all gaps and compute the length of the largest segment formed within any of the original gaps.
+
+Why this works:
+- It's greedy — at each step we reduce the current worst-case segment.
+- Although not the most optimal in terms of time complexity, it gives an intuitive grasp of what placing stations manually looks like.
+
+Time Complexity: O(k × n), where n is the number of gaps.
+Space Complexity: O(n) for tracking how many stations were added per gap.
+
+------------------------------------------------------------
+Approach 2: Greedy with Priority Queue
+------------------------------------------------------------
+This is an optimized version of Approach 1. Instead of scanning all segments each time to find the largest one, we use a priority queue (max heap) to always access the current worst segment in logarithmic time.
+
+Step-by-step intuition:
+1. Each gap between two existing stations is treated as an interval that can be divided into smaller sub-intervals by adding gas stations.
+2. Initially, each gap is considered as having only 1 segment.
+3. We store each gap in a priority queue, where the priority is based on the current largest sub-interval length.
+4. For each of the `k` additions:
+   - We extract the gap that currently has the longest sub-interval.
+   - We increase the number of divisions in that gap (effectively placing a station).
+   - We compute the new maximum sub-interval length for that gap and push it back into the queue.
+5. After `k` additions, the top of the queue holds the largest remaining sub-interval — this is the minimized maximum distance.
+
+Why this works:
+- It's more efficient than scanning every segment on each iteration.
+- Since the heap always gives the segment with the highest current impact, the greedy logic is preserved with better performance.
+
+Time Complexity: O(k × log n), where n is the number of initial segments (positions.length - 1)
+Space Complexity: O(n) for the heap and segment tracking.
+
+------------------------------------------------------------
+Approach 3: Binary Search on Answer
+------------------------------------------------------------
+This is the most optimal and scalable solution. Instead of placing stations one-by-one, we flip the problem:
+
+Can we determine whether a certain maximum distance is achievable with at most `k` new stations?
+
+If yes → try smaller distance.  
+If no → try larger distance.
+
+Step-by-step intuition:
+1. The minimum possible maximum distance is 0 (theoretical limit), and the maximum possible is the largest gap between any two adjacent stations.
+2. Use binary search to find the smallest distance `D` such that it's possible to divide every segment into parts ≤ D using at most `k` stations.
+3. For each guess `D`, we check how many additional stations would be needed:
+   - For each gap between stations:
+     - Divide the gap by `D` to see how many equal-length sub-intervals are needed.
+     - The number of additional stations for this gap is (gap / D), rounded down.
+     - Sum these over all gaps.
+4. If total stations needed ≤ k, then `D` is valid; try to find a smaller one.
+5. If more than `k` are needed, `D` is too small; try a larger one.
+6. Keep refining until the search space is within an acceptable precision (like 1e-6).
+
+Why this works:
+- We turn the continuous problem into a decision problem over real numbers.
+- Binary search over real numbers works because the condition (stations needed ≤ k) becomes true for all D larger than the actual minimum, and false for all smaller.
+
+Time Complexity: O(n × log((max gap) / ε)), where ε is the precision (e.g. 1e-6)
+Space Complexity: O(1)
+
+✅ Optimization Tip:
+When calculating how many stations are needed for a gap, we can use:
+   stations_needed = floor(gap / D)
+But if gap is perfectly divisible, we may overcount. So, a more accurate method:
+   stations_needed = (int)(gap / D)
+   If (gap % D == 0), reduce count by 1

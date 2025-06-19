@@ -1,0 +1,43 @@
+✅ Given Question:
+You are given two sorted arrays (nums1 and nums2), and you are required to find the **median** of the two arrays combined. The arrays may be of different lengths and can include duplicates. The median is the middle value in a sorted list of numbers. If the list has an even number of elements, the median is the average of the two middle values.
+
+✅ Given Data:
+- Two sorted arrays: nums1[] and nums2[]
+- You must return a single median value, which may be a whole number or a decimal (double)
+- The combined array should not be created explicitly — we want to find the median in an efficient way
+
+✅ Intuition:
+Since the arrays are already sorted, we can simulate the merging of the two arrays (like in merge sort), but instead of building the entire merged array, we only track the elements around the middle. This saves time and space.
+
+We only need to keep track of:
+- The element at index (m / 2), and
+- The element at index (m / 2 - 1), where m is the total number of elements in both arrays.
+
+Why these two?
+- If total count m is even: median = average of elements at m/2 and (m/2 - 1)
+- If m is odd: median = element at m/2
+
+✅ Explanation of the Steps:
+1. Compute the total number of elements `m` as the sum of lengths of nums1 and nums2.
+2. Initialize two variables to hold the potential median elements (`ele1` and `ele2`) that will be updated during traversal.
+3. Use two pointers (one for each array) and a count variable to simulate the merge process.
+4. At each step, compare the current elements of both arrays and move the pointer that has the smaller element.
+5. Increase the count and check if it matches either of the two target indices (m/2 or m/2 - 1). If so, update `ele1` or `ele2` accordingly.
+6. Once you've passed both target positions, stop.
+7. If one array gets exhausted before reaching the median position, continue processing the remaining elements of the other array.
+8. At the end:
+   - If m is odd, return the middle element (ele1).
+   - If m is even, return the average of the two middle elements (ele1 and ele2), making sure to divide the sum using floating point precision.
+
+✅ Time Complexity:
+O(m + n) in the worst case, where m and n are the lengths of the two arrays — but the loop can break early after reaching the median, so it's closer to O((m + n) / 2) in practice.
+
+✅ Space Complexity:
+O(1) — no additional space is used apart from a few integer and pointer variables.
+
+✅ Edge Case Handling:
+- If one of the arrays is empty, the loop naturally handles it by continuing through the other.
+- The code doesn't explicitly check for null inputs or completely empty combined input, which would need to be handled separately if required.
+
+✅ Key Insight:
+Instead of merging the arrays into a new one, simulate the merge just long enough to find the median. This avoids unnecessary work and matches the pattern of problems where you care about positions, not the whole array.
