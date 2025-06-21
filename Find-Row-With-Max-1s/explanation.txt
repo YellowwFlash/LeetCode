@@ -1,0 +1,85 @@
+✅ Given Question:
+You're given a non-empty matrix `mat` of size `n x m`, where each element is either 0 or 1.
+Each row in the matrix is sorted in **ascending order** (all 0s appear before 1s).
+Your task is to find:
+    - The **index of the row** that contains the **maximum number of 1s**.
+
+✅ Given Data:
+You have:
+    - A binary matrix `int[][] matrix` with `n` rows and `m` columns.
+    - Each row is **sorted** (0s first, then 1s).
+    - Your goal is to return the **index of the row with the most 1s**.
+    - If multiple rows have the same maximum number of 1s, return the one with the **smallest index**.
+    - If no 1s are present in the matrix, return -1.
+
+✅ Intuition:
+Because each row is sorted, the 1s in every row appear **together at the end** of the row.
+This means:
+    - All 1s in a row are grouped starting from some index `j` to the end of the row.
+    - Once we find the **first 1** in a row, we automatically know how many 1s there are: it’s `m - j`.
+    - Therefore, we do **not** need to count every 1 individually. We can stop searching early, or use binary search to find the starting index of 1s.
+
+There are multiple ways to solve this, each with different performance characteristics.
+
+------------------------------------------------------------
+Approach-1: Linear Scan to Count 1s
+------------------------------------------------------------
+🔹 What It Does:
+    - Traverse **every element** of each row.
+    - For every value in a row, check if it is 1. If yes, increment a counter.
+    - After finishing a row, compare the count of 1s with the current maximum.
+    - If this row has more 1s, update the result to the current row index.
+
+🔹 Time Complexity: O(n * m)
+    - It checks every element in the matrix.
+
+🔹 When to Use:
+    - This is the simplest approach and good for understanding the problem.
+    - Not suitable for large matrices due to inefficiency.
+
+------------------------------------------------------------
+Approach-2: Optimized Linear Scan (Break on First 1)
+------------------------------------------------------------
+🔹 What It Does:
+    - For each row, **scan left to right**.
+    - The moment you find the first 1 at index `j`, **stop the loop**.
+    - Since the row is sorted, all values after `j` are 1s, so:
+        - Count of 1s in that row = `m - j`.
+    - If this count is greater than the current max, update the row index and the count.
+
+🔹 Time Complexity: O(n * k)
+    - Where `k` is the average number of values checked per row before the first 1.
+    - In the best case (1s appear early), it's much faster than brute-force.
+
+🔹 When to Use:
+    - Ideal when matrix rows have a large number of leading 0s.
+    - Easy to implement and significantly faster in practice than a full scan.
+
+------------------------------------------------------------
+Approach-3: Binary Search to Find First 1
+------------------------------------------------------------
+🔹 What It Does:
+    - For each row, use **binary search** to find the index of the **first occurrence of 1**.
+    - If a 1 is found at index `j`, then count of 1s = `m - j`.
+    - Keep track of the row with the highest number of 1s seen so far.
+
+🔹 How Binary Search Helps:
+    - Start with left = 0, right = m - 1.
+    - Calculate mid = (left + right) / 2.
+    - If mid is 1, store it and move left to find earlier 1s.
+    - If mid is 0, move right to find the first 1.
+    - Repeat until left > right.
+    - Final result gives the index of the first 1, or -1 if not found.
+
+🔹 Time Complexity: O(n * log m)
+    - For each of the n rows, binary search takes log m time.
+    - Much faster than scanning all m columns per row.
+
+🔹 When to Use:
+    - Best choice for large matrices with many columns.
+    - Efficient and takes full advantage of row sorting.
+
+------------------------------------------------------------
+🧠 Space Used:
+    - All approaches use only a few integer variables (counters, indices).
+    - Space complexity is O(1) — constant space.

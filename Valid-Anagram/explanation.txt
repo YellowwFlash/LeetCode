@@ -1,0 +1,64 @@
+/*
+✅ Given Question:
+Check whether two given strings are anagrams of each other. Two strings are anagrams if they contain 
+the same characters in the same frequency but possibly in different orders.
+
+✅ Given Data:
+Two strings `s1` and `s2` which may contain:
+- Only lowercase English letters (a-z), or
+- Unicode characters (extended alphabets, emojis, symbols, etc.)
+
+The goal is to determine if `s2` is an anagram of `s1`.
+
+✅ Intuition:
+Anagrams have identical character counts. We can check this by:
+1. Sorting both strings and comparing them.
+2. Counting the frequency of each character and comparing counts.
+3. Using a hash map for frequency counting when dealing with Unicode characters.
+
+----------------------------------------
+Approach 1: Sorting Both Strings
+----------------------------------------
+- If lengths differ, return false immediately.
+- Convert both strings to char arrays.
+- Sort both arrays.
+- Compare sorted arrays for equality.
+
+Time Complexity:
+    - O(n log n) due to sorting.
+
+Space Complexity:
+    - O(n) for the char arrays and sorting.
+
+----------------------------------------
+Approach 2: Frequency Counting with Fixed-Size Array
+----------------------------------------
+- Applicable only if input strings contain only lowercase English letters (a-z).
+- If lengths differ, return false.
+- Create an integer array of size 26 for letter counts.
+- Increment counts for characters in `s1`.
+- Decrement counts for characters in `s2`.
+- If any count is not zero at the end, return false; otherwise, true.
+
+Time Complexity:
+    - O(n) for single-pass counting.
+
+Space Complexity:
+    - O(1) fixed size array of length 26.
+
+----------------------------------------
+Approach 3: Frequency Counting with HashMap (Unicode Compatible)
+----------------------------------------
+- Handles Unicode or any character set.
+- If lengths differ, return false.
+- Use a HashMap<Character, Integer> to track counts.
+- Increment counts for each char in `s1`.
+- Decrement counts for each char in `s2`.
+- Return false if a char in `s2` is missing in map or count drops below zero.
+- Finally, verify all counts in map are zero (or alternatively, remove entries when count hits zero and check if map is empty).
+
+Time Complexity:
+    - O(n), where n is length of the strings.
+
+Space Complexity:
+    - O(k), where k is number of unique characters.

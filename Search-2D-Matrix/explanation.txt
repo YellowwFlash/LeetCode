@@ -1,0 +1,83 @@
+✅ Given Question:
+You’re given a 2D matrix of integers and a target value.
+Your task is to determine whether the target value exists in the matrix.
+
+✅ Given Data:
+You have:
+    - A matrix `int[][] matrix` with `n` rows and `m` columns.
+    - Each row is sorted in ascending order.
+    - The matrix contains no duplicates (optional, but simplifies edge cases).
+You need to return:
+    - `true` if the target exists in the matrix,
+    - `false` otherwise.
+
+✅ Intuition:
+Because each row is sorted, you can make smarter decisions about where to search.
+Based on how the matrix is sorted (row-wise vs globally), you can choose between:
+    - Scanning every element.
+    - Skipping rows that can’t contain the target.
+    - Using binary search on rows.
+    - Treating the matrix as a flattened 1D array for global binary search.
+
+------------------------------------------------------------
+Approach-1: Brute-Force Linear Search (Quadratic Scan)
+------------------------------------------------------------
+🔸 Idea:
+    - Traverse each element in every row and column.
+    - If any element equals the target, return true.
+
+🔸 How It Works:
+    - Double loop: outer for rows, inner for columns.
+    - Compare every matrix[i][j] with target.
+
+🔸 Time Complexity: O(n * m)
+🔸 Space Complexity: O(1)
+
+
+------------------------------------------------------------
+Approach-2: Optimized Linear Search with Row Boundary Check
+------------------------------------------------------------
+🔸 Idea:
+    - Use the fact that each row is sorted.
+    - For each row, check if the target **can** be in that row.
+    - If yes, perform a linear scan of that row.
+
+🔸 How It Works:
+    - Check if target lies between the first and last element of the row.
+    - If yes, scan the row.
+    - If target found, return true.
+
+🔸 Time Complexity: Worst case O(n * m), but often much faster.
+🔸 Space Complexity: O(1)
+
+------------------------------------------------------------
+Approach-3: Binary Search on Rows
+------------------------------------------------------------
+🔸 Idea:
+    - Same boundary check per row.
+    - If the row can contain the target, apply binary search on it.
+
+🔸 How It Works:
+    - For each row, if:
+        matrix[i][0] <= target <= matrix[i][m - 1],
+        then perform standard binary search on matrix[i].
+
+🔸 Time Complexity: O(n * log m)
+🔸 Space Complexity: O(1)
+
+------------------------------------------------------------
+Approach-4: Flattened Matrix Binary Search (Row-Major Order)
+------------------------------------------------------------
+🔸 Idea:
+    - If the matrix is **globally sorted**, treat it as a single 1D array.
+    - Perform binary search over the virtual 1D space.
+
+🔸 How It Works:
+    - Index mapping:
+        - 1D index → 2D position:
+            - row = index / m
+            - col = index % m
+    - Compare `matrix[row][col]` with target.
+
+🔸 Time Complexity: O(log(n * m))
+🔸 Space Complexity: O(1)

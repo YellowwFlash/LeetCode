@@ -1,0 +1,45 @@
+✅ Given Question:
+Check whether a given string is a palindrome after converting all characters to lowercase 
+and removing all non-alphanumeric characters.
+
+✅ Given Data:
+A string `String s` that may include uppercase/lowercase letters, numbers, spaces, or punctuation. 
+The goal is to check if the cleaned string reads the same forward and backward.
+
+✅ Intuition:
+To determine if a string is a palindrome, we need to compare characters from the beginning and end 
+while ignoring case and non-alphanumeric characters. There are two common ways to do this:
+1. Build a cleaned version of the string and compare it with its reverse.
+2. Use two pointers moving inward from both ends, skipping invalid characters.
+
+----------------------------------------
+Approach 1: Using a Cleaned String + Reverse
+----------------------------------------
+- Create a StringBuilder to construct a cleaned version of the input string.
+- Convert the string to lowercase to make the comparison case-insensitive.
+- Traverse each character and append only the letters (a–z) to the StringBuilder.
+- Reverse the cleaned string.
+- Compare the cleaned string with its reverse using equals().
+
+Time Complexity:
+    - O(n): One pass to clean the string, another to reverse and compare.
+
+Space Complexity:
+    - O(n): For storing the cleaned string and its reversed version.
+
+----------------------------------------
+Approach 2: Two-Pointer Technique
+----------------------------------------
+- Convert the string to lowercase for uniform comparison.
+- Use two pointers, `left` starting at 0 and `right` at the end of the string.
+- While `left < right`:
+    - Skip characters that are not alphanumeric using `Character.isLetterOrDigit()`.
+    - Compare characters at `left` and `right`.
+    - If characters are not equal, return false.
+    - Otherwise, move both pointers inward.
+
+Time Complexity:
+    - O(n): Each character is processed at most once.
+
+Space Complexity:
+    - O(1): No additional space is required apart from a few variables.

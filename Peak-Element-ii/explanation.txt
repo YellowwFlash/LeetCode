@@ -1,0 +1,45 @@
+✅ Given Question:
+You're given a 2D matrix of integers where:
+    - No two adjacent elements (up, down, left, right) are equal.
+    - A **peak element** is one that is greater than its adjacent elements.
+Your task is to return the position (row, column) of any one **peak element**.
+
+✅ Given Data:
+You have:
+    - A matrix `int[][] matrix` of dimensions `n x m`.
+You are to return:
+    - An array of two integers representing the position of a peak element.
+    - If no peak is found (edge case), return [-1, -1].
+
+✅ Intuition:
+Since each element has only four neighbors (up, down, left, right), and there are no equal neighbors, we can apply a greedy approach using binary search to find a local maximum in O(n log m) time.
+
+------------------------------------------------------------
+Approach-1: Modified Advanced Binary Search on Columns
+------------------------------------------------------------
+🔑 Key Idea:
+    - Perform binary search on the **columns**.
+    - In each mid-column, find the **row with the maximum value**.
+    - Compare that element with its left and right neighbors.
+    - If it's greater than both, it's a **peak**.
+    - If not, move the binary search in the direction of the larger neighbor — because a peak must exist in that direction due to the property of the matrix.
+
+Working of code:
+    - Start with `low = 0` and `high = m - 1` (binary search on columns).
+    - In each iteration:
+        - Compute mid column index.
+        - Call `findMaxRow(matrix, mid)` to get the row index where the mid-column has its maximum value.
+        - Get values of left and right neighbors (handle edge boundaries safely).
+        - Check if this mid-value is greater than both neighbors → return its [row, col] as the peak.
+        - If left neighbor is greater → move binary search to the left half (high = mid - 1).
+        - If right neighbor is greater → move binary search to the right half (low = mid + 1).
+    - Repeat this until a peak is found or the bounds collapse.
+
+📌 Why it’s efficient:
+    - You're only scanning one column at a time for max values → O(n)
+    - You're doing binary search over m columns → O(log m)
+    - Overall time: O(n log m)
+
+🕒 Time Taken:
+    - Time complexity: O(n log m)
+    - Space complexity: O(1)

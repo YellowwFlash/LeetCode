@@ -1,0 +1,30 @@
+✅ Given Question:
+Write a function to find the **longest common prefix** string among an array of strings.
+If there is no common prefix, return an empty string.
+
+✅ Given Data:
+An array of strings `String[] strings`. The goal is to find the longest prefix that all strings start with.
+Example: ["flower", "flow", "flight"] → Output: "fl"
+
+✅ Intuition:
+The longest possible prefix cannot be longer than the **shortest string** in the array.
+So, we first identify that shortest string and then compare it with all others character by character,
+keeping track of the longest matching prefix so far. We update this prefix after each comparison.
+
+----------------------------------------
+Approach: Using the Minimum String Method
+----------------------------------------
+- Step 1: Find the shortest string in the array (`smallest`) — since the prefix can't be longer than this.
+- Step 2: Iterate over each string and compare it with `smallest`, character by character.
+- Step 3: Use a `StringBuilder` to build the current common prefix while comparing characters.
+- Step 4: After each comparison, update `smallest` with the newly found common prefix.
+- Step 5: If at any point the prefix becomes an empty string, return early — no common prefix is possible.
+
+Time Complexity:
+    - O(n * m), where:
+        - n = number of strings
+        - m = length of the shortest string
+    - Each character of each string is compared at most once.
+
+Space Complexity:
+    - O(m): To store the prefix using a `StringBuilder` and final output.

@@ -1,0 +1,32 @@
+✅ Given Question:
+Determine if a string containing only parentheses — '(', ')', '{', '}', '[', ']' — is valid.
+A string is valid if every opening bracket has a corresponding closing bracket of the same type,
+and the pairs are closed in the correct order.
+
+✅ Given Data:
+A string `s` that consists of any combination of the characters: '(', ')', '{', '}', '[', ']'.
+
+✅ Intuition:
+Since valid parentheses must be properly nested and closed in reverse order of opening,
+we can use a **stack** to track the opening brackets. When a closing bracket is encountered,
+we check whether it matches the top of the stack. If all brackets match and the stack is empty at the end,
+the string is valid.
+
+----------------------------------------
+Approach: Using a Stack for Matching
+----------------------------------------
+- Create an empty stack of characters.
+- Traverse the input string one character at a time:
+    - If the character is an opening bracket ('(', '{', or '['), push it onto the stack.
+    - If it is a closing bracket (')', '}', or ']'):
+        - Check if the stack is non-empty and the top of the stack contains the matching opening bracket.
+        - If so, pop the top element from the stack.
+        - If not, the string is invalid — return false.
+- After traversal, if the stack is empty, return true (all brackets were matched properly).
+- If anything remains in the stack, return false (there are unmatched opening brackets).
+
+Time Complexity:
+    - O(n): We traverse the string once, and each push/pop operation is O(1).
+
+Space Complexity:
+    - O(n): In the worst case, all characters are opening brackets (e.g., "(((([[[{{{").

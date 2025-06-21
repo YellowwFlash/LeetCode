@@ -1,0 +1,76 @@
+✅ Given Question:
+You're given a 2D matrix of integers where:
+    - Each row is sorted in ascending order (left to right).
+    - Each column is sorted in ascending order (top to bottom).
+Your task is to find the position (row, column) of a given target.
+If the target does not exist, return [-1, -1].
+
+✅ Given Data:
+You have:
+    - A matrix `int[][] matrix` with 'n' rows and 'm' columns.
+    - An integer `target` to search for.
+You are to return:
+    - The position [i, j] where matrix[i][j] == target.
+    - Return [-1, -1] if the target is not found.
+
+✅ Intuition:
+Because the matrix is sorted in both directions, you can reduce search space by taking strategic steps rather than scanning everything blindly.
+
+------------------------------------------------------------
+Approach-1: Brute-Force Quadratic Search
+------------------------------------------------------------
+Working of code:
+    - Use two nested loops:
+        - Outer loop runs from 0 to n - 1 (row-wise).
+        - Inner loop runs from 0 to m - 1 (column-wise).
+    - For every element at matrix[i][j], compare it with the target.
+    - If a match is found, return [i, j].
+    - If no match is found by the end, return [-1, -1].
+
+🕒 Time Taken:
+    - Time complexity: O(n * m)
+    - Space complexity: O(1)
+
+📌 Straightforward but not efficient for larger matrices.
+
+------------------------------------------------------------
+Approach-2: Binary Search on Each Row
+------------------------------------------------------------
+Working of code:
+    - Loop through each row of the matrix (from 0 to n - 1).
+    - For each row:
+        - Perform binary search from column index 0 to m - 1.
+        - Check the middle element.
+        - If middle element equals the target, return its position.
+        - If middle is greater than target, discard the right half.
+        - If middle is less than target, discard the left half.
+    - If the target is not found in any row, return [-1, -1].
+
+🕒 Time Taken:
+    - Time complexity: O(n * log m)
+    - Space complexity: O(1)
+
+📌 Efficient compared to brute-force, but doesn’t take column-wise sorting into account.
+
+------------------------------------------------------------
+Approach-3: Optimized Top-Right Corner Search
+------------------------------------------------------------
+🔑 Key Idea:
+    - Start from the top-right corner of the matrix:
+        - Leftward movement gives smaller elements (row is sorted).
+        - Downward movement gives larger elements (column is sorted).
+    - This means at each step you can eliminate an entire row or column.
+
+Working of code:
+    - Initialize row to 0 and column to m - 1 (top-right corner).
+    - While row < n and col >= 0:
+        - If matrix[row][col] == target → return [row, col].
+        - If matrix[row][col] > target → move left (col--).
+        - If matrix[row][col] < target → move down (row++).
+    - If loop finishes and target is not found, return [-1, -1].
+
+🕒 Time Taken:
+    - Time complexity: O(n + m)
+    - Space complexity: O(1)
+
+📌 Most optimal for this type of matrix. Combines both row and column sorting to eliminate large portions quickly.

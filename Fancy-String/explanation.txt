@@ -1,0 +1,35 @@
+✅ Given Question:
+Given a string `s`, remove characters so that no character appears **three or more times consecutively**.
+Return the resulting "fancy" string, where no three consecutive characters are the same.
+
+✅ Given Data:
+A string `s` containing only lowercase English letters.
+The output should not have any sequence like "aaa", "bbb", etc.
+
+✅ Intuition:
+We need to ensure that **no character repeats more than two times in a row**.
+To efficiently build the result and track repeats, we:
+1. Keep a `count` of consecutive occurrences of the same character.
+2. Use a `StringBuilder` to efficiently build the final string.
+3. Reset the count whenever the character changes.
+
+----------------------------------------
+Approach: Pointer and Count Tracking
+----------------------------------------
+- Initialize a `StringBuilder` to construct the final result.
+- Initialize `count` to 0 and `current` to a placeholder (e.g., space).
+- Traverse each character in the input string:
+    - If the character is the same as the previous one (`current`):
+        - If `count` is less than 3, append it and increment the count.
+        - If `count` is already 2 or more, skip appending to avoid triple repetition.
+    - If the character is different from the previous one:
+        - Reset `count` to 1.
+        - Update `current` to the new character.
+        - Append it to the result.
+- Return the result as a string.
+
+Time Complexity:
+    - O(n): One pass through the string, and appending to `StringBuilder` is O(1) amortized.
+
+Space Complexity:
+    - O(n): For storing the result string in the `StringBuilder`.
