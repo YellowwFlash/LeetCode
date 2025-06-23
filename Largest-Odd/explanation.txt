@@ -1,0 +1,29 @@
+ ✅ Given Question:
+ Given a numeric string `num`, return the **largest-valued odd number** 
+ (as a substring) that is a non-empty prefix of `num`. 
+ If no such odd number exists, return an empty string.
+
+ ✅ Given Data:
+ - A string `num` consisting of digits ('0'–'9').
+ - The result must be the longest prefix (from the beginning) ending in an odd digit.
+
+ ✅ Intuition:
+ - A number is odd if its last digit is 1, 3, 5, 7, or 9.
+ - To find the largest possible odd prefix:
+     - Start scanning the string from the end.
+     - As soon as you find an odd digit, return the substring from index 0 to that position.
+     - If no odd digit is found, return an empty string.
+
+ ----------------------------------------
+ Approach-1: Using basic math and reverse traversal
+ ----------------------------------------
+ - Loop from the end of the string toward the beginning.
+ - For each character:
+     - Convert it to an integer and check if it is odd using `(digit % 2 == 1)`.
+     - If it’s odd, return the substring from index 0 to current index (inclusive).
+ - If no odd digit is found in the entire string, return "".
+
+ Time Complexity:
+     - O(n): At most one full pass through the string (length n).
+ Space Complexity:
+     - O(1): No extra space used apart from a few variables.

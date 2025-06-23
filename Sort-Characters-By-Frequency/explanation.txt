@@ -1,0 +1,58 @@
+✅ Problem:
+Given a string containing uppercase and lowercase letters, 
+sort the characters in ascending order of frequency.
+Each character should appear in the result as many times as it appeared in the original string.
+
+-----------------------------------------------------
+✅ Approach 1: Using PriorityQueue (Min-Heap)
+-----------------------------------------------------
+🧠 Intuition:
+Think of each character as a "task" that occurred a certain number of times. 
+We want to process tasks with the least number of occurrences first.
+A min-heap (PriorityQueue) helps us do exactly that by always giving us the character with the lowest frequency next.
+
+🔍 Walkthrough:
+1. We first create a frequency array of size 128 (to cover all ASCII characters).
+   Each index in this array corresponds to a character's ASCII value.
+2. For every character in the string, we increment its count in this array.
+3. We then create a PriorityQueue of custom Pair objects, where each Pair stores a character and its frequency.
+4. The PriorityQueue is ordered so that characters with lower frequencies are polled first.
+5. We go through the PriorityQueue, and for each character, we append it to the result as many times as its frequency.
+6. Finally, we return the result string.
+For reverse ordering use b.frequency-a.frequency
+
+✅ Example:
+For input "aabBB", frequencies are: a → 2, b → 1, B → 2
+The sorted output might be: "bBBaa" or similar, depending on heap ordering.
+
+🕒 Time Complexity: O(n + k log k), where n is the input length, k is the number of unique characters.
+🧠 Space Complexity: O(k) for heap storage and O(n) for the result.
+
+-----------------------------------------------------
+✅ Approach 2: Using Bucket Sort
+-----------------------------------------------------
+🧠 Intuition:
+Instead of sorting the characters using a heap, we take advantage of the fact that frequency values are bounded.
+At most, a character can appear `n` times where n is the length of the string.
+So, we can "bucket" characters by their frequency and then read the buckets in order.
+
+🔍 Walkthrough:
+1. We use a frequency array of size 128 again to count occurrences of each character.
+2. While counting, we also keep track of the maximum frequency observed.
+3. We create an array of lists (buckets), where the index represents the frequency.
+   For example, bucket[3] contains characters that appear 3 times.
+4. We fill these buckets by iterating over the frequency array and grouping characters by their frequency.
+5. Finally, we loop over the buckets from lowest to highest frequency.
+   For each character in a bucket, we append it to the result as many times as the bucket index (its frequency).
+6. For reverse ordering use :
+for(int i=bucket.length-1; i>=0; i--) and then same logic
+
+✅ Example:
+For input "aaAbB", the frequencies might be: a → 2, A → 1, b → 1, B → 1
+Buckets will look like:
+  bucket[1] = [A, b, B]
+  bucket[2] = [a]
+Final output: "AbBa" or any similar valid output.
+
+🕒 Time Complexity: O(n), because we avoid sorting and directly place characters in buckets.
+🧠 Space Complexity: O(n) for result + bucket storage.

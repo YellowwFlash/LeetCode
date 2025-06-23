@@ -1,0 +1,36 @@
+ ✅ Given Question:
+ Given a string `s` containing parentheses, remove the outermost parentheses 
+ of every primitive valid parentheses substring.
+
+ ✅ Given Data:
+ A string `s` composed only of '(' and ')'.
+ The output should remove the outermost parentheses from each valid group.
+
+ ✅ Intuition:
+ This problem is inspired by the concept of valid parentheses. 
+ Each time we encounter a '(', we can assume we're entering a deeper level.
+ When we hit a ')', we move back a level.
+ To identify outermost parentheses:
+   - Track the current nesting depth using a counter.
+   - Only add characters to the result when they are not part of the outermost pair.
+
+ ----------------------------------------
+ Approach: Valid Parentheses Counting
+ ----------------------------------------
+ - Initialize a `StringBuilder` to construct the final result.
+ - Initialize a counter `count = 0` to track nesting level.
+ - Traverse each character in the string:
+     - If the character is a closing parenthesis `)`:
+         - Decrement the count first, since it closes the current level.
+     - If the count is not zero after the above step:
+         - This means the current character is not part of the outermost layer,
+           so we append it to the result.
+     - If the character is an opening parenthesis `(`:
+         - Increment the count after appending check, as we are going deeper.
+ - Finally, return the built string from the `StringBuilder`.
+
+ Time Complexity:
+     - O(n): We traverse the input string once and do constant work for each character.
+
+ Space Complexity:
+     - O(n): For storing the result string in the `StringBuilder`.

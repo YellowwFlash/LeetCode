@@ -1,0 +1,38 @@
+ ✅ Given Question:
+ Check whether two strings `s` and `t` are isomorphic.
+
+ ✅ Given Data:
+ Two strings `s` and `t`, possibly containing lowercase letters. 
+ Strings are isomorphic if the characters in `s` can be replaced to get `t`, 
+ such that each character in `s` maps to a unique character in `t`, 
+ and the mapping is consistent throughout the strings.
+
+ ✅ Intuition:
+ For strings to be isomorphic, each character in `s` must map to one and only one 
+ character in `t`, and no two characters in `s` can map to the same character in `t`.
+ To track this:
+   - Use a HashMap to store character mappings from `s` to `t`.
+   - Use a HashSet to ensure no two characters from `s` map to the same character in `t`.
+
+ ----------------------------------------
+ Approach: HashMap + HashSet
+ ----------------------------------------
+ - First, check if the lengths of `s` and `t` are equal. If not, return false.
+ - Initialize a HashMap `map` to store mappings from characters in `s` to characters in `t`.
+ - Initialize a HashSet `set` to keep track of already-mapped characters in `t`.
+ - Iterate through each character in the strings `s` and `t` simultaneously:
+     - If the current character in `s` already has a mapping:
+         - Check if it maps to the current character in `t`.
+         - If not, return false.
+     - If it does not have a mapping yet:
+         - Check if the current character in `t` is already mapped (exists in the set).
+         - If it is, return false to avoid many-to-one mapping.
+         - Otherwise, create a new mapping and add the character to the set.
+
+ Time Complexity:
+     - O(n): One pass through the strings of length `n`.
+
+ Space Complexity:
+     - O(1): Although extra space is used for the HashMap and HashSet, 
+             the number of unique characters is bounded (e.g., 26 for lowercase letters), 
+             so the space is effectively constant.

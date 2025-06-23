@@ -1,0 +1,30 @@
+✅ Problem:
+Given a valid parentheses string (which may include other characters), 
+find the maximum nesting depth of the parentheses.
+
+✅ Goal:
+Return the deepest level of nested `()` pairs in the string.
+For example, in the string "(1+(2*3)+((8)/4))+1", the maximum depth is 3.
+
+-----------------------------------------------------
+✅ Approach: Using a Depth Counter (Valid Parentheses Hack)
+-----------------------------------------------------
+🧠 Intuition:
+Think of parsing a parentheses expression like walking through layers:
+- Each time we see an opening bracket `(`, we go one level deeper (increase depth).
+- Each time we see a closing bracket `)`, we go one level back (decrease depth).
+- The **maximum depth reached** during this process is our answer.
+
+🔍 Walkthrough:
+1. We initialize `currentDepth` as 0 to keep track of the current nesting level.
+2. We also initialize `maxDepth` as -1 (or 0) to record the deepest level we've seen.
+3. We loop through each character in the string:
+   - If we see `'('`, it means we are going deeper into a nested level, so we increment `currentDepth`.
+     At this point, we check if `currentDepth` is greater than `maxDepth` and update `maxDepth` accordingly.
+   - If we see `')'`, it means we are closing a nested level, so we decrement `currentDepth`.
+   - For all other characters (digits, operators, etc.), we ignore them.
+4. After scanning the whole string, `maxDepth` will hold the deepest nesting level of any parentheses.
+
+
+🕒 Time Complexity: O(n), where n is the length of the string (single pass).
+🧠 Space Complexity: O(1), uses constant extra space for counters.

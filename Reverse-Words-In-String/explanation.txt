@@ -1,0 +1,48 @@
+ ✅ Given Question:
+ Reverse the order of words in a given string `s`.  
+ Words are separated by one or more spaces, and the result should have words in reverse order with exactly one space between them and no leading or trailing spaces.
+
+ ✅ Given Data:
+ A string `s` which may contain leading/trailing/multiple spaces and words separated by spaces.
+
+ ✅ Intuition:
+ To reverse words, we need to:
+ - Identify words correctly despite multiple spaces.
+ - Reverse the order of words.
+ - Return a cleaned-up string with words separated by a single space and no extra spaces.
+
+ ----------------------------------------
+ Approach-1: Using split() + two pointers swapping
+ ----------------------------------------
+ - Trim the string to remove leading/trailing spaces.
+ - Use `split("\\s+")` to split string by one or more spaces, resulting in an array of words.
+ - Use two pointers, `start` and `end`, to reverse the array of words in place by swapping.
+ - Join the reversed array with single spaces to form the output string.
+
+ Time Complexity:
+     - O(n): Split and join operate in linear time.
+ Space Complexity:
+     - O(n): Space used for the array of words and output string.
+
+ ----------------------------------------
+ Approach-2: Using two pointers and manual parsing (without split)
+ ----------------------------------------
+ - Initialize two pointers: `end` starting at the end of the string.
+ - While `end` >= 0:
+     - Skip trailing spaces by moving `end` backward.
+     - Find the start of the current word by moving backward until a space or string start.
+     - Append the current word to a StringBuilder.
+     - Repeat until the entire string is processed.
+ - This approach avoids using built-in split or regex, manually extracts and appends words in reverse order.
+
+ Time Complexity:
+     - O(n): Each character is visited at most twice.
+ Space Complexity:
+     - O(n): For the StringBuilder storing the output string.
+
+ ----------------------------------------
+ Summary:
+ ----------------------------------------
+ - Approach 1 is simpler and easier to implement using built-in methods, but may incur overhead from regex splitting.
+ - Approach 2 is more manual and can be faster in practice by avoiding regex and extra arrays.
+ - Both approaches achieve the goal in linear time with linear extra space.

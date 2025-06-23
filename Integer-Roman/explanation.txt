@@ -1,0 +1,38 @@
+✅ Problem:
+Convert an integer to its equivalent Roman numeral representation.
+The input is guaranteed to be within the range from 1 to 3999.
+
+✅ Roman Numeral Basics:
+Roman numerals use combinations of the following symbols and values:
+- M = 1000     D = 500     C = 100
+- L = 50       X = 10      V = 5
+- I = 1
+
+Additionally, subtractive combinations are used for numbers like:
+- IV = 4, IX = 9
+- XL = 40, XC = 90
+- CD = 400, CM = 900
+
+✅ Approach: Using Division and Modulo
+-----------------------------------------------------
+🧠 Intuition:
+The idea is to repeatedly subtract the largest possible Roman numeral value
+from the number and append its corresponding symbol to the result.
+We do this greedily from the largest symbol ("M") down to the smallest ("I").
+
+🔍 Code Walkthrough:
+1. We define two parallel arrays:
+   - `values[]`: Roman numeral values sorted from largest to smallest.
+   - `symbols[]`: Corresponding Roman numeral strings for each value.
+2. We use a StringBuilder `result` to construct the final Roman numeral.
+3. We loop through each value-symbol pair:
+   - While `num` is greater than or equal to the current value:
+     - Subtract the value from `num`.
+     - Append the symbol to the result.
+4. We continue this process until `num` is reduced to 0.
+5. The StringBuilder now contains the full Roman numeral.
+
+🕒 Time Complexity: O(1)
+Why? Because the input range is fixed (1 to 3999), so the loop runs a constant number of times.
+🧠 Space Complexity: O(1), aside from the output string.
+

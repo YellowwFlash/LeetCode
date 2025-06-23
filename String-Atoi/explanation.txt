@@ -1,0 +1,65 @@
+/*
+✅ Problem:
+Implement the atoi (ASCII to Integer) function, converting a string `s` to a 32-bit signed integer,
+while handling whitespace, optional sign, valid digits, and integer overflow.
+
+✅ Intuition:
+We want to mimic how humans parse a number from left to right:
+- Skip any whitespace.
+- Read a '+' or '-' sign if present.
+- Read in digits until a non-digit is found.
+- If the result exceeds the 32-bit signed integer range, clamp the value accordingly.
+
+✅ Key Constants:
+- Integer.MAX_VALUE =  2,147,483,647
+- Integer.MIN_VALUE = -2,147,483,648
+
+--------------------------------------------------
+🧠 Code Walkthrough:
+--------------------------------------------------
+
+1️⃣ `while (index < n && Character.isWhitespace(s.charAt(index))) index++;`
+   - Skip all leading whitespace characters. This prepares the string for parsing.
+
+2️⃣ Check for sign:
+   - If the current character is '-', set `sign = -1`, otherwise assume it's '+'.
+   - **BUG IN YOUR CODE**: You're incrementing `index++` regardless of whether a '+' or '-' exists.
+     You should only increment if `s.charAt(index)` is '+' or '-'.
+
+3️⃣ Start parsing digits:
+   `while (index < n && Character.isDigit(s.charAt(index))) { ... }`
+   - Loop over each digit in the string and build the integer one digit at a time.
+
+4️⃣ Overflow Check:
+   `if (number > (Integer.MAX_VALUE - digit) / 10)`
+   - This line ensures we **don’t overflow when doing `number = number * 10 + digit`**.
+   - How it works:
+     - You want to safely compute: `number * 10 + digit`.
+     - To avoid overflow, rearrange the inequality:
+       ```
+       number * 10 + digit <= Integer.MAX_VALUE
+       => number <= (Integer.MAX_VALUE - digit) / 10
+       ```
+     - If `number` exceeds this threshold, we return the clamped value:
+       - `Integer.MAX_VALUE` for positive numbers
+       - `Integer.MIN_VALUE` for negative numbers
+
+5️⃣ Add digit to `number`:
+   `number = number * 10 + digit;`
+   - This accumulates the result in-place.
+
+6️⃣ Return the result:
+   `return sign * number;`
+   - The final integer result is returned after applying the appropriate sign.
+
+--------------------------------------------------
+✅ Time Complexity: O(n)
+- Where n is the length of the input string.
+
+✅ Space Complexity: O(1)
+- Only a few integer variables are used; no extra space required.
+
+✅ Example:
+Input: "   -91283472332"
+- After trimming and parsing digits: 91283472332
+- This exceeds Integer.MIN_VALUE, so the result is clamped to -2147483648
