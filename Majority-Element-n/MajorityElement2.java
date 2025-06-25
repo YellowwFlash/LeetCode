@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class MajorityElement {
+public class MajorityElement2 {
 
     // Approach-1 -> Using Extended Boyer Moore Voting algorithm
     public static List<Integer> majorityElement(int[] nums) {

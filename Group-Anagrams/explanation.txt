@@ -1,0 +1,50 @@
+✅ Given Question:
+Group a list of strings into groups of anagrams. An anagram is formed by rearranging the letters of a word,
+using all the original letters exactly once.
+
+✅ Given Data:
+An array of strings `String[] words`, where each string consists of lowercase English letters.
+We are to return a list of groups, where each group contains strings that are anagrams of each other.
+
+✅ Intuition:
+Anagrams have identical character compositions, meaning:
+    - Sorting the characters results in the same string.
+    - Or, their frequency distributions (e.g., 2 a’s, 1 b, etc.) match exactly.
+By using either the sorted string or a frequency-based key, we can group them in a HashMap.
+
+-----------------------------------------
+Approach: Using Sorting (groupAnagramsSort)
+-----------------------------------------
+- For each word in the input array:
+    - Convert the word to a character array and sort it alphabetically.
+    - Convert the sorted array back into a string (this will be the key).
+    - Use this sorted string as a key in a HashMap.
+    - Add the original word to the list of anagrams under this key.
+- Finally, collect all values (lists of grouped anagrams) from the map and return them.
+
+Time Complexity:
+    - O(n * k log k), where n = number of words, k = average length of each word.
+      Sorting each word takes O(k log k), done for n words.
+
+Space Complexity:
+    - O(n * k): HashMap stores all words, and each word is up to k characters long.
+
+-----------------------------------------
+Approach: Using Frequency Count (groupAnagramsCount)
+-----------------------------------------
+- For each word in the input array:
+    - Initialize a frequency array of size 26 (for each lowercase letter).
+    - Count how many times each character appears in the current word.
+    - Build a string key by appending each character according to its count,
+      in alphabetical order (this ensures identical anagram words generate the same key).
+    - Use this frequency-based string as a key in a HashMap.
+    - Add the original word to the list of anagrams under this key.
+- Finally, return all values from the map as grouped anagram lists.
+
+Time Complexity:
+    - O(n * k), where n = number of words, k = average length of each word.
+      Character counting takes O(k) per word.
+
+Space Complexity:
+    - O(n * k): HashMap stores n entries with words of length up to k.
+    - Additional space: O(1) for the frequency array (fixed size 26).

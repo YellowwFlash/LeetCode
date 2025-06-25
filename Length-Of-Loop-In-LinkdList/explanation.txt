@@ -1,0 +1,38 @@
+✅ Given Question:
+Find the length of a cycle (loop) in a singly linked list if one exists.
+
+✅ Given Data:
+A singly linked list defined by a `Node` class (`data`, `next`).
+You are provided the `head` of the list and asked to return the **length of the cycle**.
+If there is no cycle, return `0`.
+
+✅ Intuition:
+Use Floyd’s Tortoise and Hare algorithm to detect if a cycle exists.
+Once a cycle is detected (when slow == fast), we traverse from that meeting point
+until we complete the full cycle to measure its length.
+
+-----------------------------------------
+Approach: Floyd's Cycle Detection + Loop Counting (lengthOfLoop)
+-----------------------------------------
+1. Initialize two pointers:
+    - `slow` moves one step at a time.
+    - `fast` moves two steps at a time.
+
+2. Traverse the list until `fast == slow`, which indicates a cycle exists.
+
+3. To compute the length of the cycle:
+    - Start from the meeting node.
+    - Move one step at a time, counting how many steps it takes to return to the same node.
+
+4. Return the count as the cycle length.
+
+Time Complexity:
+    - O(n): In the worst case, we traverse the full list to detect the cycle.
+    - Once inside the cycle, we traverse it once to compute its length.
+
+Space Complexity:
+    - O(1): No extra space is used apart from a few pointers and counters.
+
+✅ Example:
+If the cycle is: 3 → 4 → 5 → 6 → 4...
+The function will return `3` (nodes 4 → 5 → 6 form the loop).

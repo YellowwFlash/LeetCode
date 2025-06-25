@@ -1,0 +1,33 @@
+✅ Given Question:  
+Find the sum of the "beauty" of all substrings of a given string `s`.  
+The "beauty" of a substring is defined as the difference between the highest frequency and the lowest frequency 
+(of any character appearing in the substring at least once).  
+
+✅ Given Data:  
+A lowercase alphabetic string `String s`, and we need to evaluate every possible substring and 
+calculate its beauty as `maxFreq - minFreq`, where both max and min consider only non-zero frequencies.  
+The result is the sum of beauties of all possible substrings.
+
+✅ Intuition:  
+A brute-force approach generates all substrings and counts character frequencies for each, 
+calculating the max and min frequencies each time.  
+To optimize, we can avoid creating actual substrings and simply count characters on the fly using a frequency array, 
+calculating the beauty directly by checking all non-zero values.
+
+-----------------------------------------  
+Approach: Brute-force with Frequency Array  
+-----------------------------------------  
+- Loop through all possible starting indices `i` of substrings.
+- For each starting index `i`, initialize a frequency array `freq[26]` to zero.
+- Then, for each ending index `j` ≥ `i`, update the frequency of the character at position `j`.
+- For each substring defined by [i..j], compute:
+    - `maxFreq`: the highest frequency of any character in the current frequency array.
+    - `minFreq`: the lowest non-zero frequency.
+- Add `(maxFreq - minFreq)` to the total result.
+
+Time Complexity:  
+    - O(n² * 26) → O(n²), where n is the length of the string.  
+      For each substring (O(n²)), we scan the freq array of 26 characters.
+
+Space Complexity:  
+    - O(1): We use a constant-sized array (26) for character frequencies.

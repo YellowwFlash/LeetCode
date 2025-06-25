@@ -1,0 +1,42 @@
+/*
+✅ Given Question:
+Find the middle node of a singly linked list. If the list has an even number of nodes,
+return the second middle node as per standard convention.
+
+✅ Given Data:
+A singly linked list defined using a `Node` class with `int data` and a `next` pointer.
+We are given the `head` of the list and must return the value at the middle node.
+
+✅ Intuition:
+To find the middle node:
+- One way is to count the total number of nodes and then access the middle index.
+- A more efficient way is to use two pointers — one moving twice as fast as the other (Tortoise-Hare approach).
+
+-----------------------------------------
+Approach-1: Counting and Finding (findMiddleCounting)
+-----------------------------------------
+- First, traverse the entire linked list to count the total number of nodes.
+- Calculate the middle index using `(count / 2) + 1`.
+- Traverse the list again to reach the middle node by counting up to the middle index.
+
+Time Complexity:
+    - O(n): Two full traversals of the list.
+
+Space Complexity:
+    - O(1): Only counters and pointers used.
+
+-----------------------------------------
+Approach-2: Tortoise-Hare (Slow and Fast Pointers) (findMiddleTortoiseHare)
+-----------------------------------------
+- Initialize two pointers: `slow` and `fast`, both starting at the head.
+- Move `slow` one node at a time, and `fast` two nodes at a time.
+- When `fast` reaches the end (null), `slow` will be at the middle.
+
+This works because `fast` moves twice as quickly, so by the time it covers the full list,
+`slow` will be halfway through.
+
+Time Complexity:
+    - O(n): Only one traversal required.
+
+Space Complexity:
+    - O(1): Only two pointers used.

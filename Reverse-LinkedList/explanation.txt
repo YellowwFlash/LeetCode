@@ -1,0 +1,58 @@
+✅ Given Question:
+Reverse a singly linked list.
+
+✅ Given Data:
+A singly linked list defined by a `Node` class with an integer `data` and a `next` pointer.
+You are given the `head` of the list, and you must return a new list where the order of nodes is reversed.
+
+✅ Intuition:
+There are three standard ways to reverse a linked list:
+1. Use a stack to store values and rebuild the list.
+2. Reverse the links in-place using three pointers.
+3. Use recursion to reverse the list from the tail back to the head.
+
+-----------------------------------------
+Approach-1: Using a Stack (reverseUsingStack)
+-----------------------------------------
+- Traverse the original list and push each node's value onto a stack.
+- Then pop values from the stack and create a new linked list in reversed order.
+- The last element of the original list becomes the head of the new list.
+
+Time Complexity:
+    - O(n): Each node is visited once during push and once during pop.
+
+Space Complexity:
+    - O(n): Stack stores all node values, and a new list is constructed.
+
+
+-----------------------------------------
+Approach-2: Using Three Pointers (reverseUsingPointers)
+-----------------------------------------
+- Use three pointers:
+    - `prev`: points to the reversed part of the list.
+    - `current`: points to the node being processed.
+    - `next`: temporarily stores the next node.
+- At each step, reverse the `current` node’s pointer to point to `prev`.
+- Move all three pointers one step forward.
+- When `current` becomes null, `prev` will be pointing to the new head of the reversed list.
+
+Time Complexity:
+    - O(n): Each node is visited exactly once.
+
+Space Complexity:
+    - O(1): No extra space used, reversal is done in-place.
+
+
+-----------------------------------------
+Approach-3: Using Recursion (reverseUsingRecursion)
+-----------------------------------------
+- The idea is to recursively reverse the sublist from `head.next` onwards.
+- Once the smaller list is reversed, we fix the pointers by making `head.next.next = head`.
+- Set `head.next = null` to mark the new end of the list.
+- The recursion base case is when the head is null or only one node is left.
+
+Time Complexity:
+    - O(n): Each node is visited once.
+
+Space Complexity:
+    - O(n): Due to recursive call stack (one per node).

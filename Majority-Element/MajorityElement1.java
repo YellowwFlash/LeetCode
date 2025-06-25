@@ -1,4 +1,4 @@
-public class MajorityElement {
+public class MajorityElement1 {
 
     // Approach-1 -> Using Moore's voting algorithm
     public static int majorityElement(int[] nums) {

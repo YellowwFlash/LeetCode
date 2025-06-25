@@ -1,0 +1,55 @@
+/*
+✅ Given Question:
+1. Detect whether a singly linked list contains a cycle.
+2. If a cycle exists, find the node where the cycle begins.
+
+✅ Given Data:
+A singly linked list defined by a `Node` class (`data`, `next`).
+You're provided with the `head` of the list and asked to:
+- Return `true/false` if a cycle exists.
+- Return the node where the cycle starts, if it exists.
+
+✅ Intuition:
+A cycle means some node in the list points back to a previous node.
+To detect it, use Floyd’s Cycle Detection Algorithm (Tortoise and Hare).
+The core idea is:
+- Move one pointer slowly (1 step), and the other quickly (2 steps).
+- If there's a cycle, they will eventually meet inside it.
+- To find the start of the cycle, reset one pointer to the head and move both 1 step at a time.
+
+-----------------------------------------
+Approach-1: Detecting the Presence of a Cycle (detectCycle)
+-----------------------------------------
+- Use two pointers, `slow` and `fast`, both initialized to the head.
+- In each iteration:
+    - Move `slow` by one node.
+    - Move `fast` by two nodes.
+- If `slow` == `fast` at any point → a cycle exists.
+- If `fast` or `fast.next` becomes null → no cycle.
+
+Time Complexity:
+    - O(n): In the worst case, we may traverse the entire list.
+
+Space Complexity:
+    - O(1): Only two pointers are used.
+
+
+-----------------------------------------
+Approach-2: Finding the Start of the Cycle (detectCycleStart)
+-----------------------------------------
+- First detect the cycle using the same `slow` and `fast` pointers.
+- Once `slow == fast` (cycle detected), reset one pointer to the head.
+- Move both pointers one step at a time until they meet again.
+- The meeting point is the **start of the cycle**.
+
+Why this works:
+- Let `a` = distance from head to cycle start.
+- Let `b` = distance from cycle start to meeting point.
+- Let `c` = remaining cycle length so that `b + c` = cycle length.
+- After meeting, moving both pointers from head and meeting point will meet at the cycle start after `a` steps.
+
+Time Complexity:
+    - O(n): Still linear time overall.
+
+Space Complexity:
+    - O(1): Constant extra space.

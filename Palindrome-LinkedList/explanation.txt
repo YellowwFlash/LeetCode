@@ -1,0 +1,40 @@
+✅ Given Question:
+Check whether a singly linked list is a palindrome.
+
+✅ Given Data:
+A singly linked list defined by a `Node` class (`data`, `next`).
+You are provided the `head` of the list and asked to return `true` if the list is a palindrome (reads the same forwards and backwards), otherwise `false`.
+
+✅ Intuition:
+A palindrome has the same values when read in reverse.
+There are two common ways to check this in a linked list:
+1. Use a stack to compare reverse order with forward traversal.
+2. Use the Tortoise-Hare algorithm to find the midpoint, reverse the second half, and compare.
+
+-----------------------------------------
+Approach-1: Using Stack (isPalindromeStack)
+-----------------------------------------
+- Traverse the list once and push all node values onto a stack.
+- Traverse the list again, popping from the stack and comparing values.
+- If all values match, it's a palindrome.
+
+Time Complexity:
+    - O(n): Two traversals of the list — one to push, one to compare.
+
+Space Complexity:
+    - O(n): Stack stores all node values.
+
+
+-----------------------------------------
+Approach-2: Using Tortoise-Hare + In-Place Reversal (isPalindromeTortoiseHare)
+-----------------------------------------
+1. Use Floyd’s algorithm (Tortoise and Hare) to find the midpoint.
+2. Reverse the second half of the list in-place.
+3. Compare the first half and reversed second half node-by-node.
+4. Optionally, reverse the second half again to restore the list.
+
+Time Complexity:
+    - O(n): One traversal to midpoint, one to reverse, and one to compare.
+
+Space Complexity:
+    - O(1): Constant space used, no extra data structures.

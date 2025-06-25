@@ -1,0 +1,30 @@
+
+✅ Given Question:  
+Find the longest palindromic substring within a given string.  
+A palindrome is a string that reads the same forward and backward. The substring must be contiguous, and the goal is to return the longest one.
+
+✅ Given Data:  
+A non-empty string `String s` containing lowercase and/or uppercase letters.  
+We need to find and return the longest substring of `s` that is a palindrome.
+
+✅ Intuition:  
+Every palindrome is centered around one or two characters.  
+By expanding from the center and comparing characters to the left and right, we can efficiently find palindromes without checking all possible substrings.  
+We repeat this process for every possible center in the string.
+
+-----------------------------------------  
+Approach: Center Expansion  
+-----------------------------------------  
+- For each character in the string, treat it as a potential center of a palindrome.
+- Expand outward in both directions to check for matching characters:
+    - Once with the center as a single character (for odd-length palindromes).
+    - Once with the center between two characters (for even-length palindromes).
+- For each expansion, calculate the length of the palindrome.
+- Keep track of the maximum length found, and update the start and end indices accordingly.
+- After traversing all characters, extract and return the substring from `start` to `end`.
+
+Time Complexity:  
+    - O(n²): For each character, we may expand up to the full length of the string.
+
+Space Complexity:  
+    - O(1): No extra space used except a few variables.

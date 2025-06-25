@@ -1,0 +1,47 @@
+✅ Given Question:
+Find the total number of palindromic substrings in a given string.
+A substring is palindromic if it reads the same backward as forward.
+
+✅ Given Data:
+A lowercase string `String s`, and we are to find all possible substrings of `s` that are palindromes.
+We count every palindromic substring, including duplicates and single-character substrings.
+
+✅ Intuition:
+A brute-force method would involve generating all substrings and checking each one for being a palindrome.
+However, this is inefficient. A better method is to expand around every possible center of a palindrome
+(single character or between two characters), and count valid palindromes.
+
+-----------------------------------------
+Approach-1: Brute Force with Substrings (palindromicSubstringsLoops)
+-----------------------------------------
+- Generate all possible substrings of the given string.
+- For each substring, check if it equals its reverse using StringBuilder.
+- If it is a palindrome, increment the result counter.
+
+Time Complexity:
+    - O(n³):
+        - O(n²) to generate all substrings.
+        - O(n) to reverse and check each substring.
+
+Space Complexity:
+    - O(n²) for storing all substrings in a list.
+    - Extra space for string reversal operations.
+
+
+-----------------------------------------
+Approach-2: Expand Around Center (palindromicSubstringsExpandAroundCenter)
+-----------------------------------------
+- For each index in the string:
+    - Treat it as the center of a potential palindrome.
+    - Expand outward to the left and right as long as characters match.
+    - Do this for both odd-length and even-length palindromes.
+- Count every valid expansion as one palindromic substring.
+
+Time Complexity:
+    - O(n²):
+        - There are 2n - 1 centers (n odd, n-1 even).
+        - Each center can expand up to O(n) in the worst case.
+
+Space Complexity:
+    - O(1):
+        - Only counters and pointers used, no extra data structures.

@@ -1,0 +1,27 @@
+ ✅ Given Question:
+ You are given a string `s` and an integer `k`. You may replace up to `k` characters in the string so that the resulting substring contains only the same character.
+ Return the length of the longest such substring you can obtain.
+
+ ✅ Given Data:
+ A string `s` consisting of only uppercase English letters, and an integer `k` representing the maximum allowed character replacements.
+
+ ✅ Intuition:
+ To get the longest uniform substring, we allow up to `k` character changes to convert other characters to the most frequent one in a window.
+ We use the sliding window technique and keep track of character frequencies within the current window.
+ The key observation is: if the number of characters to replace (`window size - max frequency`) exceeds `k`, the window is invalid and must shrink.
+
+ ---------------------------------------------
+ Approach: Sliding Window + Character Frequency Array
+ ---------------------------------------------
+ - Use two pointers `left` and `right` to define a sliding window.
+ - Maintain a frequency array `freq[26]` to count how many times each character appears in the current window.
+ - Track `maxFreq`, the highest character frequency in the current window.
+ - For each character added at `right`, update its frequency and `maxFreq`.
+ - If the number of characters that need to be replaced (`window size - maxFreq`) exceeds `k`, move `left` to shrink the window and update frequencies accordingly.
+ - Always update `maxLength` with the size of the current valid window (`right - left + 1`).
+
+ Time Complexity:
+     - O(n): Each character is visited at most twice (once by `right`, once by `left` when shrinking the window).
+
+ Space Complexity:
+     - O(1): Constant space used for the frequency array of size 26 (fixed alphabet size).
