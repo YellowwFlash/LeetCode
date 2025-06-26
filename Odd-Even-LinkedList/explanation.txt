@@ -1,0 +1,62 @@
+✅ Given Question:
+Rearrange a singly linked list such that all nodes at odd positions are grouped 
+together followed by all nodes at even positions.
+
+✅ Given Data:
+A singly linked list defined by a `Node` class with an integer `data` and a `next` pointer.
+You are given the `head` of the list and must rearrange the nodes in-place or using 
+auxiliary storage to first include all odd-positioned nodes, then even-positioned ones.
+
+✅ Intuition:
+The position of a node (1-based index) determines whether it's odd or even.
+We can approach this problem in two primary ways:
+1. Store values separately in ArrayLists and then rewrite the list.
+2. Change the node links in-place using two pointers.
+
+-----------------------------------------
+Approach-1: Using ArrayLists (oddEvenUsingArrayLists)
+-----------------------------------------
+- Traverse the original list and collect values at odd and even positions into two separate ArrayLists.
+- Then re-traverse the original list and first replace node values with the odd list, followed by the even list.
+- This approach modifies the node values but not the structure of the list.
+
+Time Complexity:
+    - O(n): Each node is visited twice (once for collection, once for overwriting).
+
+Space Complexity:
+    - O(n): Two ArrayLists store values from the list.
+
+
+-----------------------------------------
+Approach-2: Using Pointer Manipulation (oddEvenUsingPointers)
+-----------------------------------------
+- This approach rearranges the original list in-place by changing the node connections.
+- The idea is to split the list into two sublists:
+    1. One containing all nodes at odd positions.
+    2. Another containing all nodes at even positions.
+- Finally, link the end of the odd-positioned sublist to the start of the even-positioned sublist.
+
+Steps:
+1. Initialize two pointers:
+   - `odd` points to the first node (odd-positioned).
+   - `even` points to the second node (even-positioned).
+   - Keep a separate reference to the start of the even list (`referenceEven`) 
+     so we can reconnect it later.
+
+2. Traverse the list as long as there are remaining even-positioned nodes:
+   - Link the `odd` node to the next odd-positioned node (which is `even.next`).
+   - Move the `odd` pointer one step forward.
+   - Link the `even` node to the next even-positioned node (which is `odd.next`).
+   - Move the `even` pointer one step forward.
+
+3. Once traversal is done, connect the last `odd` node to the start of the even list (`referenceEven`).
+
+This rearranges the nodes without using extra space and keeps the original relative order 
+within the odd and even groups.
+
+Time Complexity:
+    - O(n): Each node is visited exactly once.
+
+Space Complexity:
+    - O(1): No extra space used, rearrangement is done in-place.
+

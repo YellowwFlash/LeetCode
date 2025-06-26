@@ -1,0 +1,49 @@
+✅ Given Question:
+Sort a singly linked list using Merge Sort.
+
+✅ Given Data:
+A singly linked list defined by a `Node` class with an integer `data` and a `next` pointer.
+You are given the `head` of the list and must return the head of the sorted list.
+
+✅ Intuition:
+To sort a linked list efficiently, merge sort is well-suited because:
+- Linked lists are naturally recursive in structure.
+- Unlike arrays, random access is expensive in linked lists, so algorithms like quicksort are not ideal.
+- Merge sort avoids excessive node movement and works in-place with minimal space.
+
+The merge sort algorithm:
+- Recursively splits the list into halves until base case (0 or 1 node).
+- Merges two sorted halves back together using a helper function.
+
+This results in a stable, efficient sorting algorithm with O(n log n) time complexity.
+
+-----------------------------------------
+Approach: Using Merge Sort (sortLL)
+-----------------------------------------
+1. Base Case:
+   - If the list is empty or has only one node, it's already sorted. Return head.
+
+2. Splitting the List (getMiddle):
+   - Use the Tortoise-Hare algorithm:
+     - `slow` moves one step at a time.
+     - `fast` moves two steps at a time.
+   - When `fast` reaches the end, `slow` will be at the middle.
+   - Break the list into two halves: from `head` to `middle`, and from `middle.next` onward.
+   - Set `middle.next = null` to split the list.
+
+3. Recursively Sort Each Half:
+   - Call `sortLL` on both halves.
+
+4. Merge Sorted Halves (mergeLists):
+   - Use a dummy node to simplify merging.
+   - Compare values of two sorted lists (`left`, `right`) and link nodes in sorted order.
+   - Continue until both lists are fully merged.
+
+5. Return the merged sorted list starting from `dummy.next`.
+
+Time Complexity:
+    - O(n log n): Each level of recursion divides the list in half, and merging takes linear time.
+
+Space Complexity:
+    - O(log n): Due to recursion stack (no extra data structures used).
+

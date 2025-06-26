@@ -1,0 +1,52 @@
+/**
+✅ Given Question:
+Remove the k-th node from the end of a singly linked list.
+
+✅ Given Data:
+A singly linked list defined by a `Node` class with an integer `data` and a `next` pointer.
+You are given the `head` of the list and an integer `k`, and you must remove the k-th node from the end.
+
+✅ Intuition:
+There are two classic strategies for solving this:
+1. Count the total number of nodes and calculate the (n-k)-th node from the start.
+2. Use two pointers spaced k nodes apart and traverse in one pass to find the node to remove.
+
+-----------------------------------------
+Approach-1: Using Size Count (removeKthFromEndSize)
+-----------------------------------------
+- First, traverse the list to calculate its total size `n`.
+- The k-th node from the end is the (n-k)-th node from the beginning (0-based index).
+- Traverse again to reach the node **just before** (n-k)-th, and adjust its `next` pointer to skip the target node.
+- Edge Case: If `k == n`, the node to remove is the head — so simply return `head.next`.
+
+Steps:
+1. Traverse to calculate list size.
+2. If `k == size`, return `head.next`.
+3. Otherwise, go to (n-k-1)-th node and skip the next node.
+
+Time Complexity:
+    - O(n): One full traversal for size, another partial traversal to delete node.
+
+Space Complexity:
+    - O(1): No extra space used.
+
+-----------------------------------------
+Approach-2: Using Distance Technique (removeKthFromEndDistance)
+-----------------------------------------
+- This uses the fast and slow pointer technique for a single-pass solution.
+- A dummy node is used before `head` to handle edge cases (like removing the head).
+- Move `fast` pointer `k + 1` steps ahead (so there are `k` nodes between `slow` and `fast`).
+- Then move both `slow` and `fast` one step at a time until `fast` reaches the end.
+- `slow` will then be right before the node to delete. Adjust `slow.next` to skip the target node.
+
+Steps:
+1. Create a dummy node before `head`.
+2. Move `fast` pointer `k+1` steps ahead.
+3. Move both pointers until `fast` reaches the end.
+4. `slow.next = slow.next.next` to remove the target node.
+
+Time Complexity:
+    - O(n): Only one traversal of the list is needed.
+
+Space Complexity:
+    - O(1): Constant space, only pointers used.

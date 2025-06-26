@@ -1,0 +1,38 @@
+✅ Given Question:
+Delete the middle node of a singly linked list.
+
+✅ Given Data:
+A singly linked list defined by a `Node` class with an integer `data` and a `next` pointer.
+You are given the `head` of the list and must remove the middle node.
+
+✅ Intuition:
+To find and delete the middle node efficiently:
+- Use the Tortoise-Hare algorithm (slow and fast pointers).
+- The `slow` pointer moves one step at a time, while the `fast` pointer moves two steps.
+- When `fast` reaches the end, `slow` will be at the middle.
+- Adjust `slow.next` to skip the next node, effectively removing the middle.
+
+This is a classic and efficient way to find the middle in **one pass**, without needing to count the total size.
+
+-----------------------------------------
+Approach: Using Tortoise-Hare Algorithm (deleteNode)
+-----------------------------------------
+- Initialize two pointers: `slow` and `fast`, both starting at `head`.
+- Traverse the list:
+    - `slow` moves one step at a time.
+    - `fast` moves two steps at a time.
+- When `fast` reaches the end (`fast.next == null` or `fast.next.next == null`), `slow` will be at or just before the middle node.
+- Special handling:
+    - If the list has **odd length** (`fast.next == null`), the middle node is the current `slow.next`, and we first copy its data to `slow`, then delete the next node.
+    - If the list has **even length**, the `slow` will be before the true middle, and `slow.next` is the node to be removed.
+
+Steps:
+1. Handle edge case: if list is empty or only one node, return null.
+2. Use two pointers (`slow`, `fast`) to find the middle.
+3. Copy data if needed and remove the middle node by skipping it (`slow.next = slow.next.next`).
+
+Time Complexity:
+    - O(n): Each node is visited at most once.
+
+Space Complexity:
+    - O(1): Only two pointers used, no extra space.
