@@ -1,0 +1,44 @@
+✅ Given Question:
+Add two numbers represented by two singly linked lists.
+
+✅ Given Data:
+- Two non-empty singly linked lists `l1` and `l2` representing two non-negative integers.
+- The digits are stored in **reverse order**, and each node contains a single digit.
+- Add the two numbers and return the result as a new linked list (also in reverse order).
+
+Example:
+Input:  (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 0 -> 8  (because 342 + 465 = 807)
+
+✅ Intuition:
+Just like manual addition:
+    - Start from the least significant digit (head of each list).
+    - Add corresponding digits and carry.
+    - Create a new node for each digit of the result.
+    - If a carry remains after processing both lists, add a final node.
+
+--------------------------------------------
+Approach-1: Using Dummy Node and Iterative Traversal (addTwoNumbers)
+--------------------------------------------
+1. Create a dummy node to simplify edge cases in list construction.
+2. Initialize `carry = 0` and use a `current` pointer starting at the dummy node.
+3. Traverse both input lists (`l1`, `l2`) until all digits and carry are processed:
+    - Fetch current digit from each list (use 0 if the list has ended).
+    - Compute `sum = carry + x + y`.
+    - Update carry: `carry = sum / 10`.
+    - Create a new node with value `sum % 10` and attach it to `current.next`.
+    - Move to next nodes in `l1`, `l2`, and result list.
+4. After the loop, if there's any leftover carry, create a final node for it.
+5. Return `dummy.next` as the head of the result list.
+
+✅ Time Complexity: O(max(n, m)), where n and m are the lengths of `l1` and `l2`.
+✅ Space Complexity: O(max(n, m)), for the result linked list.
+
+--------------------------------------------
+✅ Time Complexity Breakdown:
+--------------------------------------------
+- Let n = length of l1, m = length of l2.
+- Traverse both lists once: O(max(n, m)).
+- Construct a new node per digit: O(max(n, m)) space.
+- Constant-time operations per node addition.
+

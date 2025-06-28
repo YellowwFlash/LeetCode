@@ -1,0 +1,64 @@
+✅ Given Question:
+Sort a singly linked list containing only 0s, 1s, and 2s by rearranging the node links 
+(without changing node data).
+
+✅ Given Data:
+A singly linked list defined by a `Node` class with:
+    - int data: which can be 0, 1, or 2
+    - Node next: reference to the next node
+
+You are given the head of the list and must return the head of the sorted list 
+in non-decreasing order of values.
+
+✅ Intuition:
+Since the linked list only contains three distinct values (0, 1, and 2), we don't need a full 
+comparison-based sort like merge sort. Instead, we can:
+    - Traverse the list once to group nodes into separate lists based on their value.
+    - Link these lists in the order of 0s → 1s → 2s.
+    - This avoids unnecessary comparisons or swapping of data.
+    - Efficient and in-place in terms of space.
+
+This is an optimized solution inspired by the Dutch National Flag algorithm, where we maintain 
+three partitions while preserving the original nodes and reusing them.
+
+----------------------------------------------
+Approach: Group and Link Nodes by Their Value
+----------------------------------------------
+1. Base Case:
+    - If the list is empty or has a single node, it is already sorted.
+    - Return the head as-is.
+
+2. Initialize Pointers:
+    - Create three tail pointers: `zero`, `one`, `two` to maintain the end of the 
+      sublists for 0s, 1s, and 2s.
+    - Create three head pointers: `headZero`, `headOne`, `headTwo` to remember 
+      the start of these sublists.
+
+3. Traverse the List:
+    - For each node in the list:
+        - If the node's data is 0:
+            - If `zero` is null, set it and `headZero` to current node.
+            - Else, append current node to `zero.next` and move `zero`.
+        - If the data is 1:
+            - If `one` is null, set it and `headOne` to current node.
+            - Else, append to `one.next` and move `one`.
+        - If the data is 2:
+            - If `two` is null, set it and `headTwo` to current node.
+            - Else, append to `two.next` and move `two`.
+
+4. Reconnect the Sublists:
+    - If the 0s list exists (`zero != null`), link `zero.next` to `headOne`, 
+      otherwise directly to `headTwo`.
+    - If the 1s list exists (`one != null`), link `one.next` to `headTwo`.
+    - If the 2s list exists, ensure `two.next = null` to terminate the list.
+
+5. Return the New Head:
+    - If the 0s list exists, return `headZero`.
+    - Else if 1s list exists, return `headOne`.
+    - Else return `headTwo`.
+
+✅ Time Complexity: 
+    - O(n): Each node is visited exactly once.
+
+✅ Space Complexity: 
+    - O(1): No additional data structures are used; links are rearranged in place.

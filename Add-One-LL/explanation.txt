@@ -1,0 +1,67 @@
+✅ Given Question:
+Add one to a number represented as a singly linked list.
+
+✅ Given Data:
+- A singly linked list where each node contains a single digit.
+- The most significant digit is at the head of the list.
+- You need to add 1 to the number and return the head of the updated list.
+
+For example:
+Input: 1 -> 9 -> 9
+Output: 2 -> 0 -> 0
+
+✅ Intuition:
+Adding one to a number stored in a linked list is like simulating manual addition.
+You need to handle the carry if the last digit is 9 (or multiple 9s).
+There are two common approaches:
+    - ✅ Reversal-based addition
+    - ✅ Recursion-based carry propagation
+
+--------------------------------------------
+Approach-1: Using Linked List Reversal (addOneReversal)
+--------------------------------------------
+1. Reverse the input linked list to make the least significant digit (LSD) come first.
+2. Traverse the list starting from the new head.
+    - Initialize carry = 1 (since we are adding one).
+    - For each node:
+        - Add carry to the node's value.
+        - Update node value as `val % 10`.
+        - Update carry as `val / 10`.
+3. If carry remains after reaching the last node, append a new node with carry.
+4. Reverse the list again to restore the original order.
+5. Return the head of the modified list.
+
+✅ Time Complexity: O(n), where n is the number of nodes.
+✅ Space Complexity: O(1), as it operates in-place.
+
+--------------------------------------------
+Approach-2: Using Recursion (addOneRecursion)
+--------------------------------------------
+1. Recursively reach the end of the list (LSD).
+2. On returning from each recursive call:
+    - Add carry to the current node.
+    - Update the node value as `val % 10`.
+    - Pass the carry back as `val / 10`.
+3. After recursion completes:
+    - If there is a leftover carry, create a new node and make it the new head.
+
+✅ Time Complexity: O(n), where n is the number of nodes (due to recursion).
+✅ Space Complexity: O(n), because of the call stack used by recursion.
+
+--------------------------------------------
+✅ Time Complexity Breakdown:
+--------------------------------------------
+
+Approach-1: Reversal-based
+    - Reverse list: O(n)
+    - Traverse and add: O(n)
+    - Reverse again: O(n)
+    Total: O(3n) ≈ O(n)
+    Extra space: O(1)
+
+Approach-2: Recursion-based
+    - Each node visited once via recursion: O(n)
+    - Each call adds a frame to the stack: O(n)
+    Total: O(n)
+    Extra space: O(n) for recursive call stack
+

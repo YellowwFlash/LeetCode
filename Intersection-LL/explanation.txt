@@ -1,0 +1,94 @@
+✅ Given Question:
+Find the intersection point of two singly linked lists.
+
+✅ Given Data:
+- Two singly linked lists defined by a `Node` class containing:
+    - int data: the value stored in the node.
+    - Node next: pointer to the next node.
+
+You are given `head1` and `head2` representing the start of each list.
+If the two lists intersect, return the node at which they intersect.
+If they do not intersect, return null.
+
+✅ Intuition:
+When two singly linked lists intersect, they share the same tail from 
+the point of intersection. This means that reference equality (==) 
+can be used to detect the intersection point.
+
+There are three standard approaches to solve this:
+    - ✅ Hashing
+    - ✅ Size-based Alignment
+    - ✅ Two-pointer Technique
+
+--------------------------------------------
+Approach-1: Using HashMap (findIntersectionHashMap)
+--------------------------------------------
+1. Traverse the first linked list (`head1`) and store each node reference in a HashMap.
+2. Traverse the second linked list (`head2`) and for each node:
+    - If the node already exists in the map (same reference), 
+      it is the point of intersection.
+3. Return the first such node found.
+4. If no intersection is found, return null.
+
+✅ Time Complexity: O(n + m), where n and m are the lengths of the two lists.
+✅ Space Complexity: O(n), for storing nodes of the first list in the HashMap.
+
+--------------------------------------------
+Approach-2: Size Difference Technique (findIntersectionSize)
+--------------------------------------------
+1. Calculate the length of both linked lists using `findSize()`.
+2. Identify the longer list and advance its pointer by the size difference.
+    - This ensures both lists are aligned at the same distance from the end.
+3. Traverse both lists simultaneously.
+    - If a common node is found (reference equality), return it.
+4. If the end is reached with no match, return null.
+
+✅ Time Complexity: O(n + m), for traversing both lists.
+✅ Space Complexity: O(1), no extra space used.
+
+--------------------------------------------
+Approach-3: Two-Pointer Technique (findIntersection)
+--------------------------------------------
+1. Initialize two pointers:
+    - `current1` to `head1`
+    - `current2` to `head2`
+2. Traverse both pointers simultaneously.
+    - When `current1` reaches the end, point it to `head2`.
+    - When `current2` reaches the end, point it to `head1`.
+3. Eventually, both pointers will either:
+    - Meet at the point of intersection.
+    - Or both become null if no intersection exists.
+
+This works because:
+    - Both pointers traverse equal total lengths by the time they meet: n + m
+
+✅ Time Complexity: O(n + m)
+✅ Space Complexity: O(1)
+
+--------------------------------------------
+✅ Time Complexity Breakdown:
+--------------------------------------------
+
+Approach-1: Using HashMap
+    - Traverse list1 (length = n): O(n) to store nodes in map.
+    - Traverse list2 (length = m): O(m) to check each node against the map.
+    Total: O(n + m) with roughly (n + m) operations.
+    Extra space: O(n) for HashMap.
+
+Approach-2: Size Difference Technique
+    - Traverse list1 to find size: O(n)
+    - Traverse list2 to find size: O(m)
+    - Advance pointer in longer list by |n - m| steps: O(|n - m|)
+    - Traverse both lists together to find intersection: O(min(n, m))
+    Total operations roughly: n + m + |n - m| + min(n, m) ≈ 2 * max(n, m)
+    Extra space: O(1)
+
+Approach-3: Two-Pointer Technique
+    - At most 2 passes through each list pointer:
+        * Pointer1 goes through n + m nodes.
+        * Pointer2 goes through m + n nodes.
+    - Total operations: ≤ 2n + 2m ≈ 2(n + m)
+    - No extra space.
+    - However, no explicit size calculations or auxiliary data structures used.
+    - Also practically, the pointers meet as soon as the intersection is reached, often sooner than full traversal.
+
