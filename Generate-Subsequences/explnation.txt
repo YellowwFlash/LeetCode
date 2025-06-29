@@ -1,0 +1,44 @@
+✅ Given Question:
+Generate all possible subsets (also known as the power set) of a given array of integers.
+
+✅ Given Data:
+An integer array `nums` of size `n`.
+You are required to return a list containing all possible subsets (including the empty set and the full array).
+Each subset must maintain the relative order of elements from the original array.
+
+✅ Intuition:
+This problem follows the standard **backtracking** pattern where, for each index,
+we explore two possibilities:
+    - Include the current element in the current subset.
+    - Exclude the current element and move to the next.
+
+By recursively applying both choices at every step, we cover all `2^n` possible subsets.
+
+This is essentially the same approach used in generating subsequences — since subsets
+are also just subsequences with no requirement of being contiguous.
+
+----------------------------------------------
+Approach: Recursive Backtracking (Include/Exclude Method)
+----------------------------------------------
+1. Base Case:
+    - If the current index reaches the end of the array (`n`), we’ve formed a complete subset.
+    - Add a copy of the current subset to the result list.
+
+2. Recursive Step:
+    - Include `nums[index]` in the current subset.
+        - Recurse with index + 1.
+    - Backtrack by removing the last added element.
+    - Exclude `nums[index]` and recurse with index + 1.
+
+✅ Example:
+For input nums = [1, 2], the subsets will be:
+    - [], [2], [1], [1, 2]
+
+✅ Time Complexity:
+    - O(2^n): Each element has two options → total combinations = 2^n.
+    - O(n) time to copy each subset to the result list.
+
+✅ Space Complexity:
+    - O(n): Recursion stack and current subset list.
+    - O(2^n * n): For storing all subsets in the final result.
+

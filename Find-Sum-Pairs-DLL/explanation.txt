@@ -1,0 +1,63 @@
+/**
+✅ Given Question:
+Find all pairs in a sorted doubly linked list that sum up to a given value `x`.
+
+✅ Given Data:
+- A **sorted** doubly linked list (in non-decreasing order).
+- Each node contains an integer value.
+- You are given the `head` of the list and a target sum `x`.
+- The task is to return a list of all unique pairs (a, b) such that a + b == x.
+
+For example:
+Input: 1 <-> 2 <-> 3 <-> 4 <-> 5, x = 5  
+Output: [[1, 4], [2, 3]]
+
+✅ Intuition:
+Since the list is sorted, we can use the two-pointer technique:
+    - One pointer from the beginning (smallest element),
+    - One from the end (largest element).
+    - Compare their sum with the target.
+This allows efficient linear-time pair finding, similar to the two-sum problem in arrays.
+
+--------------------------------------------
+Approach-1: Brute Force Using Two Loops (findPairLoops)
+--------------------------------------------
+1. Traverse the list using a reference pointer `ref`.
+2. For each `ref`, traverse another pointer `curr` starting from `ref.next`.
+3. Check if `ref.data + curr.data == x`.
+    - If yes, add the pair to the result.
+    - If sum exceeds `x`, break inner loop early (because the list is sorted).
+4. Continue this until all pairs are checked.
+
+✅ Time Complexity: O(n²) in worst case.
+✅ Space Complexity: O(1) auxiliary (excluding result list).
+
+--------------------------------------------
+Approach-2: Two-Pointer Technique (findPairsPointers)
+--------------------------------------------
+1. Use two pointers:
+    - `left` starts at the head (smallest element).
+    - `right` starts at the tail (largest element).
+2. While `left` is not equal to `right`:
+    - If `left.data + right.data == x`, add pair and move both pointers inward.
+    - If sum < x, move `left` forward.
+    - If sum > x, move `right` backward.
+3. Continue until all valid pairs are found.
+
+✅ Time Complexity: O(n)
+✅ Space Complexity: O(1) auxiliary (excluding result list)
+
+--------------------------------------------
+✅ Time Complexity Breakdown:
+--------------------------------------------
+
+Approach-1: Two Loops
+    - Outer loop runs O(n) times.
+    - Inner loop runs up to O(n) in worst case.
+    - Total: O(n²)
+    - Extra space: O(1)
+
+Approach-2: Two Pointers
+    - Each pointer moves at most n times.
+    - Total: O(n)
+    - Extra space: O(1)

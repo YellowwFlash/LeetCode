@@ -1,4 +1,4 @@
-public class Search {
+public class SearchMatrix {
 
     // Approach-1 -> Using quadratic search
     public static boolean searchLoops(int matrix[][], int target) {

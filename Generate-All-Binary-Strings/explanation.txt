@@ -1,0 +1,62 @@
+✅ Given Question:
+Generate all binary strings of length `n`, including specific variations:
+    - All possible combinations
+    - No consecutive 0s
+    - No consecutive 1s
+
+✅ Given Data:
+An integer `n` representing the length of binary strings to be generated.
+
+You are required to generate all valid strings of binary digits (`0` and `1`) 
+of length `n` according to the given variation rules.
+
+✅ Intuition:
+The idea is to build the string one character at a time using recursion and backtracking:
+    - At each step, try adding '0' and '1' to the current partial string.
+    - Backtrack after each recursive call to try the next possibility.
+    - In the constrained versions, add checks before placing a digit to prevent
+      consecutive 0s or 1s as needed.
+
+This is a classic backtracking pattern where all valid combinations are explored 
+while pruning invalid paths early based on constraints.
+
+----------------------------------------------
+Approach: Recursive Backtracking
+----------------------------------------------
+
+🔹 Case 1: All Combinations (`generateAll`)
+1. Base Case:
+    - If the current string length equals `n`, add it to the result list.
+
+2. Recursive Step:
+    - Try adding '0' → recurse → backtrack by removing last char.
+    - Try adding '1' → recurse → backtrack by removing last char.
+
+🔹 Case 2: No Consecutive 0s (`generateAllUtilNoConsecutiveZeros`)
+1. Base Case:
+    - If the current string length equals `n`, add it to the result list.
+
+2. Recursive Step:
+    - Only add '0' if the previous character is not '0' (or string is empty).
+    - Always try adding '1'.
+
+🔹 Case 3: No Consecutive 1s (`generateAllUtilNoConsecutiveOnes`)
+1. Base Case:
+    - If the current string length equals `n`, add it to the result list.
+
+2. Recursive Step:
+    - Always try adding '0'.
+    - Only add '1' if the previous character is not '1' (or string is empty).
+
+✅ Time Complexity (All Variants):
+    - O(2^n): At each position, two choices ('0' and '1') → exponential growth.
+    - For constrained versions, fewer paths are explored due to pruning.
+
+✅ Space Complexity:
+    - O(n): Recursion stack can go up to depth `n`.
+
+✅ Example:
+For n = 3:
+    - All combinations: [000, 001, 010, 011, 100, 101, 110, 111]
+    - No consecutive 0s: [010, 011, 101, 110, 111]
+    - No consecutive 1s: [000, 001, 010, 100, 101]

@@ -1,0 +1,37 @@
+✅ Given Question:
+Remove duplicates from a **sorted doubly linked list**.
+
+✅ Given Data:
+- A doubly linked list (DLL) where each node contains an integer.
+- The list is **sorted in non-decreasing order**.
+- You are given the `head` of the list.
+- The task is to remove all duplicate nodes so that each element appears only once.
+
+For example:
+Input: 1 <-> 1 <-> 2 <-> 3 <-> 3 <-> 4  
+Output: 1 <-> 2 <-> 3 <-> 4
+
+✅ Intuition:
+Since the list is sorted, all duplicate elements appear **consecutively**.
+This allows a simple traversal:
+    - At each node, compare it with the next one.
+    - If they are the same, skip the next node.
+    - Rewire pointers to unlink duplicates.
+    - Keep going until the end of the list.
+
+--------------------------------------------
+Approach-1: Using Pointer Tweakings (removeDuplicates)
+--------------------------------------------
+1. Check if the list is empty or has a single node — return it directly.
+2. Traverse the list with a pointer `current`.
+3. For each node:
+    - Use another pointer `ref = current.next`.
+    - Skip all nodes with the same value as `current`.
+    - Reconnect `current.next` to the first node with a different value.
+    - If such a node exists, update its `.prev` to point back to `current`.
+4. Continue this process until the end of the list.
+5. Return the updated head.
+
+✅ Time Complexity: O(n), where n is the number of nodes.
+✅ Space Complexity: O(1), in-place modification without extra space.
+

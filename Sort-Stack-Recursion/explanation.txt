@@ -1,0 +1,47 @@
+✅ Given Question:
+Sort a stack of integers in ascending order using recursion only.
+Do not use any auxiliary data structures like arrays or additional stacks.
+
+✅ Given Data:
+A Java `Stack<Integer>` containing any set of integers (positive, negative, duplicates allowed).
+
+You are required to return the same stack but with all its elements sorted in increasing order 
+(from bottom to top), using only recursive function calls.
+
+✅ Intuition:
+The core idea is to reduce the problem size recursively:
+    - Pop the top element and sort the remaining stack recursively.
+    - Once the remaining part is sorted, insert the popped element back into its correct position 
+      in the sorted stack using another recursive helper function.
+
+This is analogous to insertion sort, where elements are placed at their correct position one by one.
+
+The helper function `insert()` ensures the current element is inserted in the correct sorted position
+by temporarily removing elements greater than it, placing the current element, and then putting the 
+removed elements back.
+
+----------------------------------------------
+Approach: Recursive Insertion Sort on Stack
+----------------------------------------------
+1. Base Case:
+    - If the stack is empty or has only one element, it is already sorted.
+    - Simply return the stack.
+
+2. Recursive Step in `sortStack()`:
+    - Pop the top element.
+    - Recursively sort the remaining stack.
+    - Use the `insert()` helper to insert the popped element into the correct sorted position.
+
+3. Recursive Step in `insert()`:
+    - If the stack is empty or the top element of the stack is less than or equal to the current element:
+        - Push the element directly to maintain sorted order.
+    - Else:
+        - Pop elements until the correct spot is found.
+        - Insert the element recursively.
+        - Push the temporarily removed elements back.
+
+✅ Time Complexity: 
+    - O(n²): For each of the n elements, insertion can take up to O(n) time in the worst case.
+
+✅ Space Complexity: 
+    - O(n): Due to the recursion stack, as each element removal and insertion requires recursive calls.

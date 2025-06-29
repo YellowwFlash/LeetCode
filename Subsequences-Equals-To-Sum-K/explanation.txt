@@ -1,0 +1,85 @@
+/*
+✅ Given Question:
+Given an integer array `nums` and a target value `sum`, you need to:
+    - Find all subsequences whose elements sum to exactly `sum`.
+    - Count how many such subsequences exist.
+    - Check if any such subsequence exists (returns true/false).
+
+✅ Given Data:
+- An integer array `nums` of length `n`.
+- A target integer `sum`.
+
+A subsequence is any subset of elements taken in order (not necessarily contiguous).
+Each element can be either included or excluded in the current subsequence.
+
+✅ Intuition:
+This problem follows the standard include/exclude recursion pattern:
+At each index, we have two options:
+    1. Include the current number in the running total.
+    2. Exclude it and move to the next.
+
+We use recursive backtracking to explore both options at every step, tracking the cumulative sum
+and building results accordingly.
+
+----------------------------------------------
+Approach: Recursive Backtracking (Include/Exclude Strategy)
+----------------------------------------------
+
+🔹 `findSubsequences(int[] nums, int sum)`
+-> Finds and returns all subsequences whose sum is exactly equal to `sum`.
+
+1. Base Case:
+    - If `index == nums.length`, we’ve considered all elements.
+    - If `current == sum`, store a copy of the current subsequence in the result.
+
+2. Recursive Step:
+    - Include `nums[index]`: Add to `subsequence`, update `current`, and recurse.
+    - Backtrack by removing the last added number.
+    - Exclude `nums[index]`: Recurse with the same `current` value.
+
+✅ Time: O(2^n), ✅ Space: O(n) for recursion + storage
+
+----------------------------------------------
+
+🔹 `countSubsequences(int[] nums, int current, int sum, int index, int n)`
+-> Counts the number of subsequences whose sum equals the target `sum`.
+
+1. Base Case:
+    - If `index == n`, check if `current == sum`.
+        - Return 1 if it matches, else 0.
+
+2. Recursive Step:
+    - Count ways with inclusion of `nums[index]`
+    - Count ways with exclusion of `nums[index]`
+    - Return their sum.
+
+✅ Time: O(2^n), ✅ Space: O(n) for recursion
+
+----------------------------------------------
+
+🔹 `isSubsequenceExist(int[] nums, int sum, int current, int index, int n)`
+-> Checks whether at least one valid subsequence exists that sums to `sum`.
+
+1. Base Case:
+    - If `index == n`, return `true` if `current == sum`, else `false`.
+
+2. Recursive Step:
+    - If including `nums[index]` returns true → return true.
+    - If excluding `nums[index]` returns true → return true.
+    - Else, return false.
+
+✅ Time: O(2^n) in worst case, but early returns optimize in practice
+✅ Space: O(n)
+
+----------------------------------------------
+
+✅ Example:
+nums = [1, 2, 1], sum = 2
+
+Valid subsequences:
+- [1, 1]
+- [2]
+
+Total Count = 2  
+Existence = true
+

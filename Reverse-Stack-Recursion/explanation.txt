@@ -1,0 +1,55 @@
+✅ Given Question:
+Reverse a stack using only recursion, without using any auxiliary data structures
+like arrays, queues, or another stack.
+
+✅ Given Data:
+A Java `Stack<Integer>` which can contain any number of integers (including duplicates or negatives).
+You are required to reverse the order of elements in the stack so that the top becomes the bottom 
+and vice versa.
+
+✅ Intuition:
+The idea is to simulate the reversal by using recursion:
+    - Recursively pop all elements until the stack becomes empty.
+    - Then, insert each popped element at the **bottom** of the stack (instead of top),
+      which effectively reverses the order of the stack.
+
+This approach mimics the behavior of a reversed stack using recursion and a helper method.
+
+The helper function `insertAtBottom()` is used to place the elements at the bottom of the stack,
+which is crucial for reversing the order.
+
+----------------------------------------------
+Approach: Recursive Reversal with Bottom Insertion
+----------------------------------------------
+1. Base Case:
+    - If the stack is empty or has only one element, it is already reversed.
+    - Simply return.
+
+2. Recursive Step in `reverseStack()`:
+    - Pop the top element.
+    - Recursively reverse the rest of the stack.
+    - Use `insertAtBottom()` to insert the popped element at the bottom.
+
+3. Recursive Step in `insertAtBottom()`:
+    - If the stack is empty, push the element directly.
+    - Else:
+        - Pop the top, recursively insert the element at bottom.
+        - Push the original top back to retain order.
+
+✅ Example Trace:
+Stack (top to bottom): [1, 2, 3, 4]
+Step-by-step:
+    - reverseStack: pops 1
+        - reverseStack: pops 2
+            - reverseStack: pops 3
+                - reverseStack: pops 4
+                    - base case hit
+                - insertAtBottom(3): pushes 3 below 4 → [4, 3]
+            - insertAtBottom(2): pushes 2 below [4, 3] → [4, 3, 2]
+        - insertAtBottom(1): pushes 1 below [4, 3, 2] → [4, 3, 2, 1]
+
+✅ Time Complexity: 
+    - O(n²): Each insertion at bottom takes O(n), done for n elements.
+
+✅ Space Complexity: 
+    - O(n): Due to recursive call stack.

@@ -1,0 +1,45 @@
+✅ Given Question:
+Remove all occurrences of a given key from a doubly linked list.
+
+✅ Given Data:
+- A doubly linked list (DLL) where each node contains an integer.
+- You are given the head of the list and an integer `key`.
+- The task is to remove all nodes that have `data == key` and return the new head of the modified list.
+
+For example:
+Input: 1 <-> 2 <-> 3 <-> 2 <-> 4, key = 2
+Output: 1 <-> 3 <-> 4
+
+✅ Intuition:
+To remove nodes from a doubly linked list, we can directly access both the previous and next nodes.
+This allows efficient in-place deletion:
+    - Simply relink the previous and next nodes around the target node.
+    - Special care is needed when the node to remove is the head.
+    - We can safely traverse the list using a single pointer and update links as we go.
+
+--------------------------------------------
+Approach-1: Using Pointers (Two-link Adjustment)
+--------------------------------------------
+1. Check if the head is null — return null if so.
+2. Traverse the list using a pointer `current`.
+3. For each node:
+    - If the node’s data matches the key:
+        - If it is the head:
+            - Move the head to the next node.
+            - Set head.prev = null if the new head is not null.
+        - Else:
+            - Set `current.prev.next = current.next`
+            - If `current.next` is not null, set `current.next.prev = current.prev`
+4. Move the current pointer to the next node.
+5. After traversal, return the updated head.
+
+✅ Time Complexity: O(n), where n is the number of nodes in the list.
+✅ Space Complexity: O(1), as no extra space is used.
+
+--------------------------------------------
+✅ Time Complexity Breakdown:
+--------------------------------------------
+- Traverse the list once: O(n)
+- For each node, do constant-time pointer adjustments if needed.
+- Total time: O(n)
+- Extra space: O(1) — operates fully in-place without recursion or additional data structures.

@@ -1,0 +1,111 @@
+✅ Given Question:
+Reverse nodes of a singly linked list in groups of size `k`.
+
+✅ Given Data:
+- A singly linked list, where each node contains an integer value.
+- An integer `k` (k ≥ 1), representing the group size.
+- You need to reverse every group of `k` nodes in the list.
+- If the remaining nodes are fewer than `k`, they should remain as-is.
+- Return the head of the modified list.
+
+For example:
+Input: 1 -> 2 -> 3 -> 4 -> 5 -> 6, k = 2  
+Output: 2 -> 1 -> 4 -> 3 -> 6 -> 5
+
+Input: 1 -> 2 -> 3 -> 4 -> 5, k = 3  
+Output: 3 -> 2 -> 1 -> 4 -> 5
+
+✅ Intuition:
+To reverse the list in chunks of size `k`, we simulate the process manually:
+    - Find `k` nodes ahead of current.
+    - Reverse this block.
+    - Connect the reversed block to the rest of the list.
+    - Repeat until end of the list.
+This is a common technique in many linked list problems (e.g., Leetcode #25: Reverse Nodes in k-Group).
+
+--------------------------------------------
+Approach-1: Using Pointers and Group Reversal
+--------------------------------------------
+
+### Step-by-step Logic:
+
+1. Edge Case Check:
+   - If the list is empty (`head == null`) or contains just one node, return it as is. No reversal needed.
+
+2. Initialize Traversal Pointers:
+   - `current` points to the node we're processing in each iteration.
+   - `previous` keeps track of the last node in the previously reversed group — used to connect groups together.
+
+3. Main Loop (while current != null):
+   - Find the kth Node: Use helper method `findKthNode()` to look ahead `k` nodes.
+     - If less than `k` nodes are left, we skip reversal and link remaining nodes to the last processed group.
+   - Temporarily Break the List:
+     - Store `kthNode.next` in `next` to remember where the next group starts.
+     - Break the list by setting `kthNode.next = null` so we can safely reverse the sublist.
+   - Reverse the k-sized Sublist:
+     - Call `reverse(current)` which reverses the group from `current` to `kthNode`.
+     - This returns the new head of the reversed group (which is `kthNode`).
+   - Handle List Connections:
+     - If this is the first group (i.e., current == head), update `head` to `kthNode`.
+     - Else, connect `previous.next` to `kthNode`, i.e., link the previous group to the newly reversed one.
+   - Update Pointers for Next Iteration:
+     - `previous` becomes the tail of the just reversed group, which is `current`.
+     - `current` is updated to `next`, the start of the next group.
+
+4. Return Modified Head:
+   - Once all groups have been processed, return the updated head.
+
+--------------------------------------------
+Helper Method: findKthNode(Node head, int k)
+--------------------------------------------
+- Starts from `head`, and moves `k - 1` steps forward to find the kth node.
+- Returns `null` if fewer than `k` nodes remain.
+- Helps in identifying when to reverse and when to stop.
+
+--------------------------------------------
+Helper Method: reverse(Node head)
+--------------------------------------------
+- Standard reversal of a singly linked list.
+- Iteratively reverses links using 3 pointers:
+    - `prev`, `current`, and `next`.
+- Returns the new head of the reversed list.
+
+✅ Time Complexity: O(n), where n is the number of nodes.
+- Each node is visited exactly once.
+
+✅ Space Complexity: O(1)
+- In-place reversal using constant extra memory.
+
+
+--------------------------------------------
+✅ Time Complexity Breakdown:
+--------------------------------------------
+
+Let:
+- `n` be the total number of nodes in the linked list.
+- `k` be the group size for each reversal.
+
+Main operations:
+1. Traversing nodes in groups of k:
+    - In each iteration of the outer `while (current != null)`, we process up to `k` nodes.
+    - There are approximately `n / k` such groups.
+
+2. Finding the kth node (`findKthNode`):
+    - In each group, this takes up to `k` steps.
+
+3. Reversing k nodes (`reverse`):
+    - Each reversal also takes O(k) time.
+
+4. Linking and pointer updates:
+    - Constant time operations per group.
+
+Total Time Complexity:
+- Each group takes O(k) for `findKthNode`, O(k) for `reverse`, and O(1) for linking.
+- Total groups ≈ `n / k`.
+
+So the total time:
+→ (n / k) × O(k + k) = O(2n) = O(n)
+
+✅ Final Time Complexity: O(n)  
+✅ Final Space Complexity: O(1) (in-place, constant extra space)
+

@@ -1,0 +1,58 @@
+✅ Given Question:
+Generate all combinations of well-formed parentheses for a given number `n` 
+where `n` represents the number of pairs of parentheses.
+
+✅ Given Data:
+An integer `n` where each valid combination must contain exactly:
+    - `n` opening brackets `'('`
+    - `n` closing brackets `')'`
+
+You are required to return a list of all valid combinations where the parentheses 
+are correctly matched and nested.
+
+✅ Intuition:
+The core idea is to use **recursive backtracking** to explore all possible ways 
+of placing `'('` and `')'` in a string of length `2n`. 
+
+The trick is to ensure that at any point in the recursion:
+    - We only add `'('` if we still have opening brackets left to place.
+    - We only add `')'` if the number of closing brackets left is **more than** 
+      the number of opening brackets placed so far, ensuring valid balance.
+
+This ensures that we only build valid combinations from the beginning, 
+eliminating the need to validate strings afterward.
+
+----------------------------------------------
+Approach: Recursive Backtracking with Constraints
+----------------------------------------------
+1. Base Case:
+    - If the current string length is `2 * n`, we’ve placed all `n` opening and `n` closing brackets.
+    - Add the current string to the result list and return.
+
+2. Recursive Step:
+    - If `open > 0`:
+        - Append `'('` and recursively call with one fewer open bracket.
+        - Backtrack by removing the last character.
+    - If `close > open`:
+        - Append `')'` and recursively call with one fewer close bracket.
+        - Backtrack by removing the last character.
+
+✅ Example:
+For n = 3, valid combinations:
+    - "((()))"
+    - "(()())"
+    - "(())()"
+    - "()(())"
+    - "()()()"
+
+✅ Time Complexity:
+    - O(2^n): In the worst case, every position has two choices.
+    - However, due to pruning invalid combinations early, the actual number of valid combinations
+      is the nth Catalan number: **C(n) = (2n)! / ((n+1)! * n!)**
+
+✅ Space Complexity:
+    - O(n): The maximum depth of the recursion stack is `2n` due to string length, and each
+      recursive call adds one character to the string.
+
+This is an elegant and efficient way to generate all valid parentheses combinations
+with backtracking and constraint-based pruning.
