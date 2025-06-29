@@ -1,0 +1,66 @@
+✅ Given Question:
+Rotate a singly linked list to the right by `k` places.
+
+✅ Given Data:
+- A singly linked list where each node contains an integer.
+- An integer `k`, representing the number of positions to rotate the list.
+- You need to move the last `k` nodes to the front and shift the remaining nodes right.
+
+For example:
+Input: 1 -> 2 -> 3 -> 4 -> 5, k = 2  
+Output: 4 -> 5 -> 1 -> 2 -> 3
+
+✅ Intuition:
+Rotating a list to the right by `k` means:
+    - The last `k` nodes become the new head segment.
+    - The rest of the list shifts right to follow.
+To do this efficiently:
+    - Use two pointers, one ahead by `k` steps.
+    - Traverse both until the ahead pointer reaches the end.
+    - Split and reconnect the list at the proper pivot.
+
+--------------------------------------------
+Approach-1: Using Two Pointers (ahead & current)
+--------------------------------------------
+
+1. Edge Case Check:
+   - If the list is empty or has only one node, return it as-is (no rotation needed).
+
+2. Compute the Size of the List:
+   - Use a helper function `findSize(head)` to count nodes (`size`).
+
+3. Adjust k:
+   - Since rotating by `size` or a multiple of it brings the list back to its original state, compute `k % size`.
+   - If `k == 0`, return the head directly.
+
+4. Set Up Two Pointers:
+   - `ahead` is moved `k` steps ahead of `current`.
+
+5. Traverse Both Pointers Together:
+   - Move both `ahead` and `current` one step at a time until `ahead` reaches the last node.
+   - `current` will now point to the node just before the rotation pivot.
+
+6. Rotate the List:
+   - Set `ahead.next = head` to connect the end to the beginning.
+   - Set `head = current.next` as the new head (start of rotated part).
+   - Break the list by setting `current.next = null`.
+
+7. Return New Head:
+   - The list is now rotated by `k` positions to the right.
+
+--------------------------------------------
+✅ Time Complexity Breakdown:
+--------------------------------------------
+
+Let:
+- `n` = number of nodes in the linked list
+- `k` = number of positions to rotate
+
+1. findSize(head): O(n)  
+2. Advance ahead pointer k steps: O(k)
+3. Move ahead and current to the end: O(n - k)
+4. Reconnect and rotate: O(1)
+
+✅ Total Time Complexity: O(n)  
+✅ Space Complexity: O(1) — in-place modification, no extra space used.
+

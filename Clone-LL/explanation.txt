@@ -1,0 +1,77 @@
+✅ Given Question:
+Clone a linked list where each node contains two pointers:
+- `next`: points to the next node in the list.
+- `random`: points to any arbitrary node in the list (or null).
+
+You need to return a deep copy of the original list, such that:
+- Each node in the copied list has the same value as the original.
+- The structure (next and random pointers) is preserved exactly.
+
+✅ Given Data:
+- A singly linked list where each node has `data`, `next`, and `random`.
+- Return a completely new list (deep copy), not sharing any nodes with the original.
+
+For example:
+Original:
+1 -> 2 -> 3  
+|    |    |  
+v    v    v  
+3    1    2  
+
+Cloned Output (structure-wise):  
+1' -> 2' -> 3'  
+ |     |     |  
+ v     v     v  
+3'    1'    2'
+
+✅ Intuition:
+Creating a deep copy of a list with `random` pointers is tricky because:
+- The `random` pointers can point forward, backward, or to null.
+- You need to set the correct `random` pointers in the clone without modifying the original structure permanently.
+
+We can solve this in-place using 3 key steps:
+1. Interleave copied nodes within the original list.
+2. Set random pointers for the copied nodes.
+3. Separate the original and cloned lists.
+
+--------------------------------------------
+Approach-1: Using the List Itself (In-place Interleaving)
+--------------------------------------------
+
+1. Step 1: addCopyBetweenNodes()
+   - Traverse the original list.
+   - For each node `N`, create a copy `N'` with the same data.
+   - Insert `N'` immediately after `N`: `N -> N' -> N.next`.
+   - This way, the copied nodes are interleaved with original ones.
+
+2. Step 2: alignRandomPointers()
+   - Traverse the interleaved list again.
+   - For each original node `N`, set `N'.random = N.random.next`
+     (because `N.random.next` is the copy of the node `N.random` was pointing to).
+   - This works because every copy is immediately next to its original.
+
+3. Step 3: separateList()
+   - Traverse the interleaved list one more time.
+   - Extract the cloned list by collecting the copied nodes (`N'`) and re-link the original list.
+   - Return the head of the newly constructed copied list.
+
+
+--------------------------------------------
+✅ Time Complexity Breakdown:
+--------------------------------------------
+
+Let:
+- `n` = total number of nodes in the list
+
+1. addCopyBetweenNodes(): O(n)
+   - Each node is visited once to insert a copy.
+
+2. alignRandomPointers(): O(n)
+   - Each node is visited once to set random pointers of the copy.
+
+3. separateList(): O(n)
+   - Each node is visited again to split the list into original and clone.
+
+✅ Total Time Complexity: O(n)  
+✅ Space Complexity: O(1) — no extra data structures used; all operations done in-place.
+

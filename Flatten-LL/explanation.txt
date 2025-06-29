@@ -1,0 +1,113 @@
+/
+✅ Given Question:
+Flatten a multilevel linked list where each node has two pointers:
+- `next`: points to the next node on the same level.
+- `child`: points to a child linked list.
+
+The goal is to flatten this multilevel list into a single sorted linked list using the `child` pointer only.
+
+✅ Given Data:
+- A special multilevel linked list where each node can have a `next` and a `child`.
+- Nodes in both `next` and `child` chains are individually sorted.
+- You need to return a new flattened list (or reuse the structure) where:
+    - Only the `child` pointer is used to traverse the final sorted list.
+    - All nodes are sorted in non-decreasing order.
+
+For example:
+
+Level 0: 5 -> 10 -> 19
+| 
+Level 1: 7 -> 20
+|
+Level 2: 8
+
+Flattened: 5 -> 7 -> 8 -> 10 -> 19 -> 20 (using `child` pointers)
+
+✅ Intuition:
+This is a variation of flattening a 2D or nested linked list structure.  
+Each node may have its own vertical list (via `child`), and we want to merge them all into one flat sorted list.
+
+There are two primary approaches:
+    - ✅ Approach-1: Use sorting (flattenSorting)
+    - ✅ Approach-2: Use merge sort with recursion (flattenRecursion)
+
+--------------------------------------------
+Approach-1: Using a New List and Sorting (flattenSorting)
+--------------------------------------------
+
+### Idea:
+1. Traverse each top-level node (`head -> head.next -> ...`).
+2. For each node, traverse its vertical child list.
+3. Collect all `data` values in a list.
+4. Sort the list.
+5. Create a new linked list using only the `child` pointers from the sorted values.
+
+### Key Steps:
+- Uses `ArrayList<Integer>` to store all values.
+- Uses `Collections.sort()` to sort them.
+- Builds a completely new list from sorted values.
+
+✅ Time Complexity:  
+- Traversal of all nodes: O(n), where n = total number of nodes in all sublists  
+- Sorting the list: O(n log n)  
+- Building new list: O(n)  
+→ Total: O(n log n)
+
+✅ Space Complexity:  
+- Extra list of size n: O(n)  
+- New nodes created for result: O(n)
+
+
+--------------------------------------------
+Approach-2: Using Recursion + Merge Sort (flattenRecursion)
+--------------------------------------------
+
+### Idea:
+1. The list is structured like a series of vertical sorted linked lists (via `child`).
+2. We can recursively flatten the rest of the list (i.e., `head.next`) and merge it with the current list (`head`) using the `merge()` function.
+3. Merging two sorted child-linked lists mimics the merge step of merge sort.
+
+### Key Steps:
+- Base case: If `head == null` or `head.next == null`, return `head`.
+- Recursive step: Flatten `head.next` → merge with `head`.
+- `merge()` combines two sorted child-linked lists into one.
+
+✅ Time Complexity:
+- Each node is visited once during recursion and once during merging.
+- For `n` total nodes and `m` top-level lists:
+    - Merge time is O(n log m) in worst case.
+→ Total: O(n log m)
+
+✅ Space Complexity:
+- Recursive stack depth = O(m), where `m` is number of top-level nodes.
+→ Space: O(log m)` (due to recursion), no extra node creation.
+
+
+--------------------------------------------
+ ✅ Time Complexity Breakdown:
+--------------------------------------------
+
+Approach-1: flattenSorting
+--------------------------------------------
+Let:
+- `n` be the total number of nodes across all `next` and `child` lists.
+
+1. Traverse all nodes and collect their data into an ArrayList → O(n)
+2. Sort the list of integers → O(n log n)
+3. Reconstruct a new linked list from sorted values → O(n)
+
+✅ Total Time Complexity: O(n log n)
+✅ Space Complexity: O(n) — for storing values and new nodes
+
+Approach-2: flattenRecursion
+--------------------------------------------
+Let:
+- `n` be the total number of nodes.
+- `m` be the number of top-level linked lists (nodes in the original `next` chain).
+
+1. Each recursive call merges two sorted child-linked lists.
+2. Merging two lists of total length `n` takes O(n).
+3. There are log m merge levels (like merge sort).
+
+✅ Total Time Complexity: O(n log m)
+✅ Space Complexity: O(log m) — due to recursion call stack (not creating new nodes)
