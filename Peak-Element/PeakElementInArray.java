@@ -1,4 +1,4 @@
-public class PeakElement {
+public class PeakElementInArray {
 
     // Approach-1 -> Using linear scan
     public static int findPeakElementLoop(int[] nums) {

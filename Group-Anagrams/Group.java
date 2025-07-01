@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class GroupAnagrams {
+public class Group {
 
     // Approach-1 -> Using sorting and mapping
     public static List<List<String>> groupAnagramsSort(String words[]) {

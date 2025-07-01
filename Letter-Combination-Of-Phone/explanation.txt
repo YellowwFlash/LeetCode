@@ -1,0 +1,58 @@
+✅ Given Question:
+Given a string containing digits from 2–9 inclusive, return all possible letter combinations
+that the number could represent (like T9 predictive text).
+
+✅ Given Data:
+- Input: A string `digits` (e.g., "23").
+- Output: A list of strings representing all possible combinations of letters.
+- Each digit maps to a set of letters based on the classic mobile keypad:
+  - 2 → "abc", 3 → "def", 4 → "ghi", ..., 9 → "wxyz".
+
+✅ Intuition:
+This is a **combinatorial problem** best solved using **backtracking**.
+- Each digit contributes one character to the final combination.
+- The total number of combinations is the **product of character choices per digit**.
+- At each index, we choose one letter from the current digit’s mapping and move forward.
+- Backtracking helps in exploring all combinations while reverting changes for the next path.
+
+-----------------------------------------
+Approach: Using Recursion + Backtracking
+-----------------------------------------
+
+1. Edge Case:
+   - If `digits` is null or empty → return null or empty list (no combinations possible).
+
+2. Mapping:
+   - Use an array `map[]` where index corresponds to the digit (e.g., map[2] = "abc").
+
+3. Recursive Function (combination):
+   - Parameters:
+     - `index`: current digit being processed.
+     - `stringBuilder`: stores the current path.
+     - `result`: stores final list of combinations.
+
+4. Base Case:
+   - If `stringBuilder.length() == digits.length()`, a complete combination is formed.
+   - Add it to the result and return.
+
+5. Recursive Case:
+   - Get characters mapped to the current digit.
+   - Loop through each character:
+     - Append the character to the path.
+     - Recursively call for the next digit.
+     - Backtrack: remove the last character to explore a new path.
+
+6. Final Output:
+   - Return the `result` list containing all valid letter combinations.
+
+Time Complexity:
+    - O(3^n * 4^m) where:
+      - n = number of digits mapping to 3 letters (2–6, 8)
+      - m = number of digits mapping to 4 letters (7 and 9)
+
+Space Complexity:
+    - O(n): recursion depth and space used by StringBuilder.
+
+Example:
+Input: "23"
+Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]

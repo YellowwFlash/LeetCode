@@ -1,0 +1,69 @@
+✅ Given Question:
+Find all unique combinations of numbers that sum up to a target value under different constraints:
+1. Numbers may be reused.
+2. Each number can only be used once.
+3. Use only k numbers that sum up to a target using digits from 1 to 9.
+
+✅ Given Data:
+- An array of positive integers `nums[]` (except in variation 3).
+- A target integer `target`.
+- Depending on the variation, constraints may include:
+  - Elements may be reused or used once.
+  - No duplicates allowed.
+  - Must use exactly `k` numbers.
+- Return a list of combinations where the sum equals the target.
+
+✅ Intuition:
+This is a classic backtracking problem where:
+- We explore all combinations through recursion.
+- At each step, we make a choice to include or skip an element.
+- Base and pruning conditions ensure we don’t explore unnecessary paths.
+
+Different variations apply different constraints, but the core backtracking framework is similar.
+
+------------------------------------------------------
+Approach-1: Basic Combination Sum (Unlimited Use)
+------------------------------------------------------
+1. Each number can be used multiple times.
+2. For each index:
+   - Include the number → keep index the same.
+   - Exclude the number → move to the next index.
+3. Prune if `current sum > target`.
+4. Base Case:
+   - If end of array reached and `current sum == target`, add combination.
+
+Time Complexity: O(2^target) — exponential branching.
+Space Complexity: O(target) recursion stack in worst case.
+
+------------------------------------------------------
+Approach-2: Combination Sum II (Use Each Number Once, No Duplicates)
+------------------------------------------------------
+1. Each number can be used only once.
+2. Sort the array to handle duplicates efficiently.
+3. At each recursive call, iterate using a `for` loop:
+   - Skip duplicates: if `nums[i] == nums[i - 1]` and `i > index`.
+   - Prune if `current sum > target`.
+4. Base Case:
+   - If `current sum == target`, add combination to result.
+5. Move to next index (`i + 1`) to avoid reuse.
+
+Time Complexity: O(2^n), with pruning and duplicate skipping.
+Space Complexity: O(n) recursion depth and result list.
+
+------------------------------------------------------
+Approach-3: Combination Sum III (Exactly k Numbers from 1 to 9)
+------------------------------------------------------
+1. Use numbers from 1 to 9 only (no input array).
+2. Each number can be used once.
+3. Must find all combinations of size `k` that sum to `n`.
+4. Recursive steps:
+   - Include current number: add to sum and move to next index.
+   - Exclude current number: backtrack.
+5. Base Cases:
+   - If combination size == k:
+     - If sum == target → add to result.
+     - Else → return.
+
+Time Complexity: O(C(9, k)) — limited to small input size.
+Space Complexity: O(k) recursion depth + result storage.
+

@@ -1,4 +1,4 @@
-public class Remove {
+public class RemoveNthNode {
 
     // LinkedList reference class
     static class Node {

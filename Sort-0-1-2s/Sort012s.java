@@ -1,4 +1,4 @@
-public class Sort {
+public class Sort012s {
 
     // Approach-1 -> Using the frequency technique
     public static void sort(int[] nums) {

@@ -1,0 +1,52 @@
+/*
+✅ Given Question:
+Find all possible subset sums of a given array.
+
+✅ Given Data:
+- An array of integers `nums[]`.
+- Return a list of all subset sums (i.e., the sums of all possible subsets of the array).
+
+✅ Intuition:
+This is a classic recursion/backtracking problem where:
+- Each element can either be included in the subset or excluded.
+- We explore all possible combinations of inclusion and exclusion.
+- For each combination, we compute the sum and store it.
+
+The goal is to generate all 2^n possible subsets and calculate their sums.
+
+-----------------------------------------
+Approach: Using Recursion (Backtracking)
+-----------------------------------------
+
+1. Parameters of the Recursive Function:
+   - `index`: current index in the array.
+   - `current`: running sum of the current subset.
+   - `result`: stores all subset sums.
+   - `length`: total number of elements (used to identify base case).
+
+2. Base Case:
+   - If `index == length`:
+     - We have reached the end of the array.
+     - Add the current sum to the result list.
+     - Return to backtrack.
+
+3. Recursive Choices at Each Step:
+   - **Include the current number**:
+     - Add `nums[index]` to the running sum.
+     - Move to the next index.
+   - **Exclude the current number**:
+     - Keep the running sum as-is.
+     - Move to the next index.
+
+4. Sorting:
+   - After all recursive calls are complete, sort the result list as required.
+
+5. Final Output:
+   - Return the sorted `result` list containing all possible subset sums.
+
+Time Complexity:
+    - O(2^n): Since there are 2^n subsets of an array of size n.
+
+Space Complexity:
+    - O(2^n): To store all subset sums.
+    - O(n): Recursion stack space.
