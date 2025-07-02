@@ -1,0 +1,43 @@
+✅ Given Question:
+Given a string `word`, return all possible palindrome partitioning combinations.
+Each substring in a partition must be a palindrome.
+
+✅ Given Data:
+A Java `String` input (e.g., "aab") that needs to be split into all combinations of palindromic substrings.
+Return a list of lists of strings, where each inner list contains palindromic partitions.
+
+✅ Intuition:
+The goal is to explore all possible ways to partition the string such that each substring is a palindrome.
+This is a classic backtracking problem:
+    - Try every possible substring starting from the current index.
+    - If the substring is a palindrome, include it in the current path and move forward recursively.
+    - Backtrack by removing the last added substring and trying the next possibility.
+
+This approach ensures all combinations are explored and valid palindromic partitions are collected.
+
+----------------------------------------------
+Approach: Recursion with Backtracking
+----------------------------------------------
+1. Base Case (in `partitions()` method):
+    - When the current index reaches the end of the string (`index == n`), 
+      add the current list of palindromes (`palindromes`) to the final result.
+
+2. Recursive Step:
+    - Loop from the current index to the end of the string.
+    - At each step, extract the substring from the current index to `i`.
+    - If this substring is a palindrome (checked via `isPalindrome()`):
+        - Add it to the current path (`palindromes`).
+        - Recur with the next starting index (`i + 1`).
+        - After recursion, backtrack by removing the last added substring to try new paths.
+
+3. Palindrome Check (`isPalindrome()` method):
+    - Compare characters from both ends moving inward.
+    - If all characters match, it’s a palindrome.
+
+✅ Time Complexity: 
+    - O(2^n): Each character can be either the end of a partition or not, leading to exponential combinations.
+    - For each partition, checking palindrome takes O(k) time where k is the substring length.
+
+✅ Space Complexity: 
+    - O(n): Space used by the recursion stack and to store current partitioning paths.
+    - Result list may also take exponential space depending on number of valid partitions.

@@ -1,0 +1,61 @@
+✅ Given Question:
+A rat is placed in a square maze (N x N). Each cell contains either 1 (path) or 0 (wall).
+The rat starts at (0, 0) and wants to reach (N-1, N-1).
+The rat can move in 4 directions — Up (U), Down (D), Left (L), Right (R) — **but only through cells with 1**.
+Return all possible paths as strings made of characters 'U', 'D', 'L', 'R'.
+
+✅ Given Data:
+A 2D int array `maze` where:
+    - maze[i][j] = 1 means open path
+    - maze[i][j] = 0 means wall/block
+Return a list of strings showing all valid paths from top-left to bottom-right.
+
+✅ Intuition:
+This is a backtracking problem:
+    - We start at (0, 0) and try all possible directions (R, L, U, D).
+    - We keep track of the path taken as a string.
+    - If we reach the destination, we add the path to the result.
+    - If a move leads to a dead end or revisits a cell, we backtrack and try other directions.
+
+We explore all paths using recursion, and prevent revisiting by marking cells temporarily as visited.
+
+----------------------------------------------
+Approach: Recursion + Backtracking
+----------------------------------------------
+1. Base Checks (in `ratInMaze()`):
+    - If the maze is empty or start cell is blocked, return an empty list.
+
+2. Recursive Function (`findPath()`):
+    - Stop if the current cell is out of bounds or blocked (not 1).
+    - If we reach the bottom-right cell, add the path to the result.
+
+3. Marking and Backtracking:
+    - Mark the current cell as 0 (visited) to prevent cycles.
+    - Try all four directions in a fixed order (R, L, U, D):
+        - For each direction:
+            - Add the move to the path.
+            - Recursively explore the new cell.
+            - Remove the last move (backtrack).
+    - After all directions are explored, restore the cell to 1 for future paths.
+
+✅ Why Each Direction is Tried:
+    - Right (R): Move to the next column.
+    - Left (L): Move to the previous column.
+    - Up (U): Move to the previous row.
+    - Down (D): Move to the next row.
+
+Trying all 4 directions ensures we don’t miss any valid path.
+
+✅ Why Mark as Visited:
+    - To avoid going in circles or infinite loops.
+    - If we don’t mark the current cell as visited, the rat could keep revisiting the same cell.
+
+✅ Why Backtrack:
+    - After exploring one direction, we must undo the change (remove last step and unmark the cell).
+    - This allows other paths to use the same cell later.
+
+✅ Time Complexity:
+    - O(4^(n^2)): In the worst case, every cell can move in 4 directions.
+
+✅ Space Complexity:
+    - O(n^2): Due to recursion stack and path string manipulation.

@@ -1,0 +1,58 @@
+✅ Given Question:
+Place N queens on an N x N chessboard such that no two queens attack each other.
+Return all possible board configurations.
+
+✅ Given Data:
+An integer `n`, representing the size of the chessboard and number of queens to place.
+Each solution should be a list of strings, where:
+    - 'Q' represents a queen
+    - '.' represents an empty space
+
+✅ Intuition:
+We need to place queens one by one on each row such that:
+    - No two queens are in the same column
+    - No two queens are on the same diagonal
+    - Queens don’t attack each other vertically, or diagonally
+
+This is a classic backtracking problem:
+    - Try placing a queen in every column of the current row.
+    - For each attempted placement, check if it's safe.
+    - If safe, move to the next row.
+    - If not, try the next column.
+    - If all queens are placed successfully (base case), add the board to the result.
+    - Backtrack and try other placements.
+
+----------------------------------------------
+Approach: Backtracking
+----------------------------------------------
+1. Board Initialization:
+    - Create a 2D board of size n x n filled with '.' (empty spots).
+
+2. Recursive Function (`placeQueens`):
+    - Try to place a queen in each column of the current row.
+    - If it’s safe to place at board[row][col], place it.
+    - Move to the next row (recursive call).
+    - If you reach beyond the last row (row == n), a valid configuration is found.
+    - Backtrack by removing the queen and trying the next column.
+
+3. Safety Check (`isSafe`):
+    - Why check vertically up?
+        → Queens in different rows might have been placed in the same column. That’s a conflict.
+    - Why check upper-left diagonal?
+        → A queen placed on the upper-left diagonal can attack the current position.
+    - Why check upper-right diagonal?
+        → Same reason: queens placed diagonally above to the right can also attack.
+
+    ✅ You only need to check rows above the current one because:
+        - We place one queen per row, from top to bottom.
+        - So any threat must be from the rows already filled (above).
+
+4. Board Construction (`constructBoard`):
+    - Convert each row of the board (char array) into a string.
+    - Add the list of these strings as a valid configuration.
+
+✅ Time Complexity:
+    - O(n!): At worst, we try every column for every row → n choices for 1st row, (n-1) for 2nd, etc.
+
+✅ Space Complexity:
+    - O(n²): For storing the board and recursive stack.

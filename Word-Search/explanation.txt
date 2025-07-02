@@ -1,0 +1,52 @@
+✅ Given Question:
+Determine if a given word exists in a 2D character board.
+The word must be constructed from letters of sequentially adjacent cells (horizontally or vertically neighboring).
+Each cell may only be used once per word construction.
+
+✅ Given Data:
+A 2D char array `board` and a `String` word.
+You are to return true if the word exists in the board, false otherwise.
+
+✅ Intuition:
+The idea is to use **recursive DFS with backtracking**:
+    - For each cell in the board that matches the first character of the word,
+      recursively explore its neighbors (top, down, left, right).
+    - At each recursive step, match the current character of the word.
+    - If all characters match in sequence, return true.
+    - To avoid revisiting the same cell, temporarily mark it as visited (e.g., using a special character like `#`).
+    - After exploring, revert the change to allow other paths (backtracking).
+
+This method ensures all possible paths are explored without revisiting cells, and the solution can stop early when the word is found.
+
+----------------------------------------------
+Approach: DFS + Backtracking on Grid
+----------------------------------------------
+1. Initial Checks:
+    - If the board or word is empty, return false.
+
+2. Outer Loop (in `exists()`):
+    - Iterate through all cells in the board.
+    - When the first character of the word matches a cell, begin DFS from there.
+
+3. DFS Logic (`doWordExist()`):
+    - Base Cases:
+        - If the current position is out of bounds or doesn't match the expected character, return false.
+        - If the index reaches the last character and matches, return true.
+
+    - Recursive Step:
+        - Temporarily mark the current cell as visited by replacing it with `#`.
+        - Recur in all four directions (up, down, left, right) with the next character index.
+        - If any of the recursive calls return true, propagate the result.
+
+    - Backtrack:
+        - Restore the original character before returning to allow reuse in other paths.
+
+✅ Time Complexity: 
+    - O(N * M * 4^L), where:
+        - N x M is the size of the board,
+        - L is the length of the word,
+        - 4^L is the number of paths explored in the worst case.
+
+✅ Space Complexity: 
+    - O(L): Max recursion depth (length of the word).
+    - Board is modified in-place for visited cells, but no extra space is used.
