@@ -1,0 +1,56 @@
+ ✅ Given Question:
+ You are given a partially filled 9x9 Sudoku board represented as a 2D character array `board`.
+ Each empty cell is represented by a dot `'.'`. Your task is to fill the empty cells such that
+ every row, column, and 3x3 sub-box contains the digits from '1' to '9' exactly once.
+
+ ✅ Given Data:
+ A 2D `char[][] board` representing the Sudoku puzzle with some cells filled and others empty ('.').
+ You need to modify the input board in-place so that it represents a valid completed Sudoku board.
+
+ ✅ Intuition:
+ The idea is to use recursive backtracking to try placing digits '1' to '9' in each empty cell:
+   - For each empty cell on the board, try placing a digit from '1' to '9'.
+   - For each digit, check if placing it is valid based on Sudoku rules (no duplicate in the row, column, or 3x3 box).
+   - If valid, place the digit and recursively try to solve the rest of the board.
+   - If at any point you can't proceed, backtrack by removing the digit (reset to '.') and try the next one.
+   - Continue this process until the entire board is filled correctly.
+
+ This method ensures all valid combinations are tried through backtracking,
+ and stops early when a solution is found.
+
+ -------------------------------------------------
+ Approach: DFS + Backtracking on Sudoku Board
+ -------------------------------------------------
+ 1. Entry Method (`solveSudoku`):
+    - Calls the helper method `solve()` which modifies the board recursively.
+
+ 2. `solve()` Method (Recursive Backtracking):
+    - Loop through each cell in the board.
+    - When an empty cell `'.'` is found:
+        a. Try placing digits from '1' to '9'.
+        b. For each digit:
+           - Check if it's valid using `isValid()`.
+           - If valid:
+               i. Place the digit.
+              ii. Recurse with the updated board.
+             iii. If recursion succeeds, return true (solution found).
+              iv. If not, backtrack by resetting the cell to '.'.
+        c. If no digit from '1' to '9' works, return false (this path is invalid).
+
+    - If the entire board is traversed with no empty cells remaining, return true (solution complete).
+
+ 3. `isValid()` Method:
+    - Checks if placing a given digit at a specific row and column is valid.
+    - Ensures no duplicate in:
+        a. The current row
+        b. The current column
+        c. The 3x3 sub-grid to which the cell belongs
+
+ ✅ Time Complexity:
+    - Worst case: O(9^(N)), where N is the number of empty cells.
+    - For each empty cell, you try 9 digits and recurse.
+    - In practice, this is much faster due to pruning by the `isValid()` check.
+
+ ✅ Space Complexity:
+    - O(N): Call stack space due to recursion, where N is the number of empty cells.
+    - No extra data structures are used beyond the input board (in-place modification).
