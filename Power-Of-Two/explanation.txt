@@ -1,0 +1,46 @@
+ ✅ Given Question:
+ Check if a given integer `n` is a power of two.
+ 
+ ✅ Given Data:
+ An integer `n`, and we need to determine whether it can be expressed as 2^x,
+ where `x` is a non-negative integer (i.e., n == 1, 2, 4, 8, 16, ...).
+ 
+ ✅ Intuition:
+ A number that is a power of two has only one bit set in its binary representation.
+ Alternatively, we can take logarithm base 2 of `n` and check whether 2 raised
+ to the rounded log value equals `n`.
+ 
+ -----------------------------------------
+ Approach: 1 — Using Logarithmic Function
+ -----------------------------------------
+ - Use the mathematical property: log₂(n) = log(n) / log(2)
+ - Round down the result and raise 2 to that power.
+ - If the result equals `n`, then `n` is a power of two.
+ 
+ Caveats:
+ - Might fail due to precision issues with floating-point math.
+ 
+ Time Complexity:
+     - O(1): Constant-time mathematical operations.
+ 
+ Space Complexity:
+     - O(1): No extra space used.
+ 
+ -----------------------------------------
+ Approach: 2 — Using Bitwise AND Operation
+ -----------------------------------------
+ - A number `n` that is a power of two has only one bit set in binary.
+ - If `n > 0` and `(n & (n - 1)) == 0`, then `n` is a power of two.
+   (Subtracting 1 flips all the bits after the set bit, making AND result zero)
+ 
+ Example:
+     n = 8 -> 1000 (binary)
+     n-1 = 7 -> 0111 (binary)
+     1000 & 0111 = 0000
+ 
+ Time Complexity:
+     - O(1): Only a few bitwise operations.
+ 
+ Space Complexity:
+     - O(1): No additional space used.
+

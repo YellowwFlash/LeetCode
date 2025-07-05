@@ -42,3 +42,31 @@ For input nums = [1, 2], the subsets will be:
     - O(n): Recursion stack and current subset list.
     - O(2^n * n): For storing all subsets in the final result.
 
+------------------------------------------------------
+Approach-2: Bit Manipulation
+------------------------------------------------------
+🔹 Method: `findSubsequencesBit(int[] nums)`
+This method uses bit masking to represent inclusion/exclusion of elements.
+
+1. Each subset corresponds to a binary number from `0` to `2^n - 1`.
+    - Each bit in the number represents whether to include `nums[j]` or not.
+
+2. For each number `i` from 0 to `2^n - 1`:
+    - Use a loop to inspect each bit from LSB to MSB.
+    - If the bit is `1`, include `nums[j]` in the current subset.
+
+3. Add each generated subset to the result list.
+
+✅ Example:
+For nums = [1, 2], total = 2^2 = 4
+    - i = 0 → 00 → []
+    - i = 1 → 01 → [1]
+    - i = 2 → 10 → [2]
+    - i = 3 → 11 → [1, 2]
+
+✅ Time Complexity:
+    - O(2^n * n): Looping through 2^n combinations, each requiring up to n operations.
+
+✅ Space Complexity:
+    - O(2^n * n): For storing all subsets.
+

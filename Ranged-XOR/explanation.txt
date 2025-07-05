@@ -1,0 +1,56 @@
+✅ Given Question:
+Find the XOR of all integers in the range [left, right].
+
+✅ Given Data:
+Two integers `left` and `right` where 0 <= left <= right.
+You must return the result of left ^ (left + 1) ^ ... ^ right.
+
+✅ Intuition:
+This problem can be solved in two ways:
+    - By directly traversing and applying XOR (brute-force).
+    - By using a mathematical pattern in XOR of 1 to n.
+
+------------------------------------------------------
+Approach-1: Traversal (Brute Force)
+------------------------------------------------------
+🔹 Method: `findXORTraversal(int left, int right)`
+- Initialize result = 0.
+- Loop from `left` to `right` and XOR each number into result.
+- Return the final XOR value.
+
+✅ Time Complexity:
+    - O(n): where n = right - left + 1
+
+✅ Space Complexity:
+    - O(1)
+
+------------------------------------------------------
+Approach-2: XOR Pattern (Optimized)
+------------------------------------------------------
+🔹 Method: `findXORPattern(int left, int right)`
+- The XOR from `left` to `right` can be computed as:
+      xor(1 to right) ^ xor(1 to left-1)
+
+🔹 Why it works:
+- XOR has a useful property:
+      a ^ a = 0 and a ^ 0 = a
+- So XOR(1 to right) cancels out XOR(1 to left - 1),
+  leaving XOR(left to right)
+
+🔹 Method: `xor(int n)` computes XOR of all numbers from 1 to n using a known pattern:
+      n % 4 == 0 → result is n
+      n % 4 == 1 → result is 1
+      n % 4 == 2 → result is n + 1
+      n % 4 == 3 → result is 0
+
+✅ Pattern Explanation (Very Swiftly):
+- XOR from 1 to n follows a cycle of 4:
+    n:     1   2   3   4   5   6   7   8 ...
+    XOR:   1   3   0   4   1   7   0   8 ...
+  This cycle allows constant-time computation of XOR(1 to n).
+
+✅ Time Complexity:
+    - O(1): No loops or recursion — constant time
+
+✅ Space Complexity:
+    - O(1): No extra data structres

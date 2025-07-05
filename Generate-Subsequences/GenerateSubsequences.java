@@ -40,4 +40,43 @@ public class GenerateSubsequences {
         // Recursively call for the next subsequence
         findSubsequences(result, subsequence, index + 1, nums, n);
     }
+
+    // Approach-2 -> Using bit manipulation
+    public static List<List<Integer>> findSubsequencesBit(int[] nums) {
+
+        int n = nums.length;
+
+        // First find the total number of possible subsets
+        int total = 1 << n;
+
+        // Result list
+        List<List<Integer>> result = new ArrayList<>();
+
+        // Loop through from 0 till total
+        for (int i = 0; i < total; i++) {
+
+            // subset storing list
+            List<Integer> subset = new ArrayList<>();
+
+            // Reference number to store current
+            int ref = i;
+
+            // Loop through nums
+            for (int j = 0; j < nums.length; j++) {
+
+                // Check if the rightmost bit is set, then add current
+                if ((ref & 1) == 1)
+                    subset.add(nums[j]);
+
+                // right shift ref(divide it by 2)
+                ref >>= 1;
+            }
+
+            // Add the current subset list to result
+            result.add(subset);
+        }
+
+        // Return the final subset list
+        return result;
+    }
 }

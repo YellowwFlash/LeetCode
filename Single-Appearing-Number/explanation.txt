@@ -96,3 +96,69 @@ Approach-3: Using Modified Binary Search (For Sorted Arrays Only)
 
     ✅ Space Complexity:
         - O(1) — no extra space used
+
+
+------------------------------------------------------
+✅ Approach-4: XOR (When two elements appear once, all others twice)
+------------------------------------------------------
+
+✅ Problem Statement:
+You are given an integer array where exactly two elements appear once, 
+and all other elements appear exactly twice. Return the two unique elements.
+
+✅ Intuition:
+XOR has the property: 
+    - a ^ a = 0 (duplicate elements cancel out)
+    - 0 ^ a = a
+
+If we XOR the entire array:
+    - All elements that appear twice will cancel out to 0
+    - We're left with xor = num1 ^ num2 (the two unique elements)
+
+But we can’t directly extract num1 and num2 from their XOR.
+So, we use the rightmost set bit in xor to split the array into two groups:
+    - One group has this bit set
+    - One group has this bit unset
+
+This ensures num1 and num2 go into different groups (since they differ at that bit),
+while duplicates still cancel out within their groups.
+
+✅ Example:
+nums = [2, 4, 7, 9, 2, 4]
+
+Step 1: XOR all numbers  
+→ 2 ^ 4 ^ 7 ^ 9 ^ 2 ^ 4 = (2 ^ 2) ^ (4 ^ 4) ^ (7 ^ 9) = 0 ^ 0 ^ 14 = 14  
+So, xor = 14 = 1110 (in binary)
+
+Step 2: Find rightmost set bit in xor → `rightmostSetBit = xor & -xor`
+→ 14 = 1110 → rightmostSetBit = 0010 (which is bit position 1)
+
+Step 3: Divide nums into two groups:
+- Group 1 (bit 1 is set): 2 (0010), 2 (0010), 7 (0111) → XOR gives 7
+- Group 2 (bit 1 is not set): 4 (0100), 4 (0100), 9 (1001) → XOR gives 9
+
+✅ Output: [7, 9] (Order doesn't matter)
+
+✅ Time Complexity Breakdown:
+1. XOR all elements → takes O(n) time  
+   - One pass through the array → n operations
+
+2. Find rightmost set bit → O(1) operation  
+   - Bitwise calculation
+
+3. Traverse array again to partition and XOR groups → O(n) time  
+   - Another full pass → n operations
+
+📌 Total time:  
+→ First pass (XOR all nums) = n operations  
+→ Second pass (split groups and XOR) = n operations  
+→ Total = 2n operations → O(n)
+
+✅ Space Complexity:
+→ O(1) — No extra space except a few integer variables
+
+✅ Summary:
+This is the most optimal approach when exactly two elements appear once.
+It uses pure bitwise operations with two passes over the array, no extra memory.
+
+Elegant, fast, and powerful — especially for large arrays.

@@ -33,7 +33,8 @@ public class SingleAppearingNumber {
         return result;
     }
 
-    // Approach-3(Specifically for sorted arrays) -> Using modified(index based) binary search (extremely hard to derive)
+    // Approach-3(Specifically for sorted arrays) -> Using modified(index based)
+    // binary search (extremely hard to derive)
     public static int singleNumberBinarySearch(int[] nums) {
         int n = nums.length;
 
@@ -74,5 +75,34 @@ public class SingleAppearingNumber {
         }
 
         return -1;
+    }
+
+    // Approach-4(When there are two single nums): Using xor
+    public static int[] singleNumberXOR2(int[] nums) {
+
+        // Find the xor of everybody
+        int xor = 0;
+
+        for (int num : nums)
+            xor ^= num;
+
+        // Resulting numbers
+        int n1 = 0, n2 = 0;
+
+        // Find the rightmost set bit of current xor
+        int rightmostSetBit = (xor & (xor - 1)) ^ xor;
+
+        // Traverse the nums and find which nums have right set bit as 1
+        for (int num : nums)
+
+            // This can be a number with right setbit 1
+            if ((num & rightmostSetBit) != 0)
+                n1 ^= num;
+
+            // If not, then this could be num 2 with 0 setbit
+            else
+                n2 ^= num;
+
+        return new int[] { n1, n2 };
     }
 }

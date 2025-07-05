@@ -1,0 +1,63 @@
+
+  ✅ Given Question:
+  Divide two integers without using multiplication (), division (/) or modulo (%) operators.
+  You need to return the quotient only (i.e., how many times divisor fits into dividend).
+ 
+  ✅ Given Data:
+  Two integers: `dividend` and `divisor`. Return the quotient of dividend ÷ divisor.
+  The result must stay within the 32-bit signed integer range (−2³¹ to 2³¹ − 1).
+ 
+  ✅ Intuition:
+  You can think of division as repeated subtraction: "How many times can I subtract the divisor from the dividend before I run out?"
+  But this becomes slow for large numbers, so we speed things up using bit manipulation to subtract larger chunks at once.
+ 
+  -----------------------------------------
+  Approach: 1 — Repeated Subtraction (Simple but Slow)
+  -----------------------------------------
+  - Think of this like repeatedly handing out equal slices of cake.
+  - Start at zero, and keep subtracting the divisor from the dividend.
+  - Each subtraction means the divisor fits in one more time, so we increase a counter.
+  - Stop when the dividend becomes smaller than the divisor.
+  - That counter is your result — how many times the divisor fit in.
+ 
+  ⚠️ Limitations:
+  - Doesn’t handle negative numbers or edge cases well.
+  - Can be extremely slow if the dividend is large and the divisor is small (like 1).
+ 
+  Time Complexity: O(n) — where `n` is the result (very slow for large inputs).
+  Space Complexity: O(1) — no extra space used.
+ 
+  -----------------------------------------
+  Approach: 2 — Bit Manipulation (Fast and Efficient)
+  -----------------------------------------
+  - This approach uses binary thinking. Instead of subtracting one `divisor` at a time,
+    we try subtracting big multiples like 2×, 4×, 8× of the divisor using bit shifts (left shift).
+ 
+  Step-by-Step Simplified Explanation:
+  1. Special Case Check:
+     - If dividend is the lowest possible integer (−2³¹) and divisor is −1, the result would overflow, so we return the highest allowed integer.
+ 
+  2. Handle Signs:
+     - Store whether the result should be positive or negative.
+     - This is done by checking if the dividend and divisor have the same sign.
+ 
+  3. Work with Absolute Values:
+     - To keep the math clean, convert both numbers to positive.
+     - Use `long` to avoid overflow issues when taking absolute value of −2³¹.
+ 
+  4. Subtract in Chunks:
+     - While the dividend is still bigger than the divisor:
+         - Find the biggest multiple of the divisor (like divisor × 2⁴) that fits into the dividend.
+         - Subtract that from the dividend.
+         - Keep track of how many times that multiple fits using powers of 2.
+     - This way, we reduce the dividend much faster than one-by-one subtraction.
+ 
+  5. Apply the Sign:
+     - If the original signs were different, make the result negative.
+     - If they were the same, return the result as positive.
+ 
+  6. Return Final Result:
+     - Make sure it fits in the 32-bit integer range before returning.
+ 
+  Time Complexity: O(log n) — because we reduce the dividend by powers of two.
+  Space Complexity: O(1) — no extra space needed.

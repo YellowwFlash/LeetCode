@@ -1,0 +1,48 @@
+✅ Given Question:
+You are given two integers `start` and `goal`.
+Determine the minimum number of bit positions that need to be flipped in `start` to make it equal to `goal`.
+ 
+✅ Given Data:
+Two integers: `start` and `goal`.
+You need to count how many individual bits are different between them — i.e., how many bits must change from 0 to 1 or 1 to 0.
+ 
+✅ Intuition:
+If two bits are the same at a certain position, no change is needed.
+If they are different, we need to flip that bit.
+XOR is perfect for this:
+- When bits are the same → XOR gives 0
+- When bits are different → XOR gives 1
+ 
+So by taking `start ^ goal`, we get a new number where:
+- Each 1 means "this bit needs to change"
+- Each 0 means "this bit is already correct"
+
+Then, to find how many bits need to be changed, we just count the number of 1s in this XOR result.
+ 
+-----------------------------------------
+Approach: XOR and Count Set Bits
+-----------------------------------------
+1. Take XOR of `start` and `goal`. This highlights the differing bits.
+ Example: 
+ start = 0101 (5)
+ goal = 0011 (3)
+ XOR = 0110 → 2 bits differ
+ 
+2. Count the number of 1s in the XOR result.
+ - This tells us how many bit positions are different.
+ - Each 1 means we need one flip at that bit.
+ 
+3. Return that count as the answer.
+ 
+How the counting works:
+- While the number is not zero:
+- Check if the rightmost bit is 1 (using `n & 1`)
+- If yes, increment count
+- Right shift the number to move to the next bit
+ 
+Time Complexity:
+- O(number of bits) → Usually O(32) for int
+
+Space Complexity:
+- O(1): Only a few variables used
+
