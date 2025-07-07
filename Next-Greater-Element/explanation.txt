@@ -1,0 +1,67 @@
+✅ Given Question:
+ For each element in a `subset[]`, find the next greater element in the corresponding `nums[]` array.
+
+✅ Given Data:
+ Two integer arrays:
+   - `nums[]`: a superset of unique elements.
+   - `subset[]`: a subset of elements from `nums[]`.
+ Return an array where each element is the next greater element for the corresponding entry in `subset[]`.
+
+✅ Intuition:
+ This problem is about finding the next greater element to the right for each element.
+ It can be solved in multiple ways:
+   - Brute force: nested traversal to find the next greater element.
+   - Optimized approach: using a monotonic stack to precompute results efficiently.
+
+------------------------------------------------------
+Approach-1: Regular Traversal (Brute Force)
+------------------------------------------------------
+🔹 Method: `nextGreaterElement(int nums[], int subset[])`
+ - For each element in `nums[]`, look to the right to find the first greater element.
+ - Store the result in `nge[]` array.
+ - For each element in `subset[]`, look up its next greater element in `nge[]`.
+
+✅ Time Complexity:
+    - O(n^2 + m*n), where n = nums.length, m = subset.length
+
+✅ Space Complexity:
+    - O(n + m), for `nge[]` and `result[]` arrays
+
+🔹 Limitations:
+ - Not efficient for large input sizes.
+
+------------------------------------------------------
+Approach-2: Stack + HashMap (Optimized Monotonic Stack)
+------------------------------------------------------
+🔹 Method: `nextGreaterElementStack(int nums[], int subset[])`
+ - Traverse `nums[]` backward using a monotonic decreasing stack.
+ - For each element:
+     - Pop from stack until a greater element is found.
+     - Store the mapping in a HashMap.
+ - Finally, look up each `subset[]` element in the map to build the result.
+
+✅ Time Complexity:
+    - O(n + m), very efficient
+
+✅ Space Complexity:
+    - O(n + m), for the stack, map, and result array
+
+🔹 Example:
+    nums = [4, 5, 2, 25], subset = [4, 2]
+    -> Next greater map: {4→5, 5→25, 2→25, 25→-1}
+    -> result = [5, 25]
+
+------------------------------------------------------
+Approach-3: Circular Array + Stack
+------------------------------------------------------
+🔹 Method: `nextGreaterElementCircular(int nums[])`
+ - This variation handles the case when the array is circular.
+ - Traverse the array as if it's repeated twice (simulate 2n length).
+ - Use a monotonic decreasing stack to maintain next greater elements.
+ - For indices within the first n elements, record the result.
+
+✅ Time Complexity:
+    - O(2n) = O(n), since each element is pushed and popped at most once
+
+✅ Space Complexity:
+    - O(n), for the stack and result array

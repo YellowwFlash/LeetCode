@@ -1,0 +1,69 @@
+ ✅ Given Question:
+ Find all **distinct prime factors** of a given number `n`.
+
+ ✅ Given Data:
+ A single integer `n` where n >= 1.
+ You must return a list of **distinct prime factors** of `n`.
+
+ ✅ Intuition:
+ This problem can be solved in multiple ways:
+     - By checking all numbers from 1 to n and seeing if they divide n and are prime.
+     - By checking up to √n and leveraging factor pairs (cascade method).
+     - By dividing out all prime factors efficiently using trial division (optimized approach).
+
+ ------------------------------------------------------
+ Approach-1: Full Traversal (Brute Force)
+ ------------------------------------------------------
+ 🔹 Method: `findPrimeFactorsIteration(int n)`
+ - Iterate from 1 to n.
+ - For each i, check:
+     - If i divides n (i.e., n % i == 0).
+     - If i is prime using `isPrime(i)`.
+ - Add such i to the result list.
+
+ ✅ Time Complexity:
+     - O(n * sqrt(n)) due to prime checking for each i
+
+ ✅ Space Complexity:
+     - O(k), where k is the number of distinct prime factors
+
+ ------------------------------------------------------
+ Approach-2: Cascade Method (Better Factor Checking)
+ ------------------------------------------------------
+ 🔹 Method: `findPrimeFactorsCascade(int n)`
+ - Iterate from 1 to √n.
+ - For each i, check:
+     - If i divides n and is prime → add i
+     - If (n / i) is different from i and prime → add n / i
+
+ 🔹 Why it works:
+ - Any factor > √n has a paired factor < √n.
+ - So we cover all factor pairs without iterating up to n.
+
+ ✅ Time Complexity:
+     - O(√n * sqrt(n)) → Because isPrime takes up to √i time
+
+ ✅ Space Complexity:
+     - O(k), where k is the number of distinct prime factors
+
+ ------------------------------------------------------
+ Approach-3: Optimized Prime Factorization (Efficient)
+ ------------------------------------------------------
+ 🔹 Method: `findPrimeFactors(int n)`
+ - Iterate from 2 to √n.
+ - For each i:
+     - While i divides n:
+         - Add i to result list (once).
+         - Divide n by i repeatedly to remove all powers of i.
+ - If n > 1 at the end, it's a prime and added to result.
+
+ 🔹 Why it works:
+ - This is the standard trial division algorithm.
+ - It efficiently eliminates all prime factors from n.
+
+ ✅ Time Complexity:
+     - O(√n) in practice (very fast for moderate n)
+
+ ✅ Space Complexity:
+     - O(k), where k is the number of distinct prime factors
+

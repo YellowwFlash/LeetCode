@@ -1,0 +1,59 @@
+✅ Given Question:
+ For each element in the `nums[]` array, find the previous smaller element to its left.
+ If there is no smaller element, return -1 for that position.
+
+✅ Given Data:
+ One integer array:
+   - `nums[]`: contains distinct or repeated integers.
+ Return an array `pse[]` where each element is the previous smaller element to the left of `nums[i]`.
+
+✅ Intuition:
+ This problem is about finding the previous smaller element to the left of each element in the array.
+ It can be solved in multiple ways:
+   - Brute force: nested loops to check each previous element.
+   - Optimized approach: using a monotonic increasing stack to keep track of potential previous smaller elements.
+
+------------------------------------------------------
+Approach-1: Regular Traversal (Brute Force)
+------------------------------------------------------
+🔹 Method: `previousSmallerLoops(int nums[])`
+ - For each element in `nums[]`, check all elements to its left.
+ - As soon as a smaller element is found, record it in `pse[]`.
+ - Fill the result with `-1` initially for cases where no smaller element exists.
+
+✅ Time Complexity:
+    - O(n^2), where n = nums.length
+
+✅ Space Complexity:
+    - O(n), for `pse[]` result array
+
+🔹 Limitations:
+ - Not efficient for large arrays due to nested loops.
+
+------------------------------------------------------
+Approach-2: Stack (Optimized Monotonic Stack)
+------------------------------------------------------
+🔹 Method: `previousSmallerStack(int nums[])`
+ - Traverse the array from left to right.
+ - Maintain a stack that stores elements in increasing order.
+ - For each element:
+     - Pop all elements from stack that are greater than or equal to current.
+     - If stack is empty, no smaller element exists → assign -1.
+     - Else, assign stack's top element as the previous smaller.
+ - Push the current element into the stack for future comparisons.
+
+✅ Time Complexity:
+    - O(n), each element is pushed and popped at most once
+
+✅ Space Complexity:
+    - O(n), for the stack and result array
+
+🔹 Example:
+    nums = [4, 5, 2, 10, 8]
+    stack evolves as:
+        - i = 0 (4): stack=[], result[0]=-1
+        - i = 1 (5): stack=[4], result[1]=4
+        - i = 2 (2): stack=[4,5], pop→ stack=[], result[2]=-1
+        - i = 3 (10): stack=[2], result[3]=2
+        - i = 4 (8): stack=[2,10], pop→ stack=[2], result[4]=2
+    → pse = [-1, 4, -1, 2, 2]

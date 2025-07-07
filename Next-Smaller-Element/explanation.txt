@@ -1,0 +1,63 @@
+✅ Given Question:
+ For each element in the `nums[]` array, find the next smaller element to its right.
+ If there is no smaller element, return -1 for that position.
+
+✅ Given Data:
+ One integer array:
+   - `nums[]`: contains distinct or repeated integers.
+ Return an array `nse[]` where each element is the next smaller element to the right of `nums[i]`.
+
+✅ Intuition:
+ This problem is about finding the next smaller element to the right of each element in the array.
+ It can be solved in multiple ways:
+   - Brute force: nested loop to check each next element.
+   - Optimized approach: using a monotonic increasing stack to keep the next smaller candidates.
+
+------------------------------------------------------
+Approach-1: Regular Traversal (Brute Force)
+------------------------------------------------------
+🔹 Method: `nextSmallerLoops(int nums[])`
+ - For each element in `nums[]`, check all elements to its right.
+ - As soon as a smaller element is found, record it in `nse[]`.
+ - If no smaller element is found, keep it as 0 (default value). (⚠️ Optionally fill with -1)
+
+✅ Time Complexity:
+    - O(n^2), where n = nums.length
+
+✅ Space Complexity:
+    - O(n), for `nse[]` result array
+
+🔹 Limitations:
+ - Not efficient for large arrays.
+ - May return incorrect values if `nse[]` isn't pre-filled with -1 before the inner loop.
+
+🔹 Fix:
+ - Make sure to fill `nse[]` with -1 initially to match problem expectations.
+
+------------------------------------------------------
+Approach-2: Stack (Optimized Monotonic Stack)
+------------------------------------------------------
+🔹 Method: `nextSmallerStack(int nums[])`
+ - Traverse the array from right to left.
+ - Maintain a stack that stores potential smaller elements in increasing order.
+ - For each element:
+     - Pop all elements from stack that are greater than or equal to current.
+     - If stack is empty, no smaller element exists → assign -1.
+     - Else, assign stack's top element as the next smaller.
+ - Push the current element into the stack for future comparisons.
+
+✅ Time Complexity:
+    - O(n), each element is pushed and popped at most once
+
+✅ Space Complexity:
+    - O(n), for the stack and result array
+
+🔹 Example:
+    nums = [4, 8, 5, 2, 25]
+    stack evolves as:
+        - i = 4 (25): stack=[], result[4]=-1
+        - i = 3 (2): stack=[25], result[3]=-1
+        - i = 2 (5): stack=[25, 2], result[2]=2
+        - i = 1 (8): stack=[25, 5], result[1]=5
+        - i = 0 (4): stack=[25, 5, 2], result[0]=2
+    → nse = [2, 5, 2, -1, -1]

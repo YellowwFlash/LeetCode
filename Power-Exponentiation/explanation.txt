@@ -1,0 +1,43 @@
+ ✅ Given Question:
+ Compute base raised to the power exponent, i.e., return base^exponent.
+
+ ✅ Given Data:
+ Two long integers: `base` and `exponent`.
+ Return the result as a long.
+ Note:
+   - If base == 0 or exponent < 0, return 0.
+   - If exponent == 0, return 1.
+
+ ✅ Intuition:
+ This problem can be solved in multiple ways:
+     - Multiply base with itself `exponent` times (naive).
+     - Use recursion with exponent halving.
+     - Use **Exponentiation by Squaring**, an efficient iterative technique.
+
+ ------------------------------------------------------
+ Approach-1: Exponentiation by Squaring (Optimized Iterative)
+ ------------------------------------------------------
+ 🔹 Method: `power(long base, long exponent)`
+ - Initialize result (answer) as 1.
+ - While exponent > 0:
+     - If exponent is odd:
+         - Multiply current base with answer.
+         - Subtract 1 from exponent to make it even.
+     - Else (exponent is even):
+         - Square the base.
+         - Halve the exponent (using right shift).
+
+ 🔹 Why it works:
+ - Every exponent can be represented as a sum of powers of 2.
+ - Squaring the base and halving the exponent lets us build powers fast.
+ - This reduces the number of multiplications from O(n) to O(log n).
+
+ ✅ Time Complexity:
+     - O(log exponent), since the exponent is halved in each iteration
+
+ ✅ Space Complexity:
+     - O(1), no extra space used apart from variables
+
+ 🔹 Example:
+     - power(2, 10)
+       -> 2^10 = 1024, computed in ~4 multiplications (log2(10) ≈ 3.3)

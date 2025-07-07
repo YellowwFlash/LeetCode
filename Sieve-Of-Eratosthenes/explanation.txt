@@ -1,0 +1,53 @@
+ ✅ Given Question:
+ Find all prime numbers up to a number `n`, and efficiently answer multiple queries
+ asking for the count of primes within a range [L, R].
+
+ ✅ Given Data:
+ - A single integer `n` (for finding primes up to `n`)
+ - A list of queries where each query is a pair [L, R]
+ 
+ ✅ Intuition:
+ This is a classic prime number generation and query problem. We use the **Sieve of Eratosthenes**
+ to precompute all prime numbers up to a certain limit. Once the sieve is built, we can:
+    - Get a list of all prime numbers (Approach-1)
+    - Precompute a prefix sum of primes count to answer multiple range queries in O(1) (Approach-2)
+
+ ------------------------------------------------------
+ Approach-1: Sieve of Eratosthenes - Generate all primes up to `n`
+ ------------------------------------------------------
+ 🔹 Method: `sieveOfEratosthenes(int n)`
+ - Initialize a boolean array `primes[0..n]` as `true`.
+ - Mark `primes[0]` and `primes[1]` as `false`.
+ - For each number `i` from 2 to √n:
+     - If `primes[i]` is `true`, mark all multiples of `i` starting from `i*i` as `false`.
+ - At the end, all indexes marked `true` in the array are prime numbers.
+ - Add them to a result list and return.
+
+ ✅ Time Complexity:
+     - O(n * log log n)
+
+ ✅ Space Complexity:
+     - O(n)
+
+ ------------------------------------------------------
+ Approach-2: Answer Q range queries to count primes in [L, R]
+ ------------------------------------------------------
+ 🔹 Method: `getPrimesInRange(int[][] queries)`
+ - Build a prefix sum array using a modified sieve:
+     - `result[i]` stores the number of primes ≤ i.
+     - First build the sieve to mark non-primes (set them to 0).
+     - Then compute prefix sums.
+ - For each query [L, R], answer using:
+     - `result[R] - result[L - 1]` in O(1) time.
+
+ 🔹 Helper Method: `getSieve(int n)`
+ - Similar to Sieve of Eratosthenes, but store 1 for primes and 0 for non-primes.
+ - Compute prefix sum: result[i] += result[i - 1]
+
+ ✅ Time Complexity:
+     - Preprocessing: O(n * log log n)
+     - Each Query: O(1)
+     - Total for Q queries: O(n + Q)
+
+ ✅ Space Complexity:
+     - O(n), for prefix sum array

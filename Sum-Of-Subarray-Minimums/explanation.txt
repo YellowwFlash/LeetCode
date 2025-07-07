@@ -1,0 +1,76 @@
+✅ Given Question:
+ Find the sum of minimum values of all possible subarrays in the given array `nums[]`.
+
+✅ Given Data:
+ - An integer array `nums[]`.
+ - Return the sum of the minimum value of every possible subarray.
+ - Since the answer could be large, return it modulo (1e9 + 7).
+
+✅ Intuition:
+ We want to calculate the sum of minimums across all subarrays.
+ A brute force way would be to generate every subarray, find the min, and sum them — but that's too slow.
+
+ Instead, we use the contribution technique:
+ - Rather than looking at all subarrays, we calculate how many subarrays each element is the minimum of.
+ - Then we compute the total contribution of that element to the answer.
+
+------------------------------------------------------
+✅ Contribution Technique:
+------------------------------------------------------
+🔹 Key Idea:
+ For each `nums[i]`, find:
+   - How many subarrays start before or at i and include it, with `nums[i]` being the minimum.
+   - How many subarrays end after or at i and include it, with `nums[i]` being the minimum.
+
+ Multiply those two counts to get how many total subarrays `nums[i]` is the minimum of.
+
+ Contribution of `nums[i]` = leftCount * rightCount * nums[i]
+
+🔹 To compute the counts:
+ - `PSEE` = Previous Smaller Element or Equal (on the left)
+ - `NSE` = Next Smaller Element (on the right)
+
+ For index `i`:
+   - Left count = i - PSEE[i]
+   - Right count = NSE[i] - i
+
+ Why?
+ - Left count tells how many subarrays end at i where nums[i] is the smallest.
+ - Right count tells how many subarrays start at i where nums[i] is the smallest.
+ - Their product gives total subarrays where nums[i] is the min.
+
+------------------------------------------------------
+Approach: Contribution + Stack (Efficient)
+------------------------------------------------------
+🔹 Method: `sumOfMinimums(int[] nums)`
+ - Precompute:
+     - `PSEE[i]`: the last index to the left where nums[index] < nums[i]
+     - `NSE[i]`: the first index to the right where nums[index] < nums[i]
+ - For each index `i`:
+     - Left = i - PSEE[i]
+     - Right = NSE[i] - i
+     - Add (Left * Right * nums[i]) to the answer
+
+✅ Time Complexity:
+    - O(n), because each element is pushed/popped at most once from the stack
+
+✅ Space Complexity:
+    - O(n), for PSEE, NSE, and stacks
+
+🔹 Example:
+   nums = [3, 1, 2, 4]
+
+   PSEE = [-1, -1, 1, 2]
+   NSE  = [1, 4, 4, 4]
+
+   Contributions:
+   - 3: (0 - (-1)) * (1 - 0) * 3 = 1 * 1 * 3 = 3
+   - 1: (1 - (-1)) * (4 - 1) * 1 = 2 * 3 * 1 = 6
+   - 2: (2 - 1) * (4 - 2) * 2 = 1 * 2 * 2 = 4
+   - 4: (3 - 2) * (4 - 3) * 4 = 1 * 1 * 4 = 4
+
+   Total = 3 + 6 + 4 + 4 = 17
+
+✅ Final Result:
+ Return sum % (10^9 + 7)
+
