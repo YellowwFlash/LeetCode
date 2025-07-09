@@ -1,0 +1,100 @@
+✅ Given Question:
+You are given an array of integers `nums`.
+For every subarray, calculate the range (max - min) and return the sum of all these ranges.
+
+✅ Given Data:
+  - Input: an integer array `nums[]` of size n.
+  - Output: an integer - the sum of (max - min) for every subarray in nums[].
+  - Subarray: any continuous part of the array, like nums[i...j].
+
+✅ Intuition:
+Instead of generating all subarrays (which is slow), we calculate:
+  - How many times each element appears as a maximum in any subarray.
+  - How many times each element appears as a minimum in any subarray.
+  
+If we know these counts, we can just:
+    Total Range Sum = Sum of contributions when element is max - when it's min
+
+This avoids nested loops and improves performance using monotonic stacks.
+
+------------------------------------------------------
+Approach-1: Using Contribution Technique + Monotonic Stack
+------------------------------------------------------
+🔹 Method: `sumOfRanges(int[] nums)`
+Steps:
+  1. Use helper `findSubarrayMaximumSum()` to compute sum of all subarray maximums.
+  2. Use helper `findSubarrayMinimumSum()` to compute sum of all subarray minimums.
+  3. Return (sum of max - sum of min), modulo (1e9 + 7).
+
+Let’s now explain each helper function and what they do.
+
+------------------------------------------------------
+🔹 `findSubarrayMaximumSum(int[] nums)`
+Goal:
+  - For each element, figure out:
+    - How many subarrays exist where this element is the maximum?
+
+Steps:
+  1. Use two helper arrays:
+     - `prevGreater[i]`: index of the closest element before i that is greater than or equal to nums[i]
+     - `nextGreater[i]`: index of the closest element after i that is strictly greater than nums[i]
+
+  2. For every element at index i:
+     - Left count: i - prevGreater[i]
+     - Right count: nextGreater[i] - i
+     - Total subarrays where nums[i] is the max: left * right
+
+  3. Multiply nums[i] * left * right, and add to sum.
+
+🔹 Monotonic Stack Idea:
+    - Use stack to find prevGreater and nextGreater efficiently in O(n)
+    - Stack keeps indexes of elements in decreasing order to easily find greater elements
+
+🔹 Example:
+    nums = [3, 1, 2, 4]
+    For nums[0] = 3:
+      - prevGreater = -1 (nothing before it)
+      - nextGreater = 3 (4 at index 3 is greater)
+      - left = 0 - (-1) = 1
+      - right = 3 - 0 = 3
+      - Subarrays: 3 appears as max in 3 subarrays
+      - Add: 3 * 1 * 3 = 9
+
+------------------------------------------------------
+🔹 `findSubarrayMinimumSum(int[] nums)`
+Same idea as maximum, but for minimums.
+
+Differences:
+  - `prevSmaller[i]`: previous smaller or equal element
+  - `nextSmaller[i]`: next strictly smaller element
+
+  - For each nums[i]:
+     - Count of subarrays where nums[i] is min = left * right
+     - Multiply with nums[i], and add to the sum
+
+------------------------------------------------------
+🔹 Why use `prevGreater` vs `prevGreaterOrEqual`?
+To avoid counting duplicates multiple times:
+  - For maximum → avoid duplicates on the left: use `>=`
+  - For minimum → allow duplicates on the left: use `>`
+
+This prevents overcounting subarrays.
+
+------------------------------------------------------
+🔹 Why Modulo?
+Because numbers can get very large when multiplying,
+we keep the final result modulo 1e9 + 7.
+
+------------------------------------------------------
+✅ Time Complexity:
+  - O(n) for each helper function (due to stack-based approach)
+  - Overall: O(n)
+
+✅ Space Complexity:
+  - O(n) for the stack and helper arrays
+
+🔹 Summary:
+Instead of looping through all subarrays,
+we calculate how many times each element contributes to the total range sum
+based on its position and surrounding elements using monotonic stacks.
+This is clean, fast, and scalable even for large arrays.

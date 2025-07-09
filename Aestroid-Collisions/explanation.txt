@@ -1,0 +1,64 @@
+✅ Given Question:
+Simulate collisions between asteroids moving in a 1D space.
+Each asteroid moves either to the left (negative value) or to the right (positive value).
+If two asteroids collide:
+  - The smaller one (by absolute value) explodes.
+  - If they are equal in size, both explode.
+Return the final state of the asteroids after all collisions.
+
+✅ Given Data:
+One integer array:
+  - `asteroids[]`: represents the direction and size of asteroids.
+      - Positive integers → moving right
+      - Negative integers → moving left
+Return the array of remaining asteroids after all collisions.
+
+✅ Intuition:
+Asteroids moving in opposite directions may collide.
+Right-moving asteroids (positive) are stored.
+When a left-moving asteroid (negative) comes in:
+  - It can only collide with positive asteroids on the stack.
+  - We simulate the collisions by popping smaller right-moving asteroids.
+  - If equal size → both explode.
+  - If left is smaller → it explodes, do nothing.
+  - If left is larger → right ones pop, keep checking.
+
+------------------------------------------------------
+Approach-1: Stack-Based Collision Simulation
+------------------------------------------------------
+🔹 Method: `aestroidCollisions(int asteroids[])`
+ - Use a stack to maintain the current state of moving asteroids.
+ - Iterate through each asteroid:
+     - If it's positive, push it to the stack.
+     - If it's negative, simulate collisions with stack top:
+         - Keep popping stack while top is smaller (positive) and less than abs(current)
+         - If top is equal → pop (both destroy), and skip current
+         - If top is greater → skip current (destroyed)
+         - If stack is empty or top is negative → push current (no collision)
+ - Convert the stack to array as final result.
+
+✅ Time Complexity:
+    - O(n), where n = number of asteroids
+    - Each asteroid is pushed and popped at most once
+
+✅ Space Complexity:
+    - O(n), for the stack and result array
+
+🔹 Example:
+    Input: [5, 10, -5]
+    Stack:
+      - 5 → push
+      - 10 → push
+      - -5 → collides with 10 (10 > 5), -5 is destroyed
+    Output: [5, 10]
+
+    Input: [8, -8]
+    Stack:
+      - 8 → push
+      - -8 → collides with 8 (equal), both destroyed
+    Output: []
+
+🔹 Edge Case:
+    Input: [-2, -1, 1, 2]
+    No collisions → output remains same
+    Output: [-2, -1, 1, 2]

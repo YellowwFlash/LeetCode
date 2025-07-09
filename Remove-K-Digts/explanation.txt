@@ -1,0 +1,65 @@
+✅ Given Question:
+You are given a string `num` representing a non-negative integer and an integer `k`.
+You must remove exactly `k` digits from `num` so that the new number is the smallest possible.
+Return the resulting number as a string (without leading zeros unless it's "0").
+
+✅ Given Data:
+  - `num`: a string of digits (e.g., "1432219")
+  - `k`: an integer (0 <= k <= num.length), number of digits to remove
+  - Goal: Remove `k` digits to form the smallest possible number
+
+✅ Intuition:
+We need to remove digits to minimize the resulting number.
+The best strategy is to remove digits that are larger than the next one (like a "peak").
+This is similar to keeping the number monotonically increasing as we build it.
+
+We can simulate this process using a stack (here, `StringBuilder` works like a stack):
+  - We iterate through the digits:
+    - If the current digit is smaller than the one on top of the stack,
+      we remove the top digit (since it makes the number bigger).
+    - Do this only if we still have `k` digits left to remove.
+
+------------------------------------------------------
+Approach-1: Monotonic Stack (Greedy)
+------------------------------------------------------
+🔹 Method: `removeKdigits(String num, int k)`
+Steps:
+  1. Create a stack (using StringBuilder) to build the smallest number.
+  2. Traverse each digit in `num`:
+      - While:
+        - We still have digits to remove (k > 0)
+        - Stack is not empty
+        - Top of stack > current digit
+      - Remove the top of the stack (i.e., delete a higher digit)
+  3. Append the current digit to the stack.
+  4. After the loop, if `k > 0`, it means we still need to remove digits:
+     - Remove them from the end of the stack (which is the largest remaining).
+  5. Remove leading zeros.
+  6. If result is empty (all digits removed or just zeros), return `"0"`.
+
+✅ Time Complexity:
+  - O(n), where n = length of num
+    Each digit is pushed and popped at most once
+
+✅ Space Complexity:
+  - O(n), for the stack (StringBuilder)
+
+🔹 Example:
+    Input: num = "1432219", k = 3
+    Process:
+      - '1' → stack = "1"
+      - '4' → stack = "14"
+      - '3' → 4 > 3 → remove 4, stack = "1", k = 2 → stack = "13"
+      - '2' → 3 > 2 → remove 3, k = 1 → stack = "12"
+      - '2' → stack = "122"
+      - '1' → 2 > 1 → remove 2, k = 0 → stack = "121"
+      - '9' → stack = "1219"
+    Remove leading zeros → "1219"
+
+    Output: "1219"
+
+🔹 Edge Cases:
+  - If `k == num.length` → remove all digits → return "0"
+  - If result starts with zeros → remove leading zeros
+  - If all digits are in increasing order → remove from the end
+
