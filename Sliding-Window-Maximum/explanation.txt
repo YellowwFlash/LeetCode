@@ -1,0 +1,73 @@
+✅ Given Question:
+You are given an array of integers and a sliding window size `k`.
+Your task is to find the maximum value in each window of size `k` as it moves from left to right across the array.
+
+✅ Given Data:
+  - `nums`: an array of integers
+  - `k`: size of the sliding window
+  - Goal: For every window of size `k`, find the maximum value
+
+✅ Intuition:
+To find the maximum value in each sliding window efficiently, 
+we use a data structure that allows us to:
+  - Insert elements in order
+  - Remove elements from both ends
+  - Always know the maximum in constant time
+
+A Deque (double-ended queue) is perfect for this.
+We store indices (not values) in the deque and maintain it in decreasing order of values.
+
+------------------------------------------------------
+Approach-1: Using Deque (Monotonic Queue)
+------------------------------------------------------
+🔹 Method: `slidingWindowMaximum(int[] nums, int k)`
+Steps:
+  1. Initialize:
+     - A deque to store indices of elements in decreasing order.
+     - An array `result[]` to store the maximums.
+  2. Iterate through the array using index `i`:
+     - Step 1: Remove indices from the front of the deque if they are out of the current window:
+       ➤ `deque.peekFirst() <= i - k`
+     - Step 2: Maintain decreasing order:
+       ➤ While `nums[deque.peekLast()] <= nums[i]`, remove from back.
+       ➤ This ensures the front always holds the index of the maximum value for the current window.
+     - Step 3: Add current index `i` to the back of the deque.
+     - Step 4: If the window has at least `k` elements (`i >= k - 1`):
+       ➤ Add `nums[deque.peekFirst()]` (maximum of current window) to the result.
+  3. Return the result array.
+
+✅ Why Deque Works:
+- Maintains the most relevant elements for the current window.
+- Automatically discards smaller elements that will never be the max for future windows.
+- Ensures we only process each element once → efficient time complexity.
+
+✅ Time Complexity:
+  - O(n), where n is the length of the array
+    - Each element is added and removed from the deque at most once.
+
+✅ Space Complexity:
+  - O(k) for the deque (in worst case), and O(n - k + 1) for the result array
+
+🔹 Example:
+  Input:
+    nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3
+
+  Step-by-step:
+    - First window [1,3,-1] → max = 3
+    - Next window [3,-1,-3] → max = 3
+    - Next window [-1,-3,5] → max = 5
+    - Next window [-3,5,3] → max = 5
+    - Next window [5,3,6] → max = 6
+    - Next window [3,6,7] → max = 7
+
+  Output:
+    [3, 3, 5, 5, 6, 7]
+
+🔹 Final Summary:
+- This optimized deque approach helps us maintain a dynamic view of the current window's maximum value.
+- Much faster than the brute-force O(n*k) solution by keeping only useful candidates in the deque.
+
+🔹 Edge Cases:
+  - If `nums.length < k` → invalid input, depending on constraints
+  - If `k == 1` → result is same as input array
+  - If all elements are the same → all windows will have the same max value

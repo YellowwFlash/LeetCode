@@ -1,0 +1,59 @@
+✅ Given Question:
+You are given an integer array `cards[]`, where each element represents points on a card.
+You can pick exactly `k` cards from either the beginning or the end of the array.
+
+Your task is to return the maximum score you can achieve by picking exactly `k` cards.
+
+✅ Given Data:
+  - `cards[]`: Array of integers representing card points
+  - `k`: Number of cards you are allowed to pick
+  - Constraint: You can only pick cards from start or end of the array
+
+✅ Intuition:
+This is a sliding window problem in disguise.
+You can pick cards from either left or right, and your total number of picks must be exactly `k`.
+
+Key Idea:
+- Try all combinations where you take `i` cards from the front and `k - i` from the back.
+- Start with taking all `k` cards from the front.
+- Gradually move one card at a time from the front to the back.
+- Use a sliding window to compute the sum efficiently.
+
+------------------------------------------------------
+Approach-1: Sliding Window (Two Pointers from Ends)
+------------------------------------------------------
+🔹 Method: `maxCardPoints(int[] cards, int k)`
+Steps:
+  1. Initialize:
+     - `left` = sum of the first `k` cards from the start
+     - `right` = 0
+     - `sum` = max score seen so far
+  2. For `i = k - 1` down to `0`:
+     - Remove `cards[i]` from the `left` sum
+     - Add `cards[n - (k - i)]` to `right` sum (simulate taking from end)
+     - Update `sum = max(sum, left + right)`
+  3. Return `sum`
+
+✅ Time Complexity:
+  - O(k), since we only examine `k` combinations
+
+✅ Space Complexity:
+  - O(1), only a few variables are used
+
+🔹 Example:
+  cards = [1,2,3,4,5,6,1], k = 3
+  Possible ways:
+    - [1,2,3] → 6
+    - [1,2] + [1] → 4
+    - [1] + [6,1] → 8
+    - [] + [5,6,1] → 12
+  ➤ Max sum = 12
+
+------------------------------------------------------
+✅ Final Summary:
+- This is a great example of a fixed-size window across array boundaries.
+- You don't need to check all subarrays—just k possibilities by gradually shifting from left to right.
+- Efficient and clean approach to simulate choices from both ends.
+
+🔹 Edge Cases:
+  - k == cards.length → return sum of all elements

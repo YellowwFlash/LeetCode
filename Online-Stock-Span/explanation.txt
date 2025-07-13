@@ -1,0 +1,62 @@
+✅ Given Question:
+Design an algorithm that calculates the stock span of a stock's price for each day.
+The stock span is the number of consecutive days (including today) the stock price has been less than or equal to today’s price.
+
+✅ Given Data:
+  - A stream of stock prices (one at a time)
+  - For each price, return the span (number of days including today)
+    ➤ Such that the price was less than or equal to today’s price.
+
+✅ Intuition:
+This is a classic monotonic stack problem.
+We maintain a stack of price + span pairs. The idea is:
+  - If the current price is greater than or equal to the price on top of the stack,
+    ➤ Pop and accumulate the span of those days.
+  - We continue this until we find a higher price or the stack becomes empty.
+  - This gives us the number of days (including today) the price has been rising or staying the same.
+
+------------------------------------------------------
+Approach-1: Stack of [Price, Span]
+------------------------------------------------------
+🔹 Class: `OnlineStockSpan`
+  - Maintains a stack of pairs: [price, span]
+
+🔹 Method: `next(int price)`
+Steps:
+  1. Start with `span = 1` for the current price.
+  2. While the stack is not empty and the top price is less than or equal to current price:
+     - Pop the top
+     - Add its span to the current span
+  3. Push the current price and its total span onto the stack.
+  4. Return the span.
+
+✅ Why Stack Works:
+- We only keep prices on the stack that are greater than the current price.
+- When a lower or equal price is encountered, we can combine the spans of previous prices.
+- This gives us an efficient way to track consecutive days with prices ≤ current.
+
+✅ Time Complexity:
+  - Amortized O(1) per `next()` call
+    ➤ Each price is pushed and popped from the stack only once.
+
+✅ Space Complexity:
+  - O(n) for the stack in the worst case (monotonically decreasing prices)
+
+🔹 Example:
+  Inputs: [100, 80, 60, 70, 60, 75, 85]
+  
+  Step-by-step:
+    - 100 → span = 1   → stack: [100,1]
+    - 80  → span = 1   → stack: [100,1], [80,1]
+    - 60  → span = 1   → stack: [100,1], [80,1], [60,1]
+    - 70  → pop [60,1] → span = 2 → stack: [100,1], [80,1], [70,2]
+    - 60  → span = 1   → stack: [100,1], [80,1], [70,2], [60,1]
+    - 75  → pop [60,1], [70,2] → span = 4 → stack: [100,1], [80,1], [75,4]
+    - 85  → pop [75,4], [80,1] → span = 6 → stack: [100,1], [85,6]
+
+  Output: [1, 1, 1, 2, 1, 4, 6]
+
+🔹 Edge Cases:
+  - Very first price → always returns 1
+  - All increasing prices → span grows linearly
+  - All decreasing prices → span is always 1

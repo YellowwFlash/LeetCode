@@ -1,42 +1,66 @@
 ✅ Given Question:
-Given an array that contains only 1s and 0s, return the count of the maximum number of consecutive 1s in the array.
+Given a binary array `nums`, return the maximum number of consecutive 1s in the array.
+In an advanced version, you're allowed to flip at most `k` zeros to ones and return
+the maximum length of such a subarray.
 
 ✅ Given Data:
-An integer array int[] nums that consists only of 0s and 1s.
+  - `nums`: An array of 0s and 1s
+  - Optional: Integer `k` (number of 0s you are allowed to flip)
 
 ✅ Intuition:
-We need to find the longest sequence of consecutive 1s in the array.
+We want to find the longest contiguous subarray of 1s.
+  ➤ In the basic version (no flipping), we simply count stretches of 1s.
+  ➤ In the advanced version (with `k` flips allowed), we use a sliding window approach:
+     - Track how many 0s are in the current window.
+     - Shrink the window when the number of 0s exceeds `k`.
 
-To solve this efficiently, we can use a simple linear scan:
-    - Maintain a counter to track the current streak of 1s.
-    - Whenever a 0 is encountered, compare the current streak with the maximum found so far, update if needed, and reset the counter.
-    - After the loop, perform a final update in case the array ends with a streak of 1s.
+------------------------------------------------------
+Approach-1: Counting Consecutive 1s
+------------------------------------------------------
+🔹 Method: `maxConsecutiveOnes(int[] nums)`
+Steps:
+  1. Initialize `count = 0`, `max = 0`.
+  2. Iterate over the array:
+     - If `nums[i] == 1`, increment `count`.
+     - If `nums[i] == 0`, update `max = Math.max(max, count)` and reset `count = 0`.
+  3. At the end, return `Math.max(count, max)` to handle cases where the array ends with 1s.
 
-This method avoids unnecessary storage and checks, and gives us the result in a single pass.
+✅ Time Complexity:
+  - O(n), where n = length of the array
 
------------------------------------
-Approach: Counting Consecutive 1s
------------------------------------
-    - Initialize two variables:
-        - max = 0 (to store the maximum consecutive 1s found)
-        - count = 0 (to count the current streak of 1s)
-    - Traverse each number in the array:
-        - If the number is 1, increment count.
-        - If the number is 0:
-            - Update max = max(max, count)
-            - Reset count to 0
-    - After the loop, update max one last time:
-        - max = max(max, count)
-        - This handles the case where the array ends with 1s.
+✅ Space Complexity:
+  - O(1)
 
-    Return max as the result.
+🔹 Example:
+  nums = [1, 1, 0, 1, 1, 1]
+  ➤ Counts: 2 (before 0), then reset, then 3 → max = 3
 
-    Time Complexity:
-        - O(n), where n is the length of the array (single traversal)
+------------------------------------------------------
+Approach-2: Sliding Window with `k` Zero Flips
+------------------------------------------------------
+🔹 Method: `maxConsecutiveOnesII(int[] nums, int k)`
+Steps:
+  1. Initialize `left = 0`, `right = 0`, `zeros = 0`, `maxLength = 0`.
+  2. Expand the `right` pointer:
+     - If `nums[right] == 0`, increment `zeros`.
+     - If `zeros > k`, shrink the window from the `left`:
+        ➤ While `zeros > k`, move `left` forward and decrement `zeros` if `nums[left] == 0`.
+  3. At each step, calculate the window size: `right - left + 1`.
+     - Update `maxLength` accordingly.
+  4. Return `maxLength`.
 
-    Space Complexity:
-        - O(1), no extra space used
+✅ Time Complexity:
+  - O(n), where n = length of the array
 
-    Note:
-        - The final update after the loop is necessary to ensure we consider the last sequence of 1s if it reaches the end of the array.
-        - Without that final update, the code will miss cases where the array ends in a streak of 1s.
+✅ Space Complexity:
+  - O(1)
+
+🔹 Example:
+  nums = [1,0,1,1,0], k = 1
+  ➤ Flip one 0 → longest 1s = 4 ([1,1,1,1])
+
+🔹 Edge Cases:
+  - All 1s → returns entire array length
+  - All 0s → returns 0 (or `k`, if flips are allowed)
+  - Empty array → returns 0
+  - k = 0 → behaves like Approach-1

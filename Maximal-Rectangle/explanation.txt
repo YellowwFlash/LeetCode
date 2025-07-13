@@ -1,0 +1,81 @@
+/*
+✅ Given Question:
+You are given a 2D binary matrix filled with 0’s and 1’s.
+You must return the area of the largest rectangle containing only 1’s.
+
+✅ Given Data:
+  - `matrix`: 2D array of integers (0 or 1)
+  - Goal: Find the maximal area of a rectangle that contains only 1s
+
+✅ Intuition:
+This is an extension of the "Largest Rectangle in Histogram" problem.
+Each row of the matrix can be thought of as a base for a histogram:
+  - We accumulate heights of 1’s vertically for each column.
+  - For each row, we treat the column-wise heights so far as a histogram.
+  - Then, we apply the largest rectangle in histogram technique for that row.
+
+This approach transforms a 2D problem into a series of 1D histogram problems.
+
+------------------------------------------------------
+Approach-1: Histogram + Stack (Prefix Sum)
+------------------------------------------------------
+🔹 Method: `maximalRectangle(int[][] matrix)`
+Steps:
+  1. Initialize a `heights[]` array of size equal to number of columns.
+     - It keeps track of how many consecutive 1s are present vertically at each column.
+  2. Iterate through each row in the matrix:
+     - For each column:
+       - If matrix[i][j] == 1, then `heights[j] += 1`
+       - If matrix[i][j] == 0, then reset `heights[j] = 0`
+     - Now, `heights[]` represents a histogram for that row.
+  3. Use the helper method `maxHistogramArea(heights)` to compute the largest rectangle in this histogram.
+  4. Update `maxArea` after each row.
+
+🔹 Helper Method: `maxHistogramArea(int[] heights)`
+  - This uses the Monotonic Stack approach to find the largest rectangle in a histogram.
+  - Same logic as before:
+    ➤ For each index `i` in `heights[]`, maintain an increasing stack of indices.
+    ➤ When a lower height is encountered:
+       - Pop from stack → get `height = heights[stack[top]]`
+       - Width is calculated as:
+         - If stack is empty → width = i
+         - Else → width = i - stack[top] - 1
+       - Area = height * width
+       - Update maxArea
+  - After the loop, process any remaining bars in the stack (i.e., right boundary = end of array)
+
+✅ Why Histogram Works in 2D:
+- Each row "extends" the histogram vertically.
+- By treating every row as the base of a histogram and applying the 1D logic,
+  we can efficiently find the maximum rectangle that ends at that row.
+
+✅ Time Complexity:
+  - O(m * n), where m = number of rows, n = number of columns
+    - For each row → O(n) to build histogram + O(n) for max area via stack
+
+✅ Space Complexity:
+  - O(n) for the histogram array and the stack
+
+🔹 Example:
+    Input matrix:
+    [ [1, 0, 1, 0, 0],
+      [1, 0, 1, 1, 1],
+      [1, 1, 1, 1, 1],
+      [1, 0, 0, 1, 0] ]
+
+    Step-by-step:
+      After row 0: heights = [1, 0, 1, 0, 0] → maxArea = 1
+      After row 1: heights = [2, 0, 2, 1, 1] → maxArea = 3
+      After row 2: heights = [3, 1, 3, 2, 2] → maxArea = 6 (rectangle of 3x2)
+      After row 3: heights = [4, 0, 0, 3, 0] → maxArea = 6
+
+🔹 Final Summary:
+- By converting the matrix into row-wise histograms, we can reuse the optimized
+  1D stack-based approach to compute maximum rectangular area efficiently.
+- This avoids needing to brute-force all possible rectangles in 2D.
+
+🔹 Edge Cases:
+  - Empty matrix → return 0
+  - Matrix with all 0s → return 0
+  - Matrix with all 1s → area = total number of cells (m * n)
+  - Matrix with single row or single column → still works via histogram logic

@@ -1,0 +1,57 @@
+✅ Given Question:
+You are given a string consisting only of characters ‘a’, ‘b’, and ‘c’.
+You need to count how many substrings exist that contain at least one occurrence of all three characters.
+
+✅ Given Data:
+  - `string`: Input string made up of 'a', 'b', and 'c'
+  - Goal: Count the number of substrings that contain at least one 'a', one 'b', and one 'c'
+
+✅ Intuition:
+This is a variation of the sliding window + last seen index problem.
+Instead of explicitly maintaining a window with frequency count, we store the last seen index for each character.
+At every index, if we’ve seen all three characters at least once, then:
+  ➤ The number of valid substrings ending at this index = 1 + min(last seen of 'a', 'b', 'c')
+
+✅ Why it works:
+Every time we move forward in the string, we update the last seen index of the current character.
+If we have already seen all three characters, we can form valid substrings by starting from index 0 up to
+the earliest of the three last seen indices.
+
+------------------------------------------------------
+Approach-1: Using Last Seen Index Tracking
+------------------------------------------------------
+🔹 Method: `substringWithAllChars(String string)`
+Steps:
+  1. Create an array `hash[3]` to store last seen index of 'a', 'b', and 'c':
+     - hash[0] → last index of 'a'
+     - hash[1] → last index of 'b'
+     - hash[2] → last index of 'c'
+     - Initialize all to -1
+  2. Loop through the string:
+     - For each character `current`, update its last seen index: `hash[current - 'a'] = i`
+     - If all values in `hash` are not -1 (i.e., we’ve seen all 3 letters),
+       ➤ Then we can form `(1 + min(hash[0], hash[1], hash[2]))` substrings ending at index `i`
+     - Add this number to `count`
+
+✅ Time Complexity:
+  - O(n), where n = length of the string
+
+✅ Space Complexity:
+  - O(1), only 3 elements are stored in the `hash` array
+
+🔹 Example:
+  Input: "abcabc"
+  Explanation:
+    At i = 2 → "abc" → count += 1 (min index = 0)
+    At i = 3 → "abca", "bca" → count += 1 + 1 = 2
+    At i = 4 → "abcab", "bcab", "cab" → count += 2
+    At i = 5 → "abcabc", ..., "cabc" → count += 3
+    ➤ Total count = 10
+
+------------------------------------------------------
+✅ Final Summary:
+- This is a smart use of last seen tracking, avoiding unnecessary substring checks.
+- The trick is: every time we’ve seen all characters, the number of valid substrings ending at that point
+  is determined by the earliest last seen index.
+- This method is both fast and memory efficient.
+

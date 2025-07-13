@@ -1,0 +1,82 @@
+✅ Given Question:
+You are given an array of integers `nums[]` and an integer `k`.
+A "nice" subarray is defined as a contiguous subarray that contains exactly `k` odd numbers.
+
+Return the number of nice subarrays in `nums`.
+
+✅ Given Data:
+  - `nums[]`: Array of integers (can be even or odd)
+  - `k`: Integer target number of odd elements per subarray
+  - Goal: Count how many contiguous subarrays contain exactly `k` odd numbers
+
+✅ Intuition:
+We are essentially being asked to count how many subarrays have exactly `k` odd numbers.
+
+Two optimal strategies exist:
+
+1️⃣ Prefix Sum + HashMap
+   ➤ Count the prefix sums of odd numbers.
+   ➤ Track how many times each prefix sum has occurred.
+   ➤ When `prefix[i] - prefix[j] = k`, it means the subarray between j+1 and i has exactly k odds.
+
+2️⃣ Sliding Window (AtMost Technique)
+   ➤ Count number of subarrays with at most `k` odd numbers
+   ➤ Subtract number of subarrays with at most `k-1` odds
+   ➤ Result = exactly `k` odd subarrays
+
+------------------------------------------------------
+Approach-1: Prefix Count + HashMap
+------------------------------------------------------
+🔹 Method: `countNiceSubarraysHashMap(int[] nums, int k)`
+Steps:
+  1. Initialize:
+     - `prefix = 0`: running count of odd numbers
+     - `count = 0`: number of valid subarrays
+     - `map`: HashMap to store frequency of each prefix count
+  2. Add `map.put(0, 1)` to handle edge case where prefix itself is k
+  3. Iterate through the array:
+     - If `num` is odd → increment `prefix` (use `num & 1`)
+     - Compute `remainder = prefix - k`
+     - If `remainder` exists in map, it means there is a subarray ending here with exactly k odds
+     - Add the frequency of `remainder` to `count`
+     - Update map with current `prefix`
+
+✅ Time Complexity:
+  - O(n)
+
+✅ Space Complexity:
+  - O(n) for the HashMap
+
+🔹 Example:
+  nums = [1,1,2,1,1], k = 3
+  ➤ Nice subarrays: [1,1,2,1], [1,2,1,1], [1,1,2,1,1] → count = 3
+
+------------------------------------------------------
+Approach-2: AtMost Sliding Window (Binary Logic)
+------------------------------------------------------
+🔹 Method: `countNiceSubarraysBinaryLogic(int[] nums, int k)`
+Steps:
+  ➤ Convert the problem to binary:
+     - odd → 1, even → 0 (using `num & 1`)
+  ➤ Define helper function `atmost(nums, goal)`
+     - Counts subarrays with at most `goal` odd numbers
+  ➤ Result = atmost(k) - atmost(k - 1)
+
+🔹 Helper Method: `atmost(nums, goal)`
+Steps:
+  1. Initialize `left`, `right`, `sum`, and `count`
+  2. Loop through `right`:
+     - Add `nums[right] & 1` to sum (i.e., if it's odd, increment sum)
+     - While `sum > goal`, shrink the window from the left
+     - For each valid window, add `right - left + 1` to count
+
+✅ Time Complexity:
+  - O(n)
+
+✅ Space Complexity:
+  - O(1)
+
+🔹 Example:
+  nums = [1,1,2,1,1], k = 3
+  ➤ atmost(3) = 10, atmost(2) = 7 → count = 3
+

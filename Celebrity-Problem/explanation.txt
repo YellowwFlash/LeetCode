@@ -1,0 +1,100 @@
+✅ Given Question:
+You are given a matrix M[][] of size n x n where M[i][j] == 1 means person i knows person j,
+and M[i][j] == 0 means person i does NOT know person j.
+A celebrity is defined as someone who:
+  ➤ Is known by everyone (n - 1 people)
+  ➤ Knows no one (not even one person)
+
+You need to return the index of the celebrity if there is one; otherwise, return -1.
+
+✅ Given Data:
+  - M: 2D array of integers (0 or 1) representing who knows whom
+  - n: Number of people at the party
+
+✅ Intuition:
+A celebrity is someone who is a universal recipient of knowledge (everyone knows them),
+but they don’t reciprocate it (they know no one). Two main checks:
+  - Row i: all 0s (person i knows no one)
+  - Column i: all 1s except M[i][i] (everyone knows person i)
+
+We implement two approaches:
+
+------------------------------------------------------
+Approach-1: Using iKnow and uKnow Arrays
+------------------------------------------------------
+🔹 Method: `celebrity(int[][] M, int n)`
+Steps:
+  1. Initialize two arrays:
+     - `iKnow[i]`: Number of people person i knows
+     - `uKnow[i]`: Number of people who know person i
+  2. Iterate through the matrix:
+     - If M[i][j] == 1 → person i knows person j
+       ➤ Increment iKnow[i]
+       ➤ Increment uKnow[j]
+  3. After filling both arrays:
+     - Check for a person `i` such that:
+       ➤ iKnow[i] == 0 (they know no one)
+       ➤ uKnow[i] == n - 1 (everyone else knows them)
+     - If found, return `i` as the celebrity
+     - Otherwise, return -1
+
+✅ Time Complexity:
+  - O(n^2) for traversing the entire matrix
+
+✅ Space Complexity:
+  - O(n) for the two arrays
+
+🔹 Example:
+    M = [ [0, 1, 1],
+          [0, 0, 1],
+          [0, 0, 0] ]
+    ➤ iKnow = [2, 1, 0]
+    ➤ uKnow = [0, 1, 2]
+    Person 2 knows no one and is known by everyone → Celebrity = 2
+
+------------------------------------------------------
+Approach-2: Two-Pointer Elimination (Optimized)
+------------------------------------------------------
+🔹 Method: `celebrityPointers(int[][] M, int n)`
+Steps:
+  1. Use two pointers: `top = 0`, `down = n - 1`
+  2. While top < down:
+     - If M[top][down] == 1:
+       ➤ top knows down → top cannot be celebrity → move top++
+     - Else:
+       ➤ top does not know down → down cannot be celebrity → move down--
+     - This reduces the search space efficiently
+  3. Candidate left is `top` (or `down`)
+  4. Validate the candidate:
+     - For all `i != top`, ensure:
+       ➤ M[top][i] == 0 (top knows no one)
+       ➤ M[i][top] == 1 (everyone knows top)
+     - If any condition fails → return -1
+
+✅ Time Complexity:
+  - O(n) for candidate elimination
+  - O(n) for validation
+  - Overall: O(n)
+
+✅ Space Complexity:
+  - O(1), no extra space used
+
+🔹 Example:
+    M = [ [0, 1, 1],
+          [0, 0, 1],
+          [0, 0, 0] ]
+    ➤ Step 1: top = 0, down = 2
+    ➤ M[0][2] == 1 → top++
+    ➤ M[1][2] == 1 → top++
+    ➤ Now top == 2, candidate
+    ➤ Validate: row 2 is all 0s, column 2 is all 1s except M[2][2] → Valid → Return 2
+
+🔹 Final Summary:
+- Approach-1 is easier to implement but takes O(n^2) time.
+- Approach-2 is more optimal (O(n)) by using elimination logic and verifying only one candidate.
+- Both methods ensure correct detection of the celebrity if one exists.
+
+🔹 Edge Cases:
+  - No person satisfies the condition → return -1
+  - Multiple candidates but only one true celebrity → works correctly
+  - Self-knowledge (M[i][i] can be 0 or 1) → irrelevant in logic

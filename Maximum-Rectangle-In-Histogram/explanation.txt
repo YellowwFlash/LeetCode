@@ -1,0 +1,99 @@
+✅ Given Question:
+You are given an array `heights` representing the histogram where the width of each bar is 1.
+You must find the area of the largest rectangle that can be formed inside the histogram.
+
+✅ Given Data:
+  - `heights`: an array of non-negative integers (e.g., [2,1,5,6,2,3])
+  - Each index represents the height of a histogram bar of unit width.
+  - Goal: Find the area of the largest rectangle that can be formed using contiguous bars.
+
+✅ Intuition:
+To find the largest rectangle, we try to treat each bar as the "shortest" bar in some rectangle.
+We want to expand this rectangle as far as possible to the left and right where bars are at least as tall as the current one.
+
+To do this, we need to find:
+  - Previous Smaller Element (PSE): First bar to the left that is smaller than the current bar.
+  - Next Smaller Element (NSE): First bar to the right that is smaller than the current bar.
+
+Once we know these two, we can compute:
+  ➤ Width of rectangle = (Right boundary - Left boundary - 1)  
+  ➤ Height of rectangle = height of the current bar (since it's the shortest)
+
+Using a monotonic increasing stack helps us find PSE and NSE efficiently.
+
+------------------------------------------------------
+Approach-1: Monotonic Stack (Efficient)
+------------------------------------------------------
+🔹 Method: `maximumRectangle(int[] heights)`
+Steps:
+  1. Initialize an empty stack to store indices of histogram bars.
+     - The stack maintains an increasing order of heights.
+  2. Traverse each index `i` in the array:
+      - While the current height is less than or equal to the height at the top of the stack:
+          - It means the bar at top can't extend beyond this one.
+          - So we pop the stack and calculate area:
+              ➤ height = heights[stack[top]] → height of the popped bar
+              ➤ width = (top == -1) ? i : (i - stack[top] - 1)
+                - Case 1: Stack is empty → bar extends from 0 to i-1 → width = i
+                - Case 2: Stack has elements → bar extends from stack[top] + 1 to i - 1
+              ➤ area = height * width
+              ➤ Update maxArea if area is larger
+      - Push current index `i` to the stack
+  3. After traversing all bars, we may still have indices in the stack:
+      - These bars can extend till the end of the histogram (n - 1)
+      - For each, calculate:
+          ➤ height = heights[stack[top]]
+          ➤ width = (top == -1) ? n : (n - stack[top] - 1)
+          ➤ area = height * width
+          ➤ Update maxArea
+  4. Return the maximum area found.
+
+✅ Why This Works:
+- The stack helps track previous smaller elements (left boundary).
+- When we pop an element, the current index `i` acts as the next smaller element (right boundary).
+- This gives us a bounded window where the popped bar is the shortest — ideal for rectangle calculation.
+
+✅ Time Complexity:
+  - O(n), where n = number of bars
+    Each index is pushed and popped at most once.
+
+✅ Space Complexity:
+  - O(n), for the stack used to store indices.
+
+🔹 Example:
+    Input: heights = [2, 1, 5, 6, 2, 3]
+    Stack Trace:
+      - i=0: stack = [0]
+      - i=1: height=1 < height[stack.top]=2 → pop 0 → height=2, width=1 → area=2
+             stack = [] → push 1
+      - i=2: stack = [1,2]
+      - i=3: stack = [1,2,3]
+      - i=4: height=2 < height[3]=6 → pop 3 → height=6, width=1 → area=6
+             height=2 < height[2]=5 → pop 2 → height=5, width=2 → area=10
+             stack = [1] → push 4
+      - i=5: stack = [1,4,5]
+    After loop:
+      - pop 5 → height=3, width=1 → area=3
+      - pop 4 → height=2, width=4 → area=8
+      - pop 1 → height=1, width=6 → area=6
+    Max area = 10
+
+🔹 Final Summary:
+- Why height = heights[stack[top]]?  
+  → That’s the height of the rectangle, since that’s the bar being considered as the shortest.
+
+- Why width = (i - stack[top] - 1)?  
+  → Because we’re calculating the distance between the next and previous smaller elements:
+    - `i` is the current index (next smaller)
+    - `stack[top]` is the previous smaller
+    - So the valid width is between them: `i - stack[top] - 1`
+
+- Why is the stack increasing?  
+  → Because we only pop when we find a shorter bar (which defines the NSE).  
+     This ensures each rectangle is processed at the right time, and once.
+
+🔹 Edge Cases:
+  - If the array is empty → return 0
+  - All bars same height → area = height * length
+  - Strictly increasing heights → max area found at cleanup phase
+  - Strictly decreasing heights → each bar popped immediately, narrow rectangles

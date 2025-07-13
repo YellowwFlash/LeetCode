@@ -1,0 +1,108 @@
+✅ Given Question:
+Design and implement a data structure for Least Frequently Used (LFU) Cache.
+It should support the following operations in O(1) or close to O(1) time:
+  ➤ `get(key)` – Return the value of the key if it exists in the cache, otherwise return -1.
+  ➤ `put(key, value)` – Insert or update the value. If capacity is reached,
+      evict the least frequently used item.
+      If multiple keys have the same frequency, evict the least recently used among them.
+
+✅ Given Data:
+  - Fixed capacity cache
+  - Frequency count for each key must be maintained
+  - Least frequently used item should be evicted when necessary
+
+✅ Intuition:
+To support efficient operations and eviction:
+  ➤ Maintain a HashMap of keys to nodes (nodeMap) for O(1) access to values
+  ➤ Maintain a HashMap of frequency to Doubly Linked List (frequencyMap)
+     - Each frequency has its own list of nodes (to handle ties via recency)
+  ➤ Track the minimum frequency (minFrequency) in the cache
+
+This allows:
+  - O(1) access to any node (via nodeMap)
+  - O(1) updates to frequency and recency (via doubly linked lists)
+  - O(1) identification of least frequently used and least recently used nodes
+
+------------------------------------------------------
+Implementation Design:
+------------------------------------------------------
+🔹 Class: `LFUCache`
+  - Fields:
+    • `nodeMap`: key → node
+    • `frequencyMap`: freq → doubly linked list of nodes
+    • `minFrequency`: Tracks current minimum frequency
+    • `capacity`: Max cache size
+    • `currentSize`: Current number of elements
+
+🔹 Inner Class: `Node`
+  - key, value: stores the data
+  - frequency: how often the key has been accessed
+  - prev, next: pointers for doubly linked list
+
+🔹 Inner Class: `DoublyLinkedList`
+  - Contains dummy head/tail and maintains LRU order among nodes with same frequency
+  - Methods:
+    • `addNode(node)` – inserts node at front
+    • `removeNode(node)` – removes a specific node
+
+------------------------------------------------------
+🔹 Method: `get(int key)`
+Steps:
+  1. If key not in nodeMap → return -1
+  2. Get the node, update its frequency via `updateNode(node)`
+  3. Return the node's value
+
+🔹 Method: `put(int key, int value)`
+Steps:
+  1. If capacity == 0 → do nothing
+  2. If key exists:
+     ➤ Update value
+     ➤ Call `updateNode(node)`
+  3. Else (new key):
+     ➤ Increment current size
+     ➤ If over capacity:
+         - Remove least frequently used node from `frequencyMap[minFrequency]`
+         - Evict the LRU node from that frequency list and update nodeMap
+     ➤ Reset `minFrequency = 1` (new node always starts with frequency 1)
+     ➤ Create new node and add it to:
+         - `nodeMap`
+         - `frequencyMap[1]` (create new list if needed)
+
+🔹 Method: `updateNode(Node node)`
+Steps:
+  1. Remove node from its current frequency list
+  2. If the list becomes empty and matches `minFrequency`, increment `minFrequency`
+  3. Increment node's frequency
+  4. Add node to the new frequency list (create one if needed)
+  5. Update `frequencyMap` accordingly
+
+✅ Time Complexity:
+  - `get()` → O(1)
+  - `put()` → O(1)
+    ➤ All operations on the doubly linked list and maps are constant time
+
+✅ Space Complexity:
+  - O(capacity) for storing up to `capacity` nodes and frequency buckets
+
+🔹 Example:
+    LFUCache cache = new LFUCache(2);
+    cache.put(1, 1);   // [1:1,f=1]
+    cache.put(2, 2);   // [1:1,f=1], [2:2,f=1]
+    cache.get(1);      // freq of 1 becomes 2 → [2:2,f=1], [1:1,f=2]
+    cache.put(3, 3);   // Evicts key 2 (least freq) → [1:1,f=2], [3:3,f=1]
+    cache.get(2);      // Returns -1
+    cache.get(3);      // freq of 3 becomes 2 → [1:1,f=2], [3:3,f=2]
+    cache.get(1);      // freq of 1 becomes 3 → [3:3,f=2], [1:1,f=3]
+    cache.put(4, 4);   // Evicts key 3 (lower freq than 1) → [1:1,f=3], [4:4,f=1]
+
+🔹 Final Summary:
+- LFU Cache evicts the least frequently used item.
+- If there’s a tie in frequency, it evicts the least recently used among them.
+- Maintains two maps: one for key lookup, one for frequency management.
+- Doubly linked lists allow O(1) insertion/removal from any frequency list.
+- Efficient and elegant handling of both frequency and recency.
+
+🔹 Edge Cases:
+  - Capacity = 0 → all `put()` calls ignored
+  - Getting non-existent key → return -1
+  - Updating value of existing key → refresh frequency as well

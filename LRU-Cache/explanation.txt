@@ -1,0 +1,100 @@
+✅ Given Question:
+Design and implement a data structure for Least Recently Used (LRU) Cache.
+It should support the following operations:
+  ➤ `get(key)` – Return the value of the key if it exists in the cache, otherwise return -1.
+  ➤ `put(key, value)` – Update or insert the value; if capacity is reached, evict the least recently used item.
+
+✅ Given Data:
+  - A fixed-capacity cache (max number of items it can store)
+  - Must support O(1) `get()` and `put()` operations
+
+✅ Intuition:
+To achieve O(1) time complexity for both operations:
+  ➤ Use a HashMap to provide quick access to cache entries by key
+  ➤ Use a Doubly Linked List to maintain the usage order:
+     - Most recently used items are at the front (near the head)
+     - Least recently used items are at the back (near the tail)
+  ➤ Every time a key is accessed or inserted, move it to the front
+
+This combination allows:
+  - Fast lookup with HashMap
+  - Fast updates of order with Doubly Linked List
+
+------------------------------------------------------
+Implementation Design:
+------------------------------------------------------
+🔹 Class: `LRUCache`
+  - Fields:
+    • `map`: HashMap<Integer, Node> → stores key-node pairs for O(1) access
+    • `head`, `tail`: Dummy nodes marking boundaries of the doubly linked list
+    • `capacity`: Maximum number of cache items
+
+🔹 Internal Node Class:
+  - `Node` contains:
+    • key: for identifying the entry
+    • data: the value stored
+    • prev and next: pointers for the doubly linked list
+
+------------------------------------------------------
+🔹 Method: `get(int key)`
+Steps:
+  1. Check if the key exists in the map
+     - If not, return -1
+  2. Retrieve the node from the map
+  3. Move the node to the front (marking it as recently used):
+     - Remove from current position
+     - Add after head
+  4. Return node’s data
+
+------------------------------------------------------
+🔹 Method: `put(int key, int value)`
+Steps:
+  1. If key exists:
+     - Update node's value
+     - Move it to the front
+  2. If key doesn't exist:
+     - If capacity reached, evict least recently used (tail.prev)
+     - Create new node and insert at the front
+
+------------------------------------------------------
+🔹 Method: `deleteNode(Node node)`
+Steps:
+  - Remove the node from linked list and map:
+    • Adjust prev and next pointers
+    • Remove node.key from the map
+
+🔹 Method: `addNode(Node node)`
+Steps:
+  - Insert node right after the dummy `head`
+  - Update pointers
+  - Add key-node pair to map
+
+✅ Time Complexity:
+  - O(1) for both `get()` and `put()` due to:
+    ➤ HashMap for lookup
+    ➤ Doubly Linked List for order maintenance
+
+✅ Space Complexity:
+  - O(capacity) for storing up to `capacity` nodes in the cache
+
+🔹 Example:
+    LRUCache cache = new LRUCache(2);
+    cache.put(1, 1);       // Cache: [1]
+    cache.put(2, 2);       // Cache: [2, 1]
+    cache.get(1);          // Returns 1 → Cache: [1, 2]
+    cache.put(3, 3);       // Evicts key 2 → Cache: [3, 1]
+    cache.get(2);          // Returns -1 (not found)
+    cache.put(4, 4);       // Evicts key 1 → Cache: [4, 3]
+    cache.get(1);          // Returns -1
+    cache.get(3);          // Returns 3
+    cache.get(4);          // Returns 4
+
+🔹 Final Summary:
+- LRU Cache uses HashMap + Doubly Linked List to achieve O(1) access and eviction.
+- Ensures that most recently accessed items stay in cache, while least used items get evicted first.
+- Dummy head and tail simplify the list manipulation logic by avoiding null checks.
+
+🔹 Edge Cases:
+  - Accessing a missing key → returns -1
+  - Inserting when cache is full → removes least recently used item
+  - Re-inserting existing key → updates and moves it to the front

@@ -1,0 +1,56 @@
+✅ Given Question:
+You are given an array `fruits[]`, where each element represents a type of fruit.
+You have two baskets, and each basket can only hold one type of fruit.
+You must pick fruits in a contiguous subarray, such that:
+  ➤ You pick only two types of fruits at most.
+  ➤ You can pick as many fruits of those two types as you want.
+
+Return the length of the longest subarray that contains at most two different fruit types.
+
+✅ Given Data:
+  - `fruits[]`: An array of integers, where each value represents a fruit type
+  - Goal: Find the length of the longest subarray with at most 2 distinct integers
+
+✅ Intuition:
+This is a classic sliding window problem that deals with:
+  ➤ Finding the longest subarray with at most K distinct elements (in this case, K = 2)
+
+We expand the window using the `right` pointer, and contract from the `left` when more than 2 distinct fruits are present.
+A HashMap helps track the count of each fruit in the window.
+
+------------------------------------------------------
+Approach-1: Sliding Window + HashMap (Variable Window Size)
+------------------------------------------------------
+🔹 Method: `maxFruitsInBasket(int[] fruits)`
+Steps:
+  1. Initialize:
+     - `left`, `right` → window boundaries
+     - `maxlength` → to track the longest valid window
+     - `map` → HashMap to store frequency of fruits in the current window
+  2. Loop while `right < n`:
+     ➤ Add `fruits[right]` to map and increase its count
+     ➤ If `map.size() > 2`, the window has more than two fruit types:
+         - Reduce frequency of `fruits[left]`
+         - If frequency becomes 0, remove it from the map
+         - Move `left` pointer forward
+  3. Update `maxlength` with `right - left + 1` at each step
+  4. Return `maxlength` after the loop
+
+✅ Type of Sliding Window:
+  - Variable-size sliding window with a hash map
+  - Also known as Longest Substring/Subarray with at Most K Distinct Characters/Elements
+
+✅ Time Complexity:
+  - O(n), where n = length of the fruits array
+    ➤ Each fruit is added and removed from the map at most once
+
+✅ Space Complexity:
+  - O(1), since the map holds at most 2 keys (only 2 fruit types allowed)
+
+🔹 Example:
+  Input: fruits = [1, 2, 1, 2, 3]
+  ➤ Valid subarrays with at most 2 fruits:
+     - [1,2,1,2] → length = 4
+     - [2,1,2] → length = 3
+     - [1,2,3] → invalid (3 fruit types)
+  ➤ Answer = 4

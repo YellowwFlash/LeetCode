@@ -1,0 +1,90 @@
+✅ Given Question:
+Given a binary array `nums[]` and an integer `goal`, return the number of subarrays
+whose elements sum up exactly to `goal`.
+
+✅ Given Data:
+  - `nums[]`: Array of 0s and 1s
+  - `goal`: Target sum
+  - Task: Count the number of contiguous subarrays that sum to exactly `goal`
+
+✅ Intuition:
+This is a subarray sum equals K problem.
+There are two optimized approaches to solve it efficiently:
+
+  1️⃣ Prefix Sum + HashMap → General solution (works for any array, not just binary)
+  2️⃣ AtMost Technique → Optimized for binary arrays only (0s and 1s)
+
+------------------------------------------------------
+Approach-1: Prefix Sum + HashMap
+------------------------------------------------------
+🔹 Method: `countBinarySubarraysHashMap(int[] nums, int goal)`
+Steps:
+  1. Use a `prefix` sum to accumulate values.
+  2. Maintain a `HashMap<prefix_sum, frequency>` to count previous sums.
+     ➤ This helps to detect subarrays that sum to `goal`.
+  3. At each index:
+     - Compute `prefix += nums[i]`
+     - Let `remainder = prefix - goal`
+     - If `remainder` is in the map, add its frequency to the answer
+     - Update the map with the current prefix sum
+
+✅ Why it works:
+  ➤ If `prefix[j] - prefix[i] = goal`, then the subarray from `i` to `j-1` sums to goal.
+     The map tracks how many times such `prefix[i]` occurred before.
+
+✅ Time Complexity:
+  - O(n), where n = length of the array
+
+✅ Space Complexity:
+  - O(n) for the HashMap
+
+🔹 Example:
+  nums = [1,0,1,0,1], goal = 2
+  Valid subarrays: [1,0,1], [0,1,0,1], [1,0,1] → count = 4
+
+------------------------------------------------------
+Approach-2: AtMost Sliding Window (Only for Binary Arrays)
+------------------------------------------------------
+🔹 Method: `countBinarySubarraysAtmost(int[] nums, int goal)`
+Idea:
+  - Count subarrays with sum ≤ goal (`atMost(goal)`)
+  - Count subarrays with sum ≤ goal - 1 (`atMost(goal - 1)`)
+  - Their difference is the number of subarrays with sum = goal
+
+Formula:
+  ➤ countExactly(goal) = atMost(goal) - atMost(goal - 1)
+
+🔹 Helper Method: `atmost(nums, goal)`
+Steps:
+  1. Use two pointers (`left`, `right`) and a running sum
+  2. Expand `right` and add to `sum`
+  3. While `sum > goal`, move `left` forward and subtract values
+  4. At each step, add `right - left + 1` to count (number of valid subarrays ending at `right`)
+
+✅ Time Complexity:
+  - O(n), since each element is processed at most twice
+
+✅ Space Complexity:
+  - O(1)
+
+🔹 Why this works for binary arrays only:
+  - Binary arrays have simple sum behavior (values are 0 or 1)
+  - Guarantees that all subarrays with a sum ≤ goal are contiguous and easy to count
+
+🔹 Example:
+  nums = [1,0,1,0,1], goal = 2
+  ➤ atMost(2) = 10, atMost(1) = 6 → count = 10 - 6 = 4
+
+------------------------------------------------------
+✅ Final Summary:
+- Prefix Sum + HashMap works for any array (not just binary)
+- AtMost Technique is highly efficient but works only on binary arrays
+- Both run in O(n) time, but use different strategies:
+   ➤ HashMap counts subarrays via previous prefix sums
+   ➤ Sliding window counts "at most" and uses subtraction trick
+
+🔹 Edge Cases:
+  - Empty array → return 0
+  - goal = 0 → count subarrays with only 0s
+  - goal > total sum → return 0
+  - All 1s or all 0s → still works in both approaches
