@@ -1,0 +1,44 @@
+ ✅ Given Question:
+ You are given two strings `s` and `t`. Return the minimum window substring of `s`
+ such that every character in `t` (including duplicates) is included in the window.
+ If no such substring exists, return an empty string.
+
+ ✅ Given Data:
+ - A source string `s` and a target string `t`.
+ - The result must be the smallest substring in `s` that contains all characters from `t`
+   (including the correct number of duplicates).
+
+ ✅ Intuition:
+ This is a classic sliding window problem.
+ We need to expand the window until it contains all characters from `t`,
+ then try to shrink it from the left to find the smallest such valid window.
+
+ We use an integer array of size 128 (for ASCII characters) to count the required characters from `t`.
+ While expanding the window, we decrement the counts.
+ A character from `s` contributes toward fulfilling the requirement only if it was originally needed (`hash[ch] > 0`).
+ Once all characters of `t` are included (`count == t.length()`), we try to shrink the window while keeping it valid.
+
+ ---------------------------------------------
+ Approach: Sliding Window + Pre-insertion Frequency Array
+ ---------------------------------------------
+ - Initialize an array `hash[128]` to track character frequencies in `t`.
+ - Pre-fill this array with the counts of characters from `t`.
+ - Use two pointers (`left` and `right`) to define a sliding window over `s`.
+ - When expanding the window with `right`, decrement the frequency in `hash`:
+     - If `hash[currentChar] > 0` before decrementing, we are fulfilling a needed character.
+     - Track how many needed characters we've included using `count`.
+ - When `count == t.length()`, try to shrink the window from `left`:
+     - If the character at `left` is part of `t`, increment its count back in `hash`.
+     - If `hash[leftChar] > 0`, we’re removing a needed character, so decrement `count`.
+ - Keep track of the minimum window's start index and length.
+
+ ✅ Why This Works:
+ - Characters not in `t` are effectively ignored because their required count in `hash` is zero.
+ - The algorithm always finds the shortest valid window due to continuous shrinking when possible.
+
+ Time Complexity:
+     - O(n + m), where `n` is the length of `s` and `m` is the length of `t`.
+       Each character is processed at most twice (once by `right`, once by `left`).
+
+ Space Complexity:
+     - O(1): Constant space (size 128 array) for character frequencies assuming ASCII input.

@@ -1,0 +1,41 @@
+ ✅ Given Question:
+ You are given a string `s` and an integer `k`. Return the length of the longest substring
+ that contains at most `k` distinct characters.
+
+ ✅ Given Data:
+ A string `s` consisting of characters (can be upper/lowercase letters, digits, etc.),
+ and an integer `k` representing the maximum number of distinct characters allowed in the substring.
+
+ ✅ Intuition:
+ To find the longest substring with at most `k` distinct characters, we use the **sliding window** technique.
+ As we expand the window using the `right` pointer, we maintain a map of character frequencies.
+ If the number of distinct characters (i.e., map size) exceeds `k`, the window becomes invalid and we shrink it from the `left`.
+ During this process, we track the length of the longest valid window.
+
+ ---------------------------------------------
+ Approach-1: Basic Sliding Window using HashMap
+ ---------------------------------------------
+ - Use two pointers `left` and `right` to define the window.
+ - Use a `HashMap` to track character frequencies within the current window.
+ - Expand `right` to include characters and update their count.
+ - If the map size (number of distinct characters) exceeds `k`, shrink the window by moving `left` and updating the map.
+ - Update `maxLength` with the size of the current valid window (`right - left + 1`).
+
+ ✅ Why another approach?
+ The first approach works well but always checks `while (map.size() > k)` and may perform extra operations inside the loop
+ if we already know that we crossed the limit by just 1 character.
+
+ ---------------------------------------------
+ Approach-2: Optimized Sliding Window
+ ---------------------------------------------
+ - Similar to Approach-1 but slightly optimized.
+ - Instead of using `while (map.size() > k)`, this uses a simple `if (map.size() > k)` to reduce overhead.
+ - This can improve performance in scenarios where `k` is large or character distribution is skewed.
+ - Note: This optimization works because we only remove **one character** at a time when we exceed the limit,
+   and we only need to bring it back to a valid state.
+
+ Time Complexity:
+     - O(n): Each character is visited at most twice (once by `right`, once by `left` when shrinking the window).
+
+ Space Complexity:
+     - O(k): At most `k` characters will be stored in the map since we only allow `k` distinct characters.

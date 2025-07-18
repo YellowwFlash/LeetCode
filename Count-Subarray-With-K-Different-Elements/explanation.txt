@@ -1,0 +1,36 @@
+ ✅ Given Question:
+ You are given an integer array `nums` and an integer `k`. Return the number of subarrays
+ that contain exactly `k` distinct integers.
+
+ ✅ Given Data:
+ An integer array `nums` and an integer `k` representing the exact number of distinct integers 
+ allowed in a subarray.
+
+ ✅ Intuition:
+ To count subarrays with exactly `k` distinct integers, we use the mathematical identity:
+     Count of subarrays with exactly k distinct elements =
+         Count of subarrays with at most k distinct elements
+       - Count of subarrays with at most (k - 1) distinct elements
+
+ We define a helper method `atmost(nums, k)` that uses the sliding window technique to count
+ the number of subarrays with at most `k` distinct elements.
+
+ ---------------------------------------------
+ Approach: Sliding Window + Frequency Map
+ ---------------------------------------------
+ - Use two pointers `left` and `right` to define a window over the array.
+ - Maintain a frequency map to keep track of elements in the current window.
+ - Expand the window by moving `right` and adding elements to the map.
+ - If the number of distinct elements (map size) exceeds `k`, shrink the window from the `left`
+   by reducing the count of the element at `left` and removing it from the map if the count hits zero.
+ - After each valid window, update the count by adding `right - left + 1` (number of valid subarrays ending at `right`).
+
+ ✅ Why the main method uses subtraction?
+ The difference between subarrays with at most k and at most (k - 1) distinct elements gives
+ us the number of subarrays that contain exactly k distinct integers.
+
+ Time Complexity:
+     - O(n): Each element is added and removed from the map at most once by each pointer.
+
+ Space Complexity:
+     - O(k): In the worst case, the map can store up to `k` distinct integers.
