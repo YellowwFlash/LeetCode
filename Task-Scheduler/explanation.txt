@@ -1,0 +1,48 @@
+✅ Given Question:
+ You are given a list of tasks represented by characters where each task takes 1 unit of time.
+ Some tasks may be the same and need to be executed with at least `n` units of cooldown time
+ before the same task can be executed again. Return the minimum time required to finish all tasks.
+
+✅ Given Data:
+ - A character array `tasks[]` of uppercase English letters representing tasks.
+ - An integer `n` representing the cooldown period between the same tasks.
+ - Return the least number of time units the CPU will take to finish all given tasks.
+
+✅ Intuition:
+ If certain tasks occur more frequently, they should ideally be scheduled first,
+ and their execution should be spread out by at least `n` units.
+ To always schedule the most frequent task next (if possible), we use a Max-Heap (PriorityQueue)
+ that always gives the task with the highest remaining frequency.
+ Tasks that are cooling down are temporarily put in a wait queue with their cooldown expiry time.
+
+------------------------------------------------------------
+Approach: Priority Queue (Max-Heap) with a Cooldown Queue
+------------------------------------------------------------
+ - Count the frequency of each task using an integer array of size 26 (for 'A' to 'Z').
+ - Add the frequencies to a max-heap so we can always pick the task with the highest frequency.
+ - Initialize a queue (FIFO) to hold tasks that are in their cooldown period.
+   Each element in the wait queue is a pair: [remainingFrequency, availableTime].
+ - Start a timer from time = 0, and increment time in each loop iteration.
+ - At each time unit:
+     - If the max-heap is not empty, remove the task with the highest frequency.
+         - Decrease its frequency by 1.
+         - If it still has remaining occurrences, add it to the wait queue with cooldown time = current time + n.
+     - Check if the task at the front of the wait queue is ready (i.e., its cooldown has expired).
+         - If yes, re-insert it into the max-heap.
+ - Loop continues until both the max-heap and wait queue are empty.
+ - Finally, return the `time` counter as the total time taken to complete all tasks.
+
+✅ Why This Works:
+ - Max-Heap ensures we always execute the task that appears most frequently and needs urgent spacing.
+ - Cooldown queue ensures that tasks are not scheduled again before `n` units.
+ - The simulation guarantees optimal time by filling idle time only when necessary.
+
+Time Complexity:
+ - O(N * log 26) = O(N), where N is the total number of tasks.
+   - We only have 26 possible task types; operations on the heap are bounded by log 26.
+ - Each task is added to the heap and waitQueue at most once per frequency.
+
+Space Complexity:
+ - O(26) for the heap and frequency array.
+ - O(26) for the wait queue holding tasks in cooldown.
+ - Efficient in both time and space due to the constant size of possible unique tasks.

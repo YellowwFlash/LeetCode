@@ -1,0 +1,43 @@
+✅ Given Question:
+ You are given an integer array `nums`. Replace each element in the array with its rank when the array is sorted.
+ The smallest element gets rank 0, and elements with the same value share the same rank.
+
+✅ Given Data:
+ - An integer array `nums` of length `n`.
+ - The result should be the same array, but each element replaced with its rank in the sorted order.
+ - Equal elements must have the same rank, and ranks should increase only for unique values.
+
+✅ Intuition:
+ This is a classic coordinate compression problem.
+ We want to replace elements with their "relative order" while ensuring:
+   - Smaller elements get smaller ranks.
+   - Equal elements receive the same rank.
+ A Min-Heap (PriorityQueue) can be used to process the elements in ascending order
+ while tracking their original indices. This helps avoid sorting the entire array and manually managing indices.
+
+------------------------------------------------------------
+Approach: Priority Queue (Min-Heap) for Relative Ranking
+------------------------------------------------------------
+ - Initialize a priority queue that stores `[value, index]` pairs.
+   This allows sorting values while keeping track of their original positions.
+ - Add all elements from the array along with their indices into the min-heap.
+ - Initialize a `rank` variable to 0.
+ - While the heap is not empty:
+     - Poll the smallest element from the heap.
+     - Replace its original position in the array with the current rank.
+     - If the next element in the heap has the same value, assign it the same rank.
+       (So we don’t increment `rank` for duplicates.)
+     - Otherwise, increment `rank` for the next unique element.
+ - Return the modified array.
+
+✅ Why This Works:
+ - The min-heap ensures elements are processed in ascending order.
+ - Storing indices allows updating the original array without creating a new one.
+ - Duplicate values get the same rank, and ranks only increase for unique values.
+
+Time Complexity:
+ - O(n log n), where `n` is the number of elements.
+   Each insert and poll from the priority queue takes O(log n), and we do this n times.
+
+Space Complexity:
+ - O(n) for the priority queue to hold all elements with their indices.

@@ -1,0 +1,41 @@
+✅ Given Question:
+ You are given `k` sorted arrays. Merge them into one single sorted array and return the result.
+
+✅ Given Data:
+ - A 2D integer array `nums[][]`, where each subarray is individually sorted in ascending order.
+ - The result should be a 1D array that contains all the elements from the subarrays in sorted order.
+
+✅ Intuition:
+ Since each individual array is already sorted, the smallest element across all current front elements
+ from each array should be chosen next.
+ We can efficiently determine the smallest of the `k` current candidates using a Min-Heap (PriorityQueue).
+ By inserting the first element of each array and maintaining a heap of size at most `k`,
+ we always process the globally smallest element next.
+ We also track the array and index of each element to fetch its next neighbor when needed.
+
+------------------------------------------------------------
+Approach: Priority Queue (Min-Heap) to Merge K Sorted Arrays
+------------------------------------------------------------
+ - Count the total number of elements `n` across all arrays to create the result array.
+ - Initialize a min-heap (PriorityQueue) where each element is a triplet: [value, arrayIndex, elementIndex].
+   - `value` is the actual number.
+   - `arrayIndex` is which array the number came from.
+   - `elementIndex` is the index within that specific array.
+ - Insert the first element of each non-empty array into the heap.
+ - While the heap is not empty:
+     - Extract the smallest element (based on value).
+     - Add its value to the result array.
+     - If the element has a next neighbor in its original array, insert the next neighbor into the heap.
+ - Return the fully populated result array.
+
+✅ Why This Works:
+ - The priority queue always maintains the smallest of the current front elements.
+ - Inserting only the next element from the same array ensures all elements are processed in sorted order.
+
+Time Complexity:
+ - O(N log k), where N is the total number of elements across all arrays,
+   and k is the number of arrays. Each insertion and removal from the heap costs O(log k).
+
+Space Complexity:
+ - O(k) for the heap, which holds at most one element from each of the `k` arrays at a time.
+ - O(N) for the output array.

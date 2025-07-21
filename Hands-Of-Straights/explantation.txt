@@ -1,0 +1,42 @@
+✅ Given Question:
+ You are given an array of integers `hands`, representing cards in random order.
+ You are also given an integer `k`, the group size.
+ Determine if it is possible to rearrange the cards into groups of `k` consecutive numbers.
+
+✅ Given Data:
+ - An integer array `hands[]`, where each element represents a card.
+ - An integer `k`, indicating the number of cards in each group.
+ - Return `true` if all cards can be grouped into sets of `k` consecutive cards.
+
+------------------------------------------------------------
+Approach-1: TreeMap to Form Groups in Sorted Order
+------------------------------------------------------------
+ - First, check if the number of cards is divisible by `k`. If not, return false.
+ - Use a `TreeMap<Integer, Integer>` to count the frequency of each card in sorted order.
+ - While the map is not empty:
+     - Get the smallest available card (`firstKey()`).
+     - Try to build a group of size `k` starting from that card.
+     - For each card in the range [first, first + k):
+         - If the card is missing, return false.
+         - Otherwise, decrement its frequency.
+         - If its count becomes zero, remove it from the map.
+ - Return true if all cards have been grouped successfully.
+
+Time Complexity: O(N log N), due to TreeMap insertions and lookups.
+Space Complexity: O(N), for storing card frequencies.
+
+------------------------------------------------------------
+Approach-2: Sorting + HashMap
+------------------------------------------------------------
+ - First, check if the number of cards is divisible by `k`. If not, return false.
+ - Use a `HashMap<Integer, Integer>` to count frequencies of each card.
+ - Extract all keys and sort them to get the order for grouping.
+ - For each card in the sorted list:
+     - Get its frequency (skip if zero).
+     - For the next `k` consecutive cards starting from the current one:
+         - If any card has fewer than `count` occurrences, return false.
+         - Otherwise, subtract `count` from its frequency.
+ - Return true if grouping is successful for all cards.
+
+Time Complexity: O(N log N), due to sorting of unique keys.
+Space Complexity: O(N), for storing card frequencies.

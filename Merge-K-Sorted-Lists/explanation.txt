@@ -1,0 +1,37 @@
+✅ Given Question:
+ You are given an array of sorted linked lists. Your task is to merge all these k sorted
+ linked lists into one single sorted linked list and return its head.
+
+✅ Given Data:
+ - An array of linked lists (`Node[] lists`) where each list is sorted in ascending order.
+ - The result should be one single sorted linked list that merges all nodes from the given lists.
+
+✅ Intuition:
+ Since each list is individually sorted, the smallest element among all current nodes
+ (from the heads of the lists) should be chosen next.
+ A Min-Heap (PriorityQueue) is a perfect data structure for efficiently retrieving
+ the smallest element among multiple sorted sources.
+ By always extracting the minimum element and inserting the next node from the same list,
+ we maintain the sorted order in the merged result.
+
+------------------------------------------------------------
+Approach: Priority Queue (Min-Heap) to Merge K Sorted Lists
+------------------------------------------------------------
+ - Create a min-heap (PriorityQueue) that stores nodes, sorted by their `data` values.
+ - Add the head of each non-null linked list to the heap.
+ - Initialize a dummy node and a pointer `current` to build the result list.
+ - While the heap is not empty:
+     - Extract the smallest node from the heap.
+     - Append this node to the result list (`current.next = smallestNode`).
+     - Move the `current` pointer forward.
+     - If the extracted node has a next node, add it to the heap.
+ - Finally, return the next node of the dummy (head of the merged list).
+
+Time Complexity:
+ - O(N log k), where N is the total number of nodes and k is the number of lists.
+   Each node is added and removed from the heap exactly once,
+   and heap operations take O(log k) time.
+
+Space Complexity:
+ - O(k) for the heap, which at most holds one node from each list at a time.
+
