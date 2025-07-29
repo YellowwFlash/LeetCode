@@ -1,0 +1,37 @@
+ ✅ Given Question:
+ You are selling lemonade for $5 each. Each customer pays with a $5, $10, or $20 bill.
+ Your task is to give correct change using only the money you’ve collected so far.
+ Return true if it's possible to serve all customers in order, otherwise false.
+
+ ✅ Given Data:
+ - An integer array `customers[]` where each element is the bill a customer pays with.
+
+ ✅ Intuition:
+ Always prioritize using **larger denominations for change first** (i.e., $10 + $5 before 3 × $5)
+ to conserve smaller bills for future transactions.
+ We only need to track $5 and $10 bills since $20 bills are never used for giving change.
+
+ ---------------------------------------
+ Approach 1: Greedy Sorting Method
+ ---------------------------------------
+     - Initialize counters: `fives = 0`, `tens = 0`.
+     - Iterate through each `customer` in `customers[]`:
+         - If customer pays with $5:
+             - No change needed; increment `fives`.
+         - If customer pays with $10:
+             - Need to give $5 as change.
+             - If `fives > 0`, decrement `fives` and increment `tens`.
+             - Else, return false (insufficient change).
+         - If customer pays with $20:
+             - Need to give $15 as change.
+             - Prefer giving 1 × $10 + 1 × $5:
+                 - If `tens > 0` and `fives > 0`, decrement both.
+             - Else if at least 3 × $5 available, give that change.
+             - Else, return false (not enough change).
+     - If all customers are handled successfully, return true.
+
+     Time Complexity:
+     - Single pass over customers: O(n)
+
+     Space Complexity:
+     - Constant space for counters: O(1)

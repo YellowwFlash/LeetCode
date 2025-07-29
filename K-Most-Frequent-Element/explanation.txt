@@ -1,0 +1,36 @@
+ ✅ Given Question:
+ Find the K most frequent elements in an array.
+
+ ✅ Given Data:
+ An array of integers (int[]) and an integer k, where k represents the number of most frequent elements to return.
+
+ ✅ Intuition:
+ To find the K elements with the highest frequency, we can use a **hashmap** to count occurrences, 
+ and a **min heap (priority queue)** to keep track of the top K frequent elements efficiently.
+ 
+ A min heap ensures that the least frequent of the top K elements is always at the root,
+ allowing quick removal when a more frequent element is encountered.
+
+ -----------------------------------------------------
+ Approach 1: Using HashMap and Min Heap (PriorityQueue)
+ -----------------------------------------------------
+     - Use a HashMap to count the frequency of each element in the input array.
+     - Use a PriorityQueue (min heap) to store elements based on frequency.
+         - Each entry in the heap is a pair [num, frequency].
+         - Maintain the heap size as K.
+     - Iterate through the map entries:
+         - Add each pair to the heap.
+         - If the heap size exceeds K, remove the element with the lowest frequency.
+     - After processing all entries, the heap contains the top K frequent elements.
+     - Extract elements from the heap and store them in a result array.
+
+     Time Complexity:
+     - Counting frequencies using HashMap: O(n)
+     - Heap operations for n elements (each insertion/removal: O(log k)): O(n log k)
+     - Total Time Complexity: O(n log k)
+
+     Space Complexity:
+     - HashMap stores frequencies: O(n)
+     - Min Heap stores up to k elements: O(k)
+     - Result array of size k: O(k)
+     - Total Space Complexity: O(n)

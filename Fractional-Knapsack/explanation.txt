@@ -1,0 +1,40 @@
+ ✅ Given Question:
+ Given weights and values of `n` items, and a knapsack with capacity `W`,
+ the task is to put items in the knapsack such that the total value is maximized.
+ You are allowed to take fractional parts of items.
+
+ ✅ Given Data:
+ - Two integer arrays:
+   - `weight[]` represents the weight of each item.
+   - `value[]` represents the value of each item.
+ - An integer `capacity` representing the maximum weight the knapsack can carry.
+
+ ✅ Intuition:
+ To maximize the total value, we should always pick items with the highest value-to-weight ratio first.
+ If we can't take the full item due to capacity constraints, we take the fraction that fits.
+ This greedy strategy ensures the best local (and thus global) outcome.
+
+ ---------------------------------------
+ Approach 1: Greedy Sorting Method
+ ---------------------------------------
+     - Create a custom `Pair` class to store weight and value of each item.
+     - For each item, calculate its value-to-weight ratio.
+     - Sort all items in decreasing order of this ratio.
+     - Initialize `totalValue` to 0.
+     - Iterate through the sorted items:
+         - If the knapsack still has capacity:
+             - Take the minimum of item weight and remaining capacity.
+             - Add proportional value to `totalValue`.
+             - Reduce knapsack capacity accordingly.
+         - Stop when capacity becomes 0.
+     - Return `totalValue` as the maximum achievable value.
+
+     Time Complexity:
+     - Creating Pair array: O(n)
+     - Sorting items by ratio: O(n log n)
+     - Looping through items: O(n)
+     - Total Time Complexity: O(n log n)
+
+     Space Complexity:
+     - O(n) for the Pair array
+ 

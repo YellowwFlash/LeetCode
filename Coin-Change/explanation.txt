@@ -1,0 +1,34 @@
+ ✅ Given Question:
+ Given an array of coin denominations and a target amount,
+ find the minimum number of coins required to make up that amount.
+ You can use unlimited supply of each coin denomination.
+ 
+ ✅ Given Data:
+ - An integer array `coins[]` representing available denominations.
+ - An integer `amount` representing the total value to make up.
+
+ ✅ Intuition:
+ To minimize the number of coins used, we should always use the largest possible denomination first.
+ This greedy approach works only when the coin system is canonical (like Indian or US coins).
+ It ensures that we reach the target amount using the fewest number of coins.
+
+ ---------------------------------------
+ Approach 1: Greedy Sorting Method
+ ---------------------------------------
+     - Sort the coins array in ascending order (or assume it's pre-sorted).
+     - Initialize `count` to track the total coins used.
+     - Start from the largest coin and work backwards.
+     - For each coin:
+         - If it's larger than the remaining amount, skip it.
+         - Use as many of that coin as possible: amount / coin.
+         - Subtract the equivalent value from `amount` using modulo.
+         - If `amount` becomes 0, break early.
+     - Return the final `count` of coins used.
+
+     Time Complexity:
+     - Iterating over `n` coins: O(n)
+     - Each division/modulo operation: O(1)
+     - Total Time Complexity: O(n)
+
+     Space Complexity:
+     - O(1) extra space

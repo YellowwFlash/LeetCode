@@ -1,0 +1,63 @@
+
+ ✅ Given Question:
+ Given a string `s` containing only the characters '(', ')', and '*', 
+ check if it is a valid parentheses string.
+
+ A valid string:
+ - Must have balanced parentheses: every '(' must have a matching ')'.
+ - The '*' character can be treated as:
+     - an opening bracket '('
+     - a closing bracket ')'
+     - or an empty string ''
+
+ ✅ Given Data:
+ - A string `s` made up of characters '(', ')', and '*'.
+
+ ✅ Intuition:
+ The trick is that '*' can act like anything — '(', ')', or nothing.
+ So instead of trying all possibilities (which is slow),
+ we track a range of possible unmatched opening brackets using two values:
+   - `min`: the minimum possible number of unmatched opening brackets.
+   - `max`: the maximum possible number of unmatched opening brackets.
+
+ Why do we need a range?
+ Because we don’t know exactly how '*' will behave yet,
+ so we track all the possibilities:
+ - `min` helps us track the worst-case (most ')' interpreted) situation.
+ - `max` helps us track the best-case (most '(' interpreted) situation.
+
+ ✅ Step-by-step Explanation:
+ - Loop through each character in the string:
+ 
+   1. If it's a `'('`:
+       - We definitely need one more closing ')'.
+       - So, increase both `min` and `max` by 1.
+
+   2. If it's a `')'`:
+       - We close one opening bracket.
+       - So, decrease both `min` and `max` by 1.
+
+   3. If it's a `'*'`:
+       - It could be:
+         - a `'('` → so increase `max`.
+         - a `')'` → so decrease `min`.
+         - or empty → so nothing changes.
+       - Because we don't know yet, we:
+         - increase `max` by 1 (if '*' is '('),
+         - decrease `min` by 1 (if '*' is ')').
+
+   4. After each step:
+       - If `min < 0`, reset it to 0 because we can't have negative unmatched '('.
+       - If `max < 0`, return false:
+         - This means we have more ')' than we can match, even in the best case.
+
+ ✅ Final Check:
+ - At the end, `min == 0` means there’s at least one way the '*'s can be interpreted 
+   to make all parentheses matched and valid.
+ - So return `true` if `min == 0`, otherwise `false`.
+
+ ✅ Time Complexity:
+ - O(n): We loop through the string once.
+
+ ✅ Space Complexity:
+ - O(1): Only uses a couple of integer variables.

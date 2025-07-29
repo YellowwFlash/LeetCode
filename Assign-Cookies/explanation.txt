@@ -1,0 +1,38 @@
+ ✅ Given Question:
+ Assign cookies to children such that as many children as possible are content.
+ Each child has a greed factor, and each cookie has a size.
+ A child will be content if they receive a cookie with size >= their greed factor.
+ Each child can receive at most one cookie.
+
+ ✅ Given Data:
+ Two integer arrays:
+ - greeds[] representing the greed factor of each child.
+ - sizes[] representing the size of each cookie.
+
+ ✅ Intuition:
+ To maximize the number of content children, we should give the smallest available cookie 
+ that satisfies a child's greed. This way, we reserve larger cookies for greedier children.
+ Sorting both arrays helps us efficiently assign the least sufficient cookie to each child.
+
+ ---------------------------------------
+ Approach 1: Greedy Two-Pointer Approach
+ ---------------------------------------
+     - Sort the `greeds` array in ascending order.
+     - Sort the `sizes` array in ascending order.
+     - Initialize two pointers:
+         - i for children (greeds)
+         - j for cookies (sizes)
+     - Iterate using both pointers:
+         - If sizes[j] >= greeds[i], assign the cookie to the child.
+             - Move to the next child (i++) and next cookie (j++).
+         - Else, the cookie is too small. Try the next cookie (j++).
+     - Continue until either all children are considered or cookies run out.
+     - The count of successful assignments (i.e., content children) is stored in `answer`.
+
+     Time Complexity:
+     - Sorting greeds and sizes: O(n log n + m log m)
+     - One pass through both arrays: O(n + m)
+     - Total Time Complexity: O(n log n + m log m)
+
+     Space Complexity:
+     - Sorting is in-place: O(1) extra space (ignoring sorting overhead)

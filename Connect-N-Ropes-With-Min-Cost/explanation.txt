@@ -1,0 +1,34 @@
+ ✅ Given Question:
+ Connect N ropes into one rope with minimum cost.
+ Each time, you can connect any two ropes. The cost of connecting two ropes is equal to the sum of their lengths.
+ The goal is to minimize the total cost of connecting all ropes.
+
+ ✅ Given Data:
+ An array of integers (int[]) where each element represents the length of a rope.
+
+ ✅ Intuition:
+ To minimize the total cost, we should always connect the two smallest ropes first.
+ This strategy ensures that we incur the smallest incremental cost at each step.
+ A Min Heap (PriorityQueue in Java) allows efficient retrieval of the two smallest ropes.
+
+ ---------------------------------------
+ Approach 1: Using Priority Queue (Min Heap)
+ ---------------------------------------
+     - Initialize a priority queue (min heap) to store rope lengths.
+     - Add all the rope lengths into the priority queue.
+     - While there is more than one rope in the queue:
+         - Remove the two smallest ropes.
+         - Add their lengths to compute the cost.
+         - Add the resulting new rope back into the queue.
+         - Accumulate the cost.
+     - When one rope remains, it is the final combined rope.
+     - Return the total accumulated cost.
+
+     Time Complexity:
+     - Adding all elements to the heap: O(n log n)
+     - Each extraction and insertion operation: O(log n)
+     - For n ropes, we perform (n - 1) merge operations.
+     - Total Time Complexity: O(n log n)
+
+     Space Complexity:
+     - Heap stores n elements: O(n)
