@@ -1,0 +1,35 @@
+ ✅ Given Question:
+ You are given `n` jobs, where each job has:
+     - a unique job `id`
+     - a `profit` if the job is completed within its deadline
+     - a `deadline` before which it needs to be completed (each job takes 1 unit of time)
+ Your task is to schedule the jobs to maximize total profit, such that only one job can be done at a time.
+
+ ✅ Given Data:
+ - Integer arrays: `profit[]`, `deadline[]`, and `ids[]` of size `n`.
+ - `profit[i]`: profit of the i-th job
+ - `deadline[i]`: deadline of the i-th job
+ - `ids[i]`: unique identifier of the i-th job
+
+ ✅ Intuition:
+ Use a greedy approach to always choose the job with the highest profit first, and try to schedule it as late as possible 
+ (but before its deadline). This leaves earlier time slots available for other jobs with tighter deadlines.
+
+ ---------------------------------------
+ Approach: Greedy Sorting by Profit
+ ---------------------------------------
+     - Step 1: Create an array of Job objects from the input arrays for better structure.
+     - Step 2: Sort the jobs in descending order of their profits.
+     - Step 3: Find the maximum deadline to know the size of the time slot array.
+     - Step 4: Create a `result[]` array of size `maxDeadline` initialized with `-1` to track scheduled jobs.
+     - Step 5: For each job:
+         - Try to place it in the latest available slot on or before its deadline.
+         - If a slot is found, assign the job to that slot.
+     - Step 6: Return the `result[]` array which contains job IDs in their scheduled slots.
+
+ ✅ Time Complexity:
+ - O(n log n) for sorting the jobs by profit.
+ - O(n * d) where d is the maximum deadline (in worst case, trying all slots for each job).
+
+ ✅ Space Complexity:
+ - O(d), where d is the maximum deadline (used for the result array).

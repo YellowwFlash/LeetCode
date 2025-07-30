@@ -1,0 +1,40 @@
+✅ Given Question:
+You are given two integer arrays `start[]` and `end[]` representing the start and end times 
+of `n` meetings. Your task is to schedule the maximum number of non-overlapping meetings 
+that can be accommodated in a single meeting room. You should return the order (1-based index) 
+of the meetings selected.
+
+✅ Given Data:
+- Two integer arrays `start[]` and `end[]` of equal length `n`.
+- Each `start[i]` and `end[i]` represents the start and end time of the i-th meeting.
+
+✅ Intuition:
+To schedule the maximum number of non-overlapping meetings, always pick the meeting that ends 
+the earliest. This leaves more room for future meetings. This greedy strategy ensures we 
+maximize meeting count by minimizing occupied time.
+
+---------------------------------------
+Approach 1: Greedy Sorting Method
+---------------------------------------
+    - Define a `Pair` class to represent each meeting with its `start`, `end`, and original `index`.
+    - Create an array of `Pair` objects from the input `start[]` and `end[]`.
+    - Sort the `pairs` by their `end` times (ascending), because meetings that end earlier 
+      are more likely to allow additional future meetings.
+    - Initialize `freeTime = 0` to track the end of the last selected meeting.
+    - Create a result list `result` to store the 1-based indices of selected meetings.
+    - Iterate over each `pair` in sorted order:
+        - If the current meeting’s start time is >= `freeTime`:
+            - It doesn't overlap with the last selected meeting.
+            - Select this meeting.
+            - Add its (1-based) index to `result`.
+            - Update `freeTime` to this meeting’s end time.
+        - Otherwise, skip it (due to overlap).
+
+✅ Time Complexity:
+- Sorting the meetings: O(n log n)
+- Iterating through the meetings: O(n)
+- Total: O(n log n)
+
+✅ Space Complexity:
+- O(n) for storing the array of Pair objects and result list.
+

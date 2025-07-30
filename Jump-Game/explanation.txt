@@ -1,0 +1,59 @@
+ ✅ Given Question:
+ You are given an integer array `nums` where each element represents your maximum jump length 
+ at that position. Starting at index 0, determine if you can reach the last index.
+
+ ✅ Given Data:
+ - An integer array `nums[]` of size `n`.
+ - At position `i`, you can jump at most `nums[i]` steps forward.
+
+ ✅ Intuition:
+ Use a greedy strategy to always keep track of the furthest reachable index (`maxIndex`) 
+ while iterating through the array. If at any point the current index is beyond this `maxIndex`, 
+ it's not reachable, and we must return false.
+
+ ---------------------------------------
+ Approach 1: Greedy Approach with Max Index Tracking
+ ---------------------------------------
+     - Initialize `maxIndex = 0`, representing the farthest index you can currently reach.
+     - Iterate through the array using index `i`:
+         - If `i > maxIndex`, it means index `i` is unreachable → return false.
+         - Update `maxIndex = max(maxIndex, i + nums[i])` to reflect the furthest jump so far.
+         - If at any point `maxIndex >= n - 1`, it means the last index is reachable → return true.
+     - If the loop ends without reaching or exceeding the last index → return false.
+
+ ✅ Time Complexity:
+ - O(n), where n is the length of the input array.
+
+ ✅ Space Complexity:
+ - O(1), constant extra space.
+
+ ✅ Variation Question:
+ Given an integer array `nums`, return the minimum number of jumps to reach the last index.
+ You can assume that you can always reach the end.
+
+ ✅ Given Data:
+ - An integer array `nums[]` of size `n`.
+ - Each element indicates the maximum number of steps you can jump forward from that position.
+
+ ✅ Intuition:
+ Use a greedy level-based BFS-style approach where you treat the range `[min, max]` as the current 
+ range of reachable indices in the current number of jumps. For each jump:
+     - Explore the farthest index reachable within the current range.
+     - Then update the range to explore the next level of reachable indices.
+
+ ---------------------------------------
+ Approach 2: BFS-Style Range Expansion
+ ---------------------------------------
+     - Initialize `min = 0`, `max = 0` to define the current range of indices reachable in current jump.
+     - Initialize `jumps = 0` to count the number of jumps.
+     - While the `max` index is less than `n - 1` (i.e., end is not yet reachable):
+         - Find the `farthest` index reachable from the current range `[min, max]`.
+         - Update `min = max + 1` and `max = farthest` to move to the next range.
+         - Increment `jumps`.
+     - Once `max` reaches or exceeds the last index, return `jumps`.
+
+ ✅ Time Complexity:
+ - O(n), where n is the length of the input array.
+
+ ✅ Space Complexity:
+ - O(1), constant extra space.

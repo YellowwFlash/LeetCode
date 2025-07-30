@@ -1,0 +1,38 @@
+ ✅ Given Question:
+ You are given two arrays: `arrival[]` and `departure[]` of train arrival and departure times. 
+ Your task is to find the **minimum number of platforms** required at the railway station 
+ so that no train waits.
+
+ ✅ Given Data:
+ - Two integer arrays of size `n`:
+     - `arrival[i]` represents the arrival time of the i-th train.
+     - `departure[i]` represents the departure time of the i-th train.
+
+ ✅ Intuition:
+ Use a **greedy two-pointer technique** by first sorting both arrival and departure arrays.
+ Then simulate the process:
+     - If a train arrives before the earliest current train departs → we need a new platform.
+     - If a train departs before or at the same time the next one arrives → we can reuse a platform.
+ Keep track of how many platforms are needed at every moment and update the maximum required.
+
+ ---------------------------------------
+ Approach: Greedy Two-Pointer + Sorting
+ ---------------------------------------
+     - Sort both `arrival[]` and `departure[]` arrays.
+     - Use two pointers `i` and `j`:
+         - `i` for traversing the `arrival` array.
+         - `j` for traversing the `departure` array.
+     - Initialize `count = 0` to track current platforms in use.
+     - Initialize `maxCount = 0` to track the maximum number of platforms needed.
+     - Traverse until all trains are processed:
+         - If `arrival[i] <= departure[j]`: a train arrives before the previous one departs.
+             - Increment `count` and `i`.
+         - Else: a train has departed.
+             - Decrement `count` and increment `j`.
+         - Update `maxCount` with the max of current `count`.
+
+ ✅ Time Complexity:
+ - O(n log n), due to sorting of both arrays.
+
+ ✅ Space Complexity:
+ - O(1), no extra space used except variables.
