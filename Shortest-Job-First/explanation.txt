@@ -1,0 +1,35 @@
+ ✅ Given Question:
+ A set of `n` jobs are given, each with a certain processing time.
+ The goal is to schedule these jobs on a single CPU such that the average waiting time is minimized.
+ A job cannot be interrupted once started (non-preemptive scheduling).
+
+ ✅ Given Data:
+ - An integer array `times[]` where each element represents the processing time of a job.
+
+ ✅ Intuition:
+ To minimize the average waiting time, always schedule the shortest job first.
+ This strategy, known as the Shortest Job First (SJF) or Shortest First Unscheduled (SFU) algorithm,
+ ensures that jobs with lower processing time don't get stuck behind longer ones.
+ This greedy approach minimizes total wait by keeping shorter tasks in front.
+
+ ---------------------------------------
+ Approach: Greedy Scheduling with Sorting
+ ---------------------------------------
+     - Sort the `times[]` array in ascending order so that shortest jobs are executed first.
+     - Initialize:
+         - `totalTime` to keep track of cumulative processing time.
+         - `waitTime` to accumulate total wait before each job starts.
+     - Traverse the sorted array:
+         - For each job:
+             - Add `totalTime` to `waitTime` (since job waits for all prior jobs to finish).
+             - Add current job time to `totalTime` (track CPU time consumed so far).
+     - Return the average waiting time as `waitTime / n`.
+
+     Time Complexity:
+     - Sorting: O(n log n)
+     - Iteration: O(n)
+     - Total Time Complexity: O(n log n)
+
+     Space Complexity:
+     - O(1) additional space (in-place sorting if allowed)
+

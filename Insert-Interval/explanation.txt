@@ -1,0 +1,61 @@
+ ✅ Given Question:
+ You are given a list of non-overlapping intervals sorted by their start times.
+ A new interval is also given.
+ Insert the new interval into the list so that the result remains sorted and non-overlapping.
+ Merge any necessary overlapping intervals.
+
+ ✅ Given Data:
+ - A 2D array `intervals[][]` of size n, where each element is an interval [start, end].
+ - A 1D array `newInterval[]` representing a new interval to be inserted and potentially merged.
+
+ ✅ Intuition:
+ Since intervals are already sorted and non-overlapping, we can maintain those properties by:
+   - First collecting all intervals that come *before* the new interval.
+   - Then merging any *overlapping* intervals with the new interval.
+   - Finally, appending any intervals that come *after* the merged interval.
+ The key is to use simple conditions to identify where the new interval fits.
+
+ ---------------------------------------
+ Approach: Linear Scan with Condition-Based Merging
+ ---------------------------------------
+     - Initialize a result list and index `i = 0`.
+
+     Step 1: Add all intervals that end before the new interval starts.
+         - Condition: `intervals[i][1] < newInterval[0]`
+           → These intervals are completely before the new interval.
+           → No overlap occurs, so we safely add them to the result.
+
+     Step 2: Merge all intervals that overlap with the new interval.
+         - Condition: `intervals[i][0] <= newInterval[1]`
+           → This checks for *any overlap* between `intervals[i]` and `newInterval`.
+           → If the current interval starts before or at the end of newInterval,
+             then they overlap and must be merged.
+         - During merging:
+             - Update `newInterval[0]` to `min(intervals[i][0], newInterval[0])`
+             - Update `newInterval[1]` to `max(intervals[i][1], newInterval[1])`
+           → This expands the newInterval to cover all overlapping intervals.
+
+     Step 3: Add the merged new interval.
+         - After merging, add the final `newInterval` to the result list.
+
+     Step 4: Add all remaining intervals.
+         - These intervals start after the new interval ends and are non-overlapping.
+         - Simply add them to the result.
+
+     - Convert the result list to a 2D array and return it.
+
+     Time Complexity:
+     - O(n), since each interval is visited once.
+
+     Space Complexity:
+     - O(n), for storing the result list.
+
+ ✅ Why the Conditions Matter:
+ - `intervals[i][1] < newInterval[0]`: ensures we skip intervals that are entirely before the new interval.  
+   → No merging needed; they’re safe to add.
+
+ - `intervals[i][0] <= newInterval[1]`: detects overlapping intervals that need merging.  
+   → If the start of the current interval is before or at the end of `newInterval`, they overlap.
+
+ - Remaining intervals after this have `intervals[i][0] > newInterval[1]`, meaning they start after the new merged interval.  
+   → Again, safe to add without merging.

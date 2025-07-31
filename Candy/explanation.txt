@@ -1,0 +1,55 @@
+ ✅ Given Question:
+ A line of children is standing in front of you, and each child is assigned a rating.
+ Distribute candies to each child such that:
+   - Every child gets at least 1 candy.
+   - Children with a higher rating than their immediate neighbors receive more candies.
+ Return the minimum number of candies you must distribute to meet these conditions.
+
+ ✅ Given Data:
+ - An integer array `candidates[]` representing the ratings of each child.
+
+ ✅ Intuition:
+ To satisfy the problem constraints, we need to:
+   - Traverse from left to right: if the current rating is higher than the previous, give more candies.
+   - Traverse from right to left: if the current rating is higher than the next, adjust accordingly.
+ This ensures each child gets more candies than neighbors with lower ratings.
+ Using different approaches, we try to balance correctness with space and time efficiency.
+
+ ---------------------------------------
+ Approach 1: Left and Right Arrays
+ ---------------------------------------
+     - Create two arrays: `left[]` and `right[]`, both initialized with 1s.
+     - Traverse `candidates` from left to right:
+         - If current rating > previous, increment candies from left.
+     - Traverse `candidates` from right to left:
+         - If current rating > next, increment candies from right.
+     - For each index, take the maximum of `left[i]` and `right[i]`.
+     - Sum all maximums to get the total candies.
+
+     Time Complexity: O(n)
+     Space Complexity: O(n) (for left and right arrays)
+
+ ---------------------------------------
+ Approach 2: Optimized with One Extra Variable
+ ---------------------------------------
+     - Create a `left[]` array initialized from left to right as in Approach 1.
+     - Use a single variable `right` while traversing from right to left.
+     - At each step, compare `left[i]` with the `right` count and take the max.
+     - Accumulate the total sum accordingly.
+     - This reduces space complexity while maintaining accuracy.
+
+     Time Complexity: O(n)
+     Space Complexity: O(n) (for one array only)
+
+ ---------------------------------------
+ Approach 3: Peak Approach (Greedy Slope Counting)
+ ---------------------------------------
+     - Traverse the array while detecting ascending (`up`) and descending (`down`) slopes.
+     - For increasing sequence: incrementally assign more candies.
+     - For decreasing sequence: also assign incrementally more candies in reverse.
+     - Track peaks separately to avoid undercounting the peak during both climbs.
+     - Add correction if descending slope is longer than ascending.
+     - This method is space-optimized and greedy in nature.
+
+     Time Complexity: O(n)
+     Space Complexity: O(1) (no extra arrays used)
