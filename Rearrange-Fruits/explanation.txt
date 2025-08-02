@@ -1,0 +1,92 @@
+✅ Given Question:
+You are given two integer arrays `basket1` and `basket2`, representing two fruit baskets.
+Each integer represents a fruit type.
+You are allowed to swap fruits between baskets such that **both baskets end up with the same multiset of fruits**.
+You can swap any fruit from `basket1` with any fruit from `basket2`.
+Your goal is to **minimize the total cost** of swapping.
+The cost of swapping fruit `a` with fruit `b` is defined as `min(a, b)`.
+
+If it's not possible to equalize the baskets, return `-1`.
+
+✅ Given Data:
+- Two integer arrays: `basket1[]`, `basket2[]`
+- Each integer represents a fruit type (e.g., 1 for apple, 2 for banana, etc.)
+- Swapping is allowed between the baskets.
+- Output the **minimum cost** to make both baskets identical, or return `-1` if not possible.
+
+✅ Intuition:
+This is a **greedy and frequency-based sorting problem**:
+- First, count the frequency of each fruit in both baskets.
+- If a fruit appears odd number of times in total, it cannot be equally divided — return `-1`.
+- Otherwise, we calculate how many times each fruit needs to be swapped (half of the frequency difference).
+- Sort the list of fruit values that need swapping.
+- To **minimize the cost**, we swap smaller values first.
+- Sometimes, instead of swapping fruit A with B directly (expensive), we can do it **indirectly using the globally smallest fruit** to lower the cost.
+
+----------------------------------------------
+Approach: Greedy + HashMap + Frequency Balancing
+----------------------------------------------
+
+1. ✅ Frequency Map and Global Minimum:
+   - Create a `HashMap` to track how many more times a fruit is in basket1 than basket2.
+   - While iterating both arrays, also track the **minimum fruit value** globally. 
+     This helps us later with **indirect swap cost optimization**.
+
+2. ✅ Fill the Frequency Map:
+   - For each fruit in basket1, increment its count in the map.
+   - For each fruit in basket2, decrement its count in the map.
+   - After this step, the map contains net imbalance (positive or negative).
+
+3. ✅ Check for Impossible Cases:
+   - If for any fruit the imbalance count is **odd**, return `-1`.
+     Why? Because we can't split an odd count evenly between baskets.
+
+4. ✅ Identify Swappable Fruits:
+   - For each fruit with imbalance:
+       - Take **half of its imbalance** as the number of times it needs to be swapped.
+       - Add it to a list `list` that keeps track of swap candidates.
+       - We use `Math.abs()` to ensure it works for both basket1-heavy and basket2-heavy cases.
+
+   ✅ Why Add Key Half the Times:
+   - Example: Suppose apple appears 6 times in basket1 and 2 times in basket2.
+     - Difference = 6 - 2 = 4 → Needs 4 swaps to balance.
+     - But each swap handles **two fruits at once** (one from each basket).
+     - So we only need to swap **half** the difference → 4 / 2 = 2 swaps.
+     - Therefore, we add this fruit to the list **2 times**.
+
+5. ✅ Greedy Sorting:
+   - Sort the `list` of swap candidates.
+   - The list is of size `2 * num_swaps` because each swap involves two fruits.
+   - To avoid double-counting, we process **only the first half** (cheaper fruits).
+
+   ✅ Why Traverse Only Half the List:
+   - The `list` contains all fruits that need to be swapped.
+     - First half = fruits from one basket
+     - Second half = corresponding matches from the other basket
+   - Every two entries in the list will form one swap.
+   - To avoid reprocessing, we only go through the **first half** of the list and match them with their pair from the second half.
+
+6. ✅ Minimize Cost Using Direct vs Indirect Swaps:
+   - For each fruit in the first half of the list:
+       - We compare two options:
+         1. Direct swap (cost = fruit value)
+         2. Indirect swap using global min twice (cost = 2 * min)
+       - Choose the cheaper one.
+   - Accumulate the result in `ans`.
+
+7. ✅ Return the Final Cost:
+   - Return the total minimum cost stored in `ans`.
+
+✅ Why Use Indirect Swapping:
+   - Example: Suppose global min fruit = 1, and we want to swap 100 with 200.
+     - Direct swap cost = min(100, 200) = 100
+     - Indirect: swap 100 -> 1, 1 -> 200, total cost = 1 + 1 = 2, which is much cheaper.
+
+✅ Time Complexity:
+   - O(n log n) where n = number of unique imbalanced fruits:
+     - Frequency map building: O(n)
+     - Sorting swap list: O(n log n)
+     - Final cost calculation: O(n)
+
+✅ Space Complexity:
+   - O(n): for frequency map and swap list.

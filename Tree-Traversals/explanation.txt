@@ -1,0 +1,177 @@
+✅ Tree Traversals Overview:
+A binary tree can be traversed in different ways. The major types are:
+1. Preorder Traversal (Root → Left → Right)
+2. Inorder Traversal (Left → Root → Right)
+3. Postorder Traversal (Left → Right → Root)
+4. Level-order Traversal (Breadth-First using Queue)
+
+We implement each of them recursively and iteratively where applicable.
+Let's walk through each approach below:
+
+---------------------------------------------------------
+✅ Traversal-1: Preorder Traversal (Recursive)
+---------------------------------------------------------
+Given Function: `preorderTraversal(Node root, List<Integer> list)`
+
+🔁 Order Followed: Root → Left → Right
+
+🧠 Approach:
+- Start at the root.
+- Visit the current node first, then its left subtree, then right subtree.
+- This is a depth-first traversal.
+- Use recursion to explore left and right subtrees.
+
+🕒 Time Complexity: O(n)
+💾 Space Complexity: O(h), where h = height of the tree (recursion stack)
+
+---------------------------------------------------------
+✅ Variation-1: Preorder Traversal (Iterative)
+---------------------------------------------------------
+Given Function: `iterativePreorderTraversal(Node root)`
+
+📦 Data Structure: Stack
+
+🧠 Approach:
+- Use a stack (LIFO) to mimic the recursive call stack.
+- Push root to the stack.
+- While stack is not empty:
+    - Pop the top node, visit it.
+    - Push right child first, then left (so left is processed first).
+- This ensures the traversal order remains: Root → Left → Right
+
+🕒 Time Complexity: O(n)
+💾 Space Complexity: O(n) (in worst case when tree is skewed)
+
+---------------------------------------------------------
+✅ Traversal-2: Inorder Traversal (Recursive)
+---------------------------------------------------------
+Given Function: `inorderTraversal(Node root, List<Integer> list)`
+
+🔁 Order Followed: Left → Root → Right
+
+🧠 Approach:
+- Recursively explore the left subtree.
+- Visit the current node.
+- Then explore the right subtree.
+
+🕒 Time Complexity: O(n)
+💾 Space Complexity: O(h) (recursion stack)
+
+---------------------------------------------------------
+✅ Variation-2: Inorder Traversal (Iterative)
+---------------------------------------------------------
+Given Function: `iterativeInorderTraversal(Node root)`
+
+📦 Data Structure: Stack
+
+🧠 Approach:
+- Start with the root.
+- Push all left nodes onto the stack.
+- When left is done, pop the node, visit it, and then explore the right subtree.
+- Repeat until stack is empty and current is null.
+
+🕒 Time Complexity: O(n)
+💾 Space Complexity: O(n)
+
+---------------------------------------------------------
+✅ Traversal-3: Postorder Traversal (Recursive)
+---------------------------------------------------------
+Given Function: `postorderTraversal(Node root, List<Integer> list)`
+
+🔁 Order Followed: Left → Right → Root
+
+🧠 Approach:
+- Traverse left subtree, then right subtree.
+- Finally, visit the node.
+- Useful for deleting trees or evaluating expressions.
+
+🕒 Time Complexity: O(n)
+💾 Space Complexity: O(h)
+
+---------------------------------------------------------
+✅ Variation-3.1: Postorder Traversal using Two Stacks
+---------------------------------------------------------
+Given Function: `iterativePostorderTraversalTwoStacks(Node root)`
+
+📦 Data Structures: Two stacks (`stack1`, `stack2`)
+
+🧠 Approach:
+- Push root to stack1.
+- While stack1 is not empty:
+    - Pop from stack1 and push to stack2.
+    - Push left and right children of the popped node to stack1.
+- After stack1 is empty, pop all from stack2 (gives postorder).
+
+✅ Why Two Stacks?
+- stack2 reverses the order to simulate left → right → root.
+
+🕒 Time Complexity: O(n)
+💾 Space Complexity: O(n)
+
+---------------------------------------------------------
+✅ Variation-3.2: Postorder Traversal using One Stack
+---------------------------------------------------------
+Given Function: `iterativePostorderTraversalOneStack(Node root)`
+
+📦 Data Structure: One stack
+
+🧠 Approach:
+- Traverse as deep as possible to the left.
+- Keep checking right subtree before visiting node.
+- If right child is unvisited, switch to it and repeat.
+- Otherwise, visit the node and backtrack.
+
+✅ Why Use `temp == stack.peek().right`?
+- To know whether we’re done visiting the right subtree of the top node.
+
+🕒 Time Complexity: O(n)
+💾 Space Complexity: O(n)
+
+---------------------------------------------------------
+✅ Traversal-4: Level-order Traversal (Recursive)
+---------------------------------------------------------
+Given Function: `levelorderTraversal(Node root, int level, List<List<Integer>> list)`
+
+📦 Data Structure: List of Lists (result)
+
+🧠 Approach:
+- Traverse the tree level by level (starting at level 0).
+- Use recursion to track levels.
+- When reaching a new level, add a new list to store nodes.
+- Add current node’s data at its respective level.
+
+🕒 Time Complexity: O(n)
+💾 Space Complexity: O(n) for storing nodes + O(h) for recursion
+
+---------------------------------------------------------
+✅ Variation-4: Level-order Traversal (Iterative - Breadth-First Search)
+---------------------------------------------------------
+Given Function: `iterativeLevelorderTraversal(Node root)`
+
+📦 Data Structure: Queue (FIFO)
+
+🧠 Approach:
+- Add root to the queue.
+- For each level:
+    - Process all nodes at current level (size of queue).
+    - Add left and right children to the queue.
+    - Save values of this level into result list.
+- Repeat until queue is empty.
+
+✅ Why Use Queue?
+- Ensures we process nodes in level order (FIFO behavior)
+
+🕒 Time Complexity: O(n)
+💾 Space Complexity: O(n) for queue + result list
+
+---------------------------------------------------------
+✅ Final Summary:
+---------------------------------------------------------
+
+-----------------------------------------------------------------------------------
+Traversal Type   | Recursive Stack | Iterative DS     | Order
+----------------|------------------|------------------|----------------------------
+Preorder        | Implicit         | Stack            | Root → Left → Right
+Inorder         | Implicit         | Stack            | Left → Root → Right
+Postorder       | Implicit         | Stack (1/2)      | Left → Right → Root
+Level-order     | Queue or Recursion| Queue           | Level by Level (BFS)
