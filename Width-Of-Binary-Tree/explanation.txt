@@ -1,0 +1,44 @@
+ ✅ Given Question:
+ You're given a binary tree.
+ Your task is to find the maximum width of the tree.
+ The width of a level is defined as the number of nodes between the leftmost and rightmost non-null nodes at that level, 
+ counting the positions those nodes would occupy if the tree were a complete binary tree.
+
+ ✅ Given Data:
+ You have:
+     - A binary tree made of `Node` objects (each with `left` and `right` children).
+     - A method `width(Node root)` that should return the maximum width of the tree.
+
+ ✅ Intuition:
+ Nodes at the same level can be very far apart if the tree is sparse or skewed.
+ So we treat the tree like a complete binary tree, assigning an index to each node:
+     - Root starts at index 0.
+     - For any node at index `i`:
+         - Left child → index `2*i + 1`
+         - Right child → index `2*i + 2`
+
+ This indexing lets us measure how wide a level really is — even if there are gaps.
+
+ ------------------------------------------------------------
+ Approach-1: Using index management
+ ------------------------------------------------------------
+     - Use a queue to perform level-order traversal (BFS).
+     - Store each node along with its calculated index (wrapped in a `Pair` class).
+     - For each level:
+         - Record the first and last indices of the nodes.
+         - Width of that level = `last - first + 1`
+     - Track the maximum width seen across all levels.
+
+     - To avoid integer overflow in deep trees:
+         - Normalize all indices by subtracting the index of the first node in the level.
+           (This keeps them small, starting from 0 each level.)
+
+ 📌 Why this works:
+     - Even when nodes are missing between children, the indices still reflect the "true" width of the level as if the tree were complete.
+
+ 🕒 Time Taken:
+     - Each node is processed once → O(n) time, where n = number of nodes.
+
+ 🧠 Space Used:
+     - O(n) space for the queue used in BFS.
+     - Additional space for storing indices with each node (minimal overhead).

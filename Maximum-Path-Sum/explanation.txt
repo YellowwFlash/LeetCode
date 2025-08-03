@@ -1,0 +1,46 @@
+ ✅ Given Question:
+ You're given a binary tree where each node contains an integer value (can be positive or negative).
+ Your task is to find the maximum path sum.
+ A path is any sequence of nodes from some starting node to any node in the tree 
+ along the parent-child connections. It must contain at least one node, and it doesn't have to pass through the root.
+
+ ✅ Given Data:
+ You have:
+     - A binary tree with `Node` objects (each having `left`, `right`, and `data` fields).
+     - A method `maxPathSum(Node root)` that should return the maximum sum of values from any such path.
+
+ ✅ Intuition:
+ A node can be the "highest point" in a path (the peak), and the best path might go:
+     - From the left subtree → current node → right subtree.
+
+ So, at each node:
+     - You compute the maximum path sum from its left and right child.
+     - If the sum is negative, discard it (treat it as 0) — it won’t help the max total.
+     - Then:
+         - Update the overall max path sum (`sum[0]`) using `left + right + root.data`.
+         - Return to parent: the max path sum through one side only (either left or right) plus current node’s value.
+
+ This follows the idea of computing height — but instead of height, we’re computing max sum.
+
+ ------------------------------------------------------------
+ Approach-1: Using the max height fundamental
+ ------------------------------------------------------------
+     - Use a recursive helper: `findMaxPathSum()`.
+     - Base case: if the node is null, return 0.
+     - Recursively find max sum from left and right subtrees.
+         - Use `Math.max(0, value)` to discard negative paths.
+     - Compute:
+         - `left + right + root.data` as the path sum through the current node.
+     - Update `sum[0]` if this sum is larger than the current max.
+     - Return `Math.max(left, right) + root.data` to continue valid paths upward.
+
+ 📌 Why we discard negatives:
+     - Including a negative sum would reduce the total — so it's better to skip those paths entirely.
+
+ 🕒 Time Taken:
+     - Every node is visited once → O(n) time, where n = number of nodes.
+
+ 🧠 Space Used:
+     - Recursion stack → O(h), where h = height of tree.
+     - Extra space for `sum[0]` → O(1)
+

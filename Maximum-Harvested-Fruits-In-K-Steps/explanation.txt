@@ -1,0 +1,79 @@
+ ✅ Given Question:
+ You're given:
+     - A list of fruits at different positions in a 2D array: `fruits[i] = [position, amount]`.
+     - A starting position `p` (your current position on the number line).
+     - An integer `k`, which is the **maximum number of steps** you can take.
+
+ Your goal is to collect the **maximum number of fruits** within `k` steps.
+     - You can go **left** or **right**, and you're allowed to **change direction once** (but not required to).
+     - You can pick fruits at any position you step on or pass through.
+
+ ✅ Given Data:
+ You have:
+     - A sorted list `fruits[][]` by position.
+     - An integer `p` (starting position).
+     - An integer `k` (total allowed steps).
+
+ ✅ Intuition:
+ The tree of options is huge if you try all paths, so we simplify:
+     - Think in terms of **distance**, not exact paths.
+     - You can:
+         - Go left `d` steps, then right `k - 2*d` steps.
+         - OR go right `d` steps, then left `k - 2*d` steps.
+     - This is because: when you change direction, each step away must be reversed.
+         - So **changing direction costs double the steps**.
+         - You reserve `2*d` steps for a round trip (out and back), and the rest to keep going in the other direction.
+
+ ✅ Why loop from `d = 0` to `k / 2`?
+     - `d` is the number of steps in the direction you plan to return from (the smaller segment).
+     - `k - 2*d` is what remains after accounting for turning back.
+     - So this loop tries **every combination of split**:
+         - How far should I go in one direction before turning?
+         - Should I go more one way and less the other?
+     - `k/2` is the **maximum number of steps** you can take **out and back** before you run out of steps.
+
+ ✅ Movement Cases Explained:
+ ------------------------------------------------------------
+ Case 1: First go left `d` steps, then go right with remaining `k - 2*d` steps.
+ ------------------------------------------------------------
+     - Starting at position `p`.
+     - Go left to `p - d`.
+     - Then turn and go right with remaining steps: `p - d + (k - 2*d) = p + (k - d*2 - d) = p + (k - 2*d)`
+     - So the total range visited is `[p - d, p + (k - 2*d)]`.
+
+ ------------------------------------------------------------
+ Case 2: First go right `d` steps, then go left with remaining `k - 2*d` steps.
+ ------------------------------------------------------------
+     - Start at position `p`.
+     - Go right to `p + d`.
+     - Then turn and go left with remaining steps: `p + d - (k - 2*d) = p - (k - 2*d - d) = p - (k - 2*d)`
+     - So the total range visited is `[p - (k - 2*d), p + d]`.
+
+ In both cases, we:
+     - Use `lowerBound()` to find the **first fruit ≥ left bound**.
+     - Use `upperBound()` to find the **first fruit > right bound**.
+     - Use prefix sum to get total fruits in range `[left, right]`.
+
+ ✅ Prefix Sum:
+     - We use prefix sum so that we can compute total fruits in a range `[i, j]` in O(1) time.
+     - Just use: `prefix[j] - prefix[i - 1]`.
+
+ ✅ Binary Search (lowerBound and upperBound):
+     - `lowerBound(i)`: finds index of first fruit at position ≥ i.
+     - `upperBound(j)`: finds index of first fruit > j.
+     - So total fruits collected = `prefix[right] - prefix[left - 1]`.
+
+ ✅ Overall Strategy:
+     - Try all valid splits of k steps using `d` from `0` to `k/2`.
+     - For each split:
+         - Calculate the left and right bounds.
+         - Use binary search and prefix sum to compute fruits collected.
+         - Keep track of the max.
+
+ 🕒 Time Taken:
+     - O(n) to compute prefix sum.
+     - O(k log n) for all iterations and binary searches.
+
+ 🧠 Space Used:
+     - O(n) space for prefix sum.
+     - No extra data structures needed beyond simple variables.

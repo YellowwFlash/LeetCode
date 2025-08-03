@@ -1,0 +1,48 @@
+ ✅ Given Question:
+ You're given a binary tree.
+ Your task is to compute the diameter of the tree.
+ The diameter is the length of the longest path between any two nodes in the tree.
+ This path may or may not pass through the root.
+
+ ✅ Given Data:
+ You have:
+     - A binary tree made of nodes (each with `left` and `right` children).
+     - A method `diameter(Node root)` that should return the length (number of edges) of the longest path.
+
+ ✅ Intuition:
+ The longest path between any two nodes will go from one leaf, up to a common ancestor, and down to another leaf.
+ That path's length = height of left subtree + height of right subtree at some node.
+
+ So:
+     - At every node, we consider:
+         - The height of the left subtree.
+         - The height of the right subtree.
+         - Their sum is the potential diameter through that node.
+     - We keep track of the maximum such sum across all nodes.
+
+ We use a helper function:
+     - It calculates the height.
+     - Simultaneously updates the `diameter` variable if a longer path is found.
+
+ ------------------------------------------------------------
+ Approach-1: Using height and diameter
+ ------------------------------------------------------------
+     - Create an array `diameter[0]` to store the max path length seen so far.
+     - Recursively compute the height of each subtree:
+         - At each node, compute:
+             - `left = height of left subtree`
+             - `right = height of right subtree`
+         - Update `diameter[0] = max(diameter[0], left + right)`
+             - This is because the longest path through that node is from farthest left leaf to farthest right leaf.
+     - Return `Math.max(left, right) + 1` as height of current node.
+     - Finally, return `diameter[0]` from the main function.
+
+ 📌 The reason we use an array for `diameter`:
+     - Java is pass-by-value.
+     - Arrays allow us to simulate pass-by-reference for updating values inside recursion.
+
+ 🕒 Time Taken:
+     - Each node is visited once → O(n) time.
+
+ 🧠 Space Used:
+     - Recursion stack space → O(h), where h is the height of the tree.

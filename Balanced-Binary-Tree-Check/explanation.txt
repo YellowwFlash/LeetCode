@@ -1,0 +1,49 @@
+ ✅ Given Question:
+ You're given a binary tree.  
+ Your task is to determine whether the tree is **height-balanced**.
+ A binary tree is considered height-balanced if:
+     - For every node, the height difference between its left and right subtrees is **no more than 1**.
+
+ ✅ Given Data:
+ You have:
+     - A binary tree defined by a `Node` class.
+     - Each `Node` has `left` and `right` child references.
+     - A method `isBalanced(Node root)` that returns `true` if the tree is balanced, otherwise `false`.
+
+ ✅ Intuition:
+ If a subtree is unbalanced, we don’t need to continue checking deeper — just stop and return false.
+ So instead of separately computing height and balance, we **combine them**:
+     - Use the `height()` method to return:
+         - Actual height when subtree is balanced.
+         - `-1` if any subtree is unbalanced — as a signal to stop further checks.
+
+ This helps:
+     - Avoid redundant calculations.
+     - Return the balance status efficiently in a **single traversal**.
+
+ ------------------------------------------------------------
+ Approach-1: Using the height of tree
+ ------------------------------------------------------------
+     - Start at the root.
+     - Recursively check the height of the left subtree:
+         - If it returns `-1`, the left subtree is unbalanced — propagate `-1` upward.
+     - Do the same for the right subtree.
+     - If the height difference between left and right > 1:
+         - Return `-1` → signals imbalance.
+     - Otherwise:
+         - Return max(leftHeight, rightHeight) + 1 → represents subtree height.
+
+ Then:
+     - In `isBalanced()`, just check whether the `height(root)` is `-1`:
+         - If yes → unbalanced → return false.
+         - If no → balanced → return true.
+
+ 📌 The magic here is treating `-1` as a signal of imbalance, bubbling it up immediately without further unnecessary recursion.
+
+ 🕒 Time Taken:
+     - Each node is visited once → O(n) time.
+
+ 🧠 Space Used:
+     - Recursion stack depends on height of tree.
+     - Worst case (skewed tree): O(n)
+     - Best case (balanced tree): O(log n)

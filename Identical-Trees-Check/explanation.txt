@@ -1,0 +1,45 @@
+ ✅ Given Question:
+ You're given two binary trees.
+ Your task is to determine whether these two trees are identical.
+
+ Two binary trees are considered identical if:
+     - They have the same structure.
+     - The corresponding nodes in both trees have the same values.
+
+ ✅ Given Data:
+ You have:
+     - Two binary trees, each defined using a `Node` class.
+     - A method `isIdentical(Node root1, Node root2)` that should return `true` if the trees are identical, otherwise `false`.
+
+ ✅ Intuition:
+ You can compare the trees recursively:
+     - Start from the root of both trees.
+     - If both nodes are `null`, they're identical at this point.
+     - If only one is `null`, they differ structurally → return false.
+     - If both are not null but their values differ → return false.
+     - If they match, check recursively for both left and right subtrees.
+
+ This forms a post-order style recursion, as both subtrees are checked after validating the root node.
+
+ ------------------------------------------------------------
+ Approach-1: Using recursion
+ ------------------------------------------------------------
+     - If both `root1` and `root2` are null:
+         - Return true (both trees are empty at this node).
+     - If one is null and the other isn't:
+         - Return false (structural difference).
+     - If the data in `root1` and `root2` differ:
+         - Return false (value mismatch).
+     - Otherwise:
+         - Recursively check:
+             - Left subtree of both trees.
+             - Right subtree of both trees.
+         - Return true only if both subtrees are identical.
+
+ 📌 The recursion ensures that every corresponding node pair is compared.
+
+ 🕒 Time Taken:
+     - Every node in both trees is visited once → O(n), where n = number of nodes (assuming both trees have n nodes).
+
+ 🧠 Space Used:
+     - Recursion stack → O(h), where h = height of the tree (worst case O(n) for skewed trees, O(log n) for balanced).

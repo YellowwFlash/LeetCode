@@ -1,0 +1,44 @@
+ ✅ Given Question:
+ You're given a binary tree. 
+ Your task is to find its **height** (also known as depth) — 
+ the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+ ✅ Given Data:
+ You have:
+     - A `Node` class representing each node in the binary tree.
+     - Each node has a `left` and `right` child.
+     - The root of the tree is given as input to the function: `Node root`.
+
+ ✅ Intuition:
+ The height of a binary tree is:
+     - 0 if the tree is empty (i.e., root is null).
+     - Otherwise, it's 1 plus the maximum of the heights of the left and right subtrees.
+
+ So the idea is simple:
+     - Recursively compute the height of the left subtree.
+     - Recursively compute the height of the right subtree.
+     - Return the greater of the two heights + 1 (to count the current node level).
+
+ ------------------------------------------------------------
+ Approach: Recursive Height Calculation
+ ------------------------------------------------------------
+     - If the current node (`root`) is null:
+         - Return 0 (base case — no height).
+     - Otherwise:
+         - Call the function recursively on the left child → `leftHeight`.
+         - Call the function recursively on the right child → `rightHeight`.
+         - Compute `max(leftHeight, rightHeight) + 1`:
+             - `+1` accounts for the current node level.
+
+ 📌 If the tree is empty, the function returns 0.
+ 📌 If the tree has only one node, it returns 1.
+ 📌 For a balanced tree of height `h`, it recurses down `h` levels.
+
+ 🕒 Time Taken:
+     - Each node is visited exactly once.
+     - So the time complexity is O(n), where n = number of nodes.
+
+ 🧠 Space Used:
+     - Uses call stack for recursion.
+     - In the worst case (unbalanced tree), the recursion stack can be O(n).
+     - For a balanced tree, it's O(log n).
