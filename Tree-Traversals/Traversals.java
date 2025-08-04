@@ -228,7 +228,7 @@ public class Traversals {
                 // If temp is null,
                 if (temp == null) {
 
-                    // Get the top 
+                    // Get the top
                     temp = stack.pop();
 
                     // Add temp to the list
@@ -317,5 +317,199 @@ public class Traversals {
 
         // Return result as the final level order traversal
         return list;
+    }
+
+    // Traversal-5 -> Zigzag Traversal
+    public static void zigzagTraversal(Node root, List<List<Integer>> list) {
+
+        // Define a queue to store nodes
+        Queue<Node> queue = new LinkedList<>();
+
+        // Add the root node in the queue
+        queue.add(root);
+
+        // Flag to keep track of the direction
+        boolean isRightToLeft = false;
+
+        // Iterate until the root node is empty
+        while (!queue.isEmpty()) {
+
+            // Get current level
+            int level = queue.size();
+
+            // Create a list for the current level
+            LinkedList<Integer> levelList = new LinkedList<>();
+
+            // Iterate over the current level
+            for (int i = 0; i < level; i++) {
+
+                Node current = queue.poll();
+
+                // Add the left and right in the queue
+                if (current.left != null)
+                    queue.add(current.left);
+
+                if (current.right != null)
+                    queue.add(current.right);
+
+                // Add the current node's data in the list
+                if (isRightToLeft)
+                    levelList.addFirst(current.data);
+                else
+                    levelList.addLast(current.data);
+            }
+
+            // Update the flag
+            isRightToLeft = !isRightToLeft;
+
+            // Add the level list to the list of levels
+            list.add(levelList);
+        }
+    }
+
+    // Traversal-6 : Boundary traversal
+    public static void boundaryTraversal(Node root, List<Integer> list) {
+
+        // Find the left boundary
+        findLeftBoundary(root, list);
+
+        // Find the leaf nodes
+        findLeafNodes(root, list);
+
+        // Find the right boundary in reverse order
+        findRightBoundary(root, list);
+    }
+
+    private static void findLeftBoundary(Node root, List<Integer> list) {
+
+        // If the node is leaf node or null node, simply return
+        if (root == null || (root.left == null && root.right == null))
+            return;
+
+        // Add the current node in list
+        list.add(root.data);
+
+        // If the left is non null go to left else go to right
+        findLeftBoundary(root.left == null ? root.right : root.left, list);
+
+    }
+
+    private static void findLeafNodes(Node root, List<Integer> list) {
+
+        // If the root is null, simply return
+        if (root == null)
+            return;
+
+        // If the node is leaf node, add it into the list and return
+        if (root.left == null && root.right == null) {
+            list.add(root.data);
+            return;
+        }
+
+        // Go to the left side
+        findLeafNodes(root.left, list);
+
+        // Instead of adding the node, since only leaf nodes required, go to right
+        findLeafNodes(root.right, list);
+    }
+
+    private static void findRightBoundary(Node root, List<Integer> list) {
+
+        // If the root is null or the node is leaf node, return
+        if (root == null || (root.left == null && root.right == null))
+            return;
+
+        // Go to right and if its null go to left
+        findRightBoundary(root.right == null ? root.left : root.right, list);
+
+        // Add the root value in the list for reverse order
+        list.add(root.data);
+    }
+
+    // Traversal-7 -> Vertical Order traversal
+    public static List<List<Integer>> verticalTraversal(Node root) {
+
+        // Define a result list to store result
+        List<List<Integer>> result = new ArrayList<>();
+
+        // Define a list of pair to store all the pairs
+        List<Pair> list = new ArrayList<>();
+
+        // Define a queue for the level order traversal
+        Queue<Pair> queue = new LinkedList<>();
+
+        // Add root node's pair to queue
+        queue.add(new Pair(0, 0, root));
+
+        // Traverse until the queue is empty
+        while (!queue.isEmpty()) {
+
+            // Get the current level
+            int level = queue.size();
+
+            // Iterate through the level
+            for (int i = 0; i < level; i++) {
+
+                // Get the current node
+                Pair current = queue.poll();
+                Node node = current.node;
+
+                // Add the left and right of the current node to the queue
+                if (node.left != null)
+                    queue.add(new Pair(current.column - 1, current.level + 1, node.left));
+                if (node.right != null)
+                    queue.add(new Pair(current.column + 1, current.level + 1, node.right));
+
+                // Add the current pair to the list of pairs
+                list.add(current);
+            }
+        }
+
+        // Sort the list based on column then level and then value of node
+        list.sort((a, b) -> {
+            if (a.column != b.column)
+                return Integer.compare(a.column, b.column);
+            if (a.level != b.level)
+                return Integer.compare(a.level, b.level);
+            return Integer.compare(a.node.data, b.node.data);
+        });
+
+        // Define previous column to keep track of the column
+        int prevColumn = Integer.MIN_VALUE;
+
+        // Group by columns
+        for (Pair pair : list) {
+
+            // Get the column and value of the current pair
+            int column = pair.column, value = pair.node.data;
+
+            // If current column and previous column are not same, add new list
+            if (column != prevColumn) {
+
+                // Add new list in result
+                result.add(new ArrayList<>());
+
+                // Update previous column as the current column
+                prevColumn = column;
+            }
+
+            // Add the current value in the list
+            result.get(result.size() - 1).add(value);
+        }
+
+        // Return result as the final result
+        return result;
+    }
+
+    // Reference Pair class to store level, node and column
+    public static class Pair {
+        int column, level;
+        Node node;
+
+        public Pair(int column, int level, Node node) {
+            this.column = column;
+            this.level = level;
+            this.node = node;
+        }
     }
 }

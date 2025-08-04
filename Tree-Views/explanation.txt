@@ -1,0 +1,69 @@
+ ✅ Given Question:
+ You're given a binary tree.
+ Your task is to compute:
+     - The *Top View* of the binary tree: nodes visible from the top.
+     - The *Bottom View* of the binary tree: nodes visible from the bottom.
+
+ ✅ Given Data:
+ You have:
+     - A binary tree with nodes of type `Node`.
+     - A `Tuple` class that pairs:
+         - A `Node` (tree node).
+         - An `int` column (horizontal distance from the root).
+     - Two methods:
+         - `topView(Node root)` → returns a list of integers seen from the top.
+         - `bottomView(Node root)` → returns a list of integers seen from the bottom.
+
+ ✅ Intuition:
+ For both views, imagine vertical lines drawn through the tree.
+ Each vertical line represents a *column index* (or horizontal distance from the root).
+ Use **BFS (level-order traversal)** to explore nodes layer by layer, while tracking column indices.
+ 
+ ▶ For Top View:
+     - We want the *first* node encountered at each column.
+ 
+ ▶ For Bottom View:
+     - We want the *last* node encountered at each column.
+
+ ------------------------------------------------------------
+ Approach: Level-Order Traversal (BFS) + Column Index Tracking
+ ------------------------------------------------------------
+
+ ✅ Common Setup:
+     - If the tree is empty, return an empty list.
+     - Initialize a `TreeMap<Integer, Integer>` to hold column index → node value.
+         - TreeMap keeps keys sorted for left-to-right ordering.
+     - Initialize a `Queue<Tuple>` to perform BFS traversal.
+     - Enqueue the root node with column 0.
+
+ ✅ BFS Traversal Loop:
+     - While the queue is not empty:
+         - Dequeue the current `Tuple` containing:
+             - `node`: the current tree node.
+             - `column`: its horizontal distance from root.
+         
+         ▶ Top View Logic:
+             - If `column` is *not already* in the map:
+                 - Add `node.data` to the map (first seen at this column).
+
+         ▶ Bottom View Logic:
+             - Always insert/overwrite `node.data` at `column` in the map.
+                 - This way, the last node seen at each column remains in the map.
+
+         - If `node.left` exists:
+             - Enqueue it with `column - 1`.
+
+         - If `node.right` exists:
+             - Enqueue it with `column + 1`.
+
+ ✅ Final Step:
+     - Return the values from the TreeMap as a list.
+         - These represent either the top or bottom view, sorted left to right.
+
+ 🕒 Time Complexity:
+     - O(n log n), where n = number of nodes.
+         - Each TreeMap insertion/lookup is O(log n).
+         - Each node is visited once in BFS.
+
+ 🧠 Space Complexity:
+     - O(n) for TreeMap and Queue, which may grow to hold all nodes in the tree.

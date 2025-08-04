@@ -164,6 +164,66 @@ Given Function: `iterativeLevelorderTraversal(Node root)`
 🕒 Time Complexity: O(n)
 💾 Space Complexity: O(n) for queue + result list
 
+---------------------------------------------------------  
+✅ Traversal-5: Zigzag Traversal (Level Order Spiral)
+---------------------------------------------------------  
+Given Function: `zigzagTraversal(Node root, List<List<Integer>> list)`
+
+🔁 Order Followed: Level by Level, alternating Left → Right and Right → Left
+
+🧠 Approach:
+- Use a queue to perform level order traversal.
+- Maintain a boolean `isRightToLeft` to alternate the direction of insertion.
+- For each level, use a `LinkedList<Integer>` to add values:
+  - If `isRightToLeft` is false → add to the end.
+  - If true → add to the front (for reverse order).
+- Flip the flag after each level to alternate direction.
+
+🕒 Time Complexity: O(n) — Every node is visited once.
+💾 Space Complexity: O(w) — Where `w` is the maximum width of the tree (queue size).
+
+
+---------------------------------------------------------  
+✅ Traversal-6: Boundary Traversal
+---------------------------------------------------------  
+Given Function: `boundaryTraversal(Node root, List<Integer> list)`
+
+🔁 Order Followed: Left Boundary → Leaf Nodes → Right Boundary (in reverse)
+
+🧠 Approach:
+- Traverse the left boundary (excluding leaf nodes).
+- Then collect all the leaf nodes from left to right.
+- Finally, traverse the right boundary (excluding leaf nodes) in bottom-up order.
+- Helper methods:
+  - `findLeftBoundary`: Recursively add left boundary nodes.
+  - `findLeafNodes`: Recursively collect all leaf nodes.
+  - `findRightBoundary`: Recursively collect right boundary in reverse order.
+
+🕒 Time Complexity: O(n) — Each node is visited once.
+💾 Space Complexity: O(h) — Due to recursive calls in boundary functions (stack).
+
+
+---------------------------------------------------------  
+✅ Traversal-7: Vertical Order Traversal
+---------------------------------------------------------  
+Given Function: `verticalTraversal(Node root)`
+
+🔁 Order Followed: Columns from Left to Right → Top to Bottom → Node Value Ascending (for ties)
+
+🧠 Approach:
+- Use a `Pair` class to track each node with its column and level.
+- Perform level order traversal (BFS) using a queue.
+- For each node, enqueue left child (column - 1) and right child (column + 1).
+- Store all pairs in a list, then sort by:
+  1. Column
+  2. Level
+  3. Node value (if ties occur)
+- Group nodes column-wise into the final result list.
+
+🕒 Time Complexity: O(n log n) — Due to sorting of n nodes.
+💾 Space Complexity: O(n) — For storing nodes in list and queue.
+
+
 ---------------------------------------------------------
 ✅ Final Summary:
 ---------------------------------------------------------
