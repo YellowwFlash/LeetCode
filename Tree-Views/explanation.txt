@@ -3,31 +3,33 @@
  Your task is to compute:
      - The *Top View* of the binary tree: nodes visible from the top.
      - The *Bottom View* of the binary tree: nodes visible from the bottom.
+     - The *Right View* of the binary tree: nodes visible from the right.
+     - The *Left View* of the binary tree: nodes visible from the left.
 
  ✅ Given Data:
  You have:
      - A binary tree with nodes of type `Node`.
-     - A `Tuple` class that pairs:
+     - A `Tuple` or `Pair` class that pairs:
          - A `Node` (tree node).
-         - An `int` column (horizontal distance from the root).
-     - Two methods:
-         - `topView(Node root)` → returns a list of integers seen from the top.
-         - `bottomView(Node root)` → returns a list of integers seen from the bottom.
+         - An `int` column (for horizontal distance or level).
+     - Methods implemented using:
+         - BFS for Top, Bottom, Left (variation 1), and Right views.
+         - DFS for Left (variation 2) and Right views.
+
+ ------------------------------------------------------------
+ 🌐 Approach for Top and Bottom Views:
+ ------------------------------------------------------------
 
  ✅ Intuition:
  For both views, imagine vertical lines drawn through the tree.
  Each vertical line represents a *column index* (or horizontal distance from the root).
  Use **BFS (level-order traversal)** to explore nodes layer by layer, while tracking column indices.
- 
+
  ▶ For Top View:
      - We want the *first* node encountered at each column.
- 
+
  ▶ For Bottom View:
      - We want the *last* node encountered at each column.
-
- ------------------------------------------------------------
- Approach: Level-Order Traversal (BFS) + Column Index Tracking
- ------------------------------------------------------------
 
  ✅ Common Setup:
      - If the tree is empty, return an empty list.
@@ -41,7 +43,7 @@
          - Dequeue the current `Tuple` containing:
              - `node`: the current tree node.
              - `column`: its horizontal distance from root.
-         
+
          ▶ Top View Logic:
              - If `column` is *not already* in the map:
                  - Add `node.data` to the map (first seen at this column).
@@ -67,3 +69,49 @@
 
  🧠 Space Complexity:
      - O(n) for TreeMap and Queue, which may grow to hold all nodes in the tree.
+
+ ------------------------------------------------------------
+ 👁️ Approach for Left and Right Views:
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ For left and right views, imagine standing on the side of the tree.
+ At each depth/level of the tree, you can only see the *first* node (left view) or *last* node (right view) visible from that side.
+
+ -----------------------------------
+ ✅ BFS Approach (Level-Order):
+ -----------------------------------
+
+ ▶ Left View (BFS):
+     - Traverse the tree level by level using a queue.
+     - At each level, add the *first* node you encounter to the result.
+     - Uses a `Map<Integer, Integer>` to store level → node value.
+     - Only insert into the map if the level key is missing.
+
+ ▶ Right View (BFS):
+     - Similar logic to left view, but prioritize the *last* node seen at each level.
+     - Can reverse the order of children enqueued (right first) or overwrite existing map entries.
+
+ 🕒 Time Complexity: O(n)
+ 🧠 Space Complexity: O(n)
+
+ -----------------------------------
+ ✅ DFS Approach (Preorder Traversal):
+ -----------------------------------
+
+ ▶ Left View (DFS):
+     - Traverse the tree using DFS, prioritizing **left** children.
+     - At each level, if it's the first time visiting that level (`list.size() == level`), add the node’s value.
+     - Recurse: left first, then right.
+
+ ▶ Right View (DFS):
+     - Traverse the tree using DFS, prioritizing **right** children.
+     - At each level, if it's the first time visiting that level (`list.size() == level`), add the node’s value.
+     - Recurse: right first, then left.
+
+ ✅ Benefit of DFS:
+     - Cleaner implementation using recursion.
+     - Only requires a list and current level as parameters.
+
+ 🕒 Time Complexity: O(n)
+ 🧠 Space Complexity: O(h), where h is the height of the tree (due to recursion stack).

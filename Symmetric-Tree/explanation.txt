@@ -1,0 +1,57 @@
+ ✅ Problem:
+ You're given the root of a binary tree.
+ Your task is to determine whether the tree is symmetric around its center.
+
+ In other words, check if the left subtree is a mirror reflection of the right subtree.
+
+ ------------------------------------------------------------
+ 🌐 Approach: Depth-First Search (DFS)
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ A tree is symmetric if:
+     - The left and right subtrees are mirror images of each other.
+     - That means:
+         - The values of mirrored nodes must be equal.
+         - The left child of the left subtree must match the right child of the right subtree.
+         - The right child of the left subtree must match the left child of the right subtree.
+
+ ✅ Algorithm Steps:
+ 1. If the root is `null`, it's symmetric (implicitly handled here).
+ 2. Call a helper function `isMirror(left, right)` with root's left and right children.
+ 3. In `isMirror()`:
+     - If both `left` and `right` are `null`, return `true` → empty trees are mirrors.
+     - If only one of them is `null`, return `false` → structure mismatch.
+     - If `left.val != right.val`, return `false` → value mismatch.
+     - Recur with:
+         - `left.left` vs `right.right`
+         - `left.right` vs `right.left`
+       → these must both return `true` for symmetry.
+
+ ✅ DFS Traversal:
+ This uses a recursive depth-first traversal, checking for mirrored structure and values at every level.
+
+ 🕒 Time Complexity:
+ - O(n), where n = number of nodes in the tree.
+   - Each node is visited once in the worst case.
+
+ 🧠 Space Complexity:
+ - O(h), where h = height of the tree.
+   - Due to recursion stack in the DFS call.
+   - Worst case: O(n) for skewed tree, O(log n) for balanced tree.
+
+ ✅ Example:
+         1
+       /   \
+      2     2
+     / \   / \
+    3   4 4   3
+ → This tree is symmetric.
+
+         1
+       /   \
+      2     2
+       \     \
+        3     3
+ → This tree is not symmetric (missing left children).
+ 
