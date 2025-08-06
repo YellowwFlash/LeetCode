@@ -1,0 +1,51 @@
+ ✅ Problem:
+ Given a complete binary tree, count the total number of nodes present in it.
+
+ A complete binary tree is a binary tree in which all levels are completely filled 
+ except possibly the last, and all nodes in the last level are as far left as possible.
+
+ ------------------------------------------------------------
+ 🌐 Approach 1: Using Left and Right Height Checks
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ - In a complete binary tree:
+   - If the left and right subtree heights from a node are equal, 
+     that subtree is a perfect binary tree.
+   - A perfect binary tree of height `h` has exactly `2^(h+1) - 1` nodes.
+ - So instead of counting each node recursively, we can leverage this 
+   height property to count nodes in O(log² n) time.
+
+ ✅ Steps:
+ 1. Base case: If the root is null, return 0.
+ 2. Compute the height of the leftmost path (`leftHeight`) of the left subtree.
+ 3. Compute the height of the rightmost path (`rightHeight`) of the right subtree.
+ 4. If both heights are equal:
+    - The subtree is perfect → number of nodes = `(2 << height) - 1` → which equals `2^(height+1) - 1`.
+ 5. If not equal:
+    - Recursively count nodes in left and right subtrees and add 1 (for the root).
+
+ ✅ Key Details:
+ - `leftHeight`: Traverses to the rightmost node (not left!) to get subtree height.
+ - `rightHeight`: Traverses to the leftmost node (not right!) to get subtree height.
+ - `(2 << h)` means `2^(h+1)` due to bit shifting.
+
+ ✅ Time Complexity:
+ - O(log² n): For each level, we compute height (O(log n)), and recurse at most log n times.
+
+ ✅ Space Complexity:
+ - O(log n): For recursion stack in worst case.
+
+ ✅ Example:
+ Given tree:
+         1
+        / \
+       2   3
+      / \  /
+     4  5 6
+
+ - leftHeight = 2 (path: 2 → 4)
+ - rightHeight = 2 (path: 3 → 6)
+ - So total nodes = (2 << 2) - 1 = 8 - 1 = 7
+
+ ------------------------------------------------------------

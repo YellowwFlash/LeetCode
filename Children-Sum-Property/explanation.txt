@@ -1,0 +1,51 @@
+ ✅ Problem:
+ Given a binary tree, modify it so that every node’s value becomes 
+ equal to the sum of its children's values, if the children's sum is 
+ greater than the node's current value. Otherwise, update the children 
+ to have the node's value. The tree should maintain the **Children Sum Property**.
+
+ The Children Sum Property means:
+ - For every node, `node.data = (left.data + right.data)` if both are present.
+ - If a child is missing, treat its value as 0.
+
+ ------------------------------------------------------------
+ 🌐 Approach 1: DFS Traversal with Top-Down and Bottom-Up Fix
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ - Use DFS to traverse the tree.
+ - At each node, compare the sum of its children’s values to its own value.
+ - Make top-down adjustments during the traversal if children < node.
+ - After recursion, update node to match total of its (possibly modified) children.
+
+ ✅ Steps:
+ 1. Base Case: If the node is null, return.
+ 2. Compute the sum of the current left and right children's values.
+ 3. If this sum is greater than or equal to the current node’s value, update the node.
+ 4. Otherwise, propagate the node’s value downward to its non-null child.
+ 5. Recurse into left and right children.
+ 6. On the way back (post-order), update the current node’s value to match the new sum of its children.
+
+
+ ✅ Time Complexity:
+ - O(n): Every node is visited once.
+
+ ✅ Space Complexity:
+ - O(h): due to recursion stack, where h = height of tree.
+
+ ✅ Example:
+        50
+       /  \
+      7    2
+     / \    \
+    3   5    1
+
+ 🔄 After changeTree:
+        50
+       /  \
+     10    40
+     / \    \
+    5   5   40
+
+ - Root becomes sum of left + right (10 + 40 = 50)
+ - Children updated accordingly to follow the Children Sum Property

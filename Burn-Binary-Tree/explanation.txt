@@ -1,0 +1,52 @@
+ ✅ Problem:
+ Given a binary tree and a starting node (where the fire starts), 
+ calculate the minimum time required to burn the entire tree.
+
+ The fire spreads to connected nodes (left, right, and parent) in 1 unit of time.
+
+ ------------------------------------------------------------
+ 🌐 Approach 1: Using DFS and Max Time Tracking
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ - The fire spreads outward from the starting node in all directions: left, right, and upward to the parent.
+ - We need to simulate this spreading process and track the maximum depth reached by the fire.
+ - We achieve this using DFS and a parent map to enable upward traversal.
+
+ ✅ Steps:
+ 1. Use BFS (`addParents`) to build a map that tracks each node’s parent.
+ 2. Initialize a visited set to avoid revisiting nodes.
+ 3. Start DFS from the burn node (`node`) and recursively spread the fire:
+    - Visit left and right children.
+    - Visit parent (using the parent map).
+    - At each step, increase the `timeTaken`.
+    - Track the maximum time needed in an array `time[0]`.
+ 4. After DFS completes, return the value of `time[0]` as the answer.
+
+ ✅ Key Details:
+ - `addParents`: Performs BFS to associate each child node with its parent.
+ - `dfs`: Tracks visited nodes and recursively explores all three directions.
+ - `time[0]` is used as a mutable reference to hold the maximum burn time globally.
+
+ ✅ Time Complexity:
+ - O(n): Every node is visited once in both BFS and DFS.
+
+ ✅ Space Complexity:
+ - O(n): For parent map, visited set, and recursion stack.
+
+ ✅ Example:
+ Given binary tree:
+         1
+        / \
+       2   3
+      / \
+     4   5
+
+ Start burn from node = 2
+
+ 🔥 Fire spreads like this:
+ - t=0: 2
+ - t=1: 1, 4, 5
+ - t=2: 3
+
+ 🔚 Minimum time to burn the entire tree = 2

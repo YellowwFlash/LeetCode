@@ -1,0 +1,52 @@
+ ✅ Problem:
+ Given a binary tree, a target node, and an integer `k`, find all nodes 
+ in the tree that are at a distance `k` from the target node.
+
+ A node is considered to be at distance `k` from the target if there are 
+ exactly `k` edges between them.
+
+ ------------------------------------------------------------
+ 🌐 Approach 1: Using Parenting Map and DFS
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ - A normal DFS or BFS only explores downwards from a node.
+ - But here, we also need to explore upwards (toward parent nodes).
+ - So, we first map each node to its parent.
+ - Then, we start DFS from the target node and explore in all three directions:
+   left, right, and parent, until we reach `k` distance.
+
+ ✅ Steps:
+ 1. Use BFS (`addParents`) to create a map of each node to its parent.
+ 2. Initialize a visited set to avoid revisiting the same node.
+ 3. Use DFS from the `target` node:
+    - Decrease `k` at each step.
+    - Stop if `k < 0` or node is already visited.
+    - When `k == 0`, collect that node’s value into the result list.
+ 4. Return the result list containing all nodes at distance `k`.
+
+ ✅ Key Details:
+ - `addParents`: Builds parent map using BFS.
+ - `dfs`: Searches left, right, and parent nodes recursively.
+ - `visited` set ensures no cycles occur during traversal.
+
+ ✅ Time Complexity:
+ - O(n): Each node is visited once in both BFS and DFS steps.
+
+ ✅ Space Complexity:
+ - O(n): For storing parent map, visited set, and result list.
+
+ ✅ Example:
+ Given tree:
+         3
+        / \
+       5   1
+      / \ / \
+     6  2 0  8
+       / \
+      7   4
+
+ Target = 5, k = 2
+
+ Output: [7, 4, 1]
+ - Nodes at distance 2 from node 5 are: 7 (left subtree), 4 (left subtree), and 1 (parent side).
