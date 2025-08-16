@@ -1,0 +1,90 @@
+ ✅ Problem:
+ You're given the inorder and preorder/postorder traversal of a binary tree.
+ Your task is to reconstruct the original binary tree from these traversals.
+
+ ------------------------------------------------------------
+ 🌐 Approach: Recursive Tree Construction using HashMap
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ ➤ Inorder traversal tells us how nodes are arranged with respect to left and right subtrees.
+ ➤ Preorder/Postorder gives the order of root nodes.
+     - In Preorder, the root is the first element.
+     - In Postorder, the root is the last element.
+ ➤ Once we find the root in inorder, we can:
+     - Identify left and right subtree ranges.
+     - Recursively construct left and right subtrees.
+
+ ------------------------------------------------------------
+ 🔁 Variation 1: Build Tree using Inorder + Preorder
+ ------------------------------------------------------------
+
+ ✅ Algorithm Steps:
+ 1. Create a HashMap to store (value -> index) from inorder array for O(1) access.
+ 2. Start with the first element in preorder → it's the root.
+ 3. Find this root's index in inorder using the map.
+ 4. Compute the size of the left subtree: `leftSize = index - inStart`
+ 5. Recursively build:
+     - Left subtree using preorder range: (preStart + 1) to (preStart + leftSize)
+     - Right subtree using preorder range: (preStart + leftSize + 1) to preEnd
+     - Inorder range is adjusted accordingly.
+ 6. Return the root node after assigning left and right.
+
+ ✅ DFS Traversal:
+ Recursively processes nodes in a top-down preorder manner.
+
+ 🕒 Time Complexity: O(n)
+ - Each node is visited once.
+ - Map lookup for index is O(1)
+
+ 🧠 Space Complexity: O(n)
+ - HashMap for storing inorder indices
+ - Recursion stack: O(h), where h = height of the tree
+
+ ✅ Example:
+   Preorder = [3,9,20,15,7]
+   Inorder  = [9,3,15,20,7]
+
+   → Constructed Tree:
+           3
+          / \
+         9  20
+            / \
+           15  7
+
+
+ ------------------------------------------------------------
+ 🔁 Variation 2: Build Tree using Inorder + Postorder
+ ------------------------------------------------------------
+
+ ✅ Algorithm Steps:
+ 1. Create a HashMap to store (value -> index) from inorder array.
+ 2. Start with the last element in postorder → it's the root.
+ 3. Find this root's index in inorder.
+ 4. Compute the size of the left subtree: `leftSize = index - inStart`
+ 5. Recursively build:
+     - Left subtree using postorder range: (postStart) to (postStart + leftSize - 1)
+     - Right subtree using postorder range: (postStart + leftSize) to (postEnd - 1)
+     - Inorder range is adjusted accordingly.
+ 6. Return the root node.
+
+ ✅ DFS Traversal:
+ Recursively processes nodes in a bottom-up postorder manner.
+
+ 🕒 Time Complexity: O(n)
+ - Each node is processed once.
+
+ 🧠 Space Complexity: O(n)
+ - HashMap + recursion stack
+
+ ✅ Example:
+   Postorder = [9,15,7,20,3]
+   Inorder   = [9,3,15,20,7]
+
+   → Constructed Tree:
+           3
+          / \
+         9  20
+            / \
+           15  7
+

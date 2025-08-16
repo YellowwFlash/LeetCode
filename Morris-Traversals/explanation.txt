@@ -1,0 +1,78 @@
+✅ Given Question:
+ You're given a binary tree.
+ Your task is to implement:
+     1. Inorder Traversal (Left → Root → Right)
+     2. Preorder Traversal (Root → Left → Right)
+ without using recursion or stack.
+
+ ✅ Given Data:
+ You have:
+     - A binary tree defined using a `Node` class.
+     - Two methods:
+         - `inOrder(Node root)` → should return a List of node values in inorder.
+         - `preOrder(Node root)` → should return a List of node values in preorder.
+
+ ✅ Intuition:
+ Typically, inorder and preorder traversals use recursion or a stack.
+ However, Morris Traversal allows us to do both without extra space.
+ The idea is:
+     - Use the concept of threaded binary trees.
+     - For each node:
+         - If it has a left child:
+             - Find the rightmost node (predecessor) in its left subtree.
+             - Temporarily make that node point to the current node.
+             - Use this "thread" to return back after exploring the left subtree.
+         - If it doesn't have a left child:
+             - Visit the current node and move right.
+
+ This enables traversal in O(1) extra space (excluding result list).
+
+ ------------------------------------------------------------
+ Approach-1: Morris Inorder Traversal (inOrder method)
+ ------------------------------------------------------------
+     - Initialize `current = root`.
+     - While `current != null`:
+         - If `current.left == null`:
+             - Add `current.data` to result.
+             - Move to `current.right`.
+         - Else:
+             - Find the rightmost node in left subtree (`predecessor`).
+             - If `predecessor.right == null`:
+                 - Set `predecessor.right = current` (threading).
+                 - Move to `current.left`.
+             - Else (thread exists):
+                 - Remove thread (`predecessor.right = null`).
+                 - Visit `current` (add to result).
+                 - Move to `current.right`.
+
+ 📌 Traverses nodes in Left → Root → Right order.
+
+ ------------------------------------------------------------
+ Approach-2: Morris Preorder Traversal (preOrder method)
+ ------------------------------------------------------------
+     - Initialize `current = root`.
+     - While `current != null`:
+         - If `current.left == null`:
+             - Visit `current` (add to result).
+             - Move to `current.right`.
+         - Else:
+             - Find rightmost node in left subtree (`predecessor`).
+             - If `predecessor.right == null`:
+                 - Visit `current` (add to result).
+                 - Create thread (`predecessor.right = current`).
+                 - Move to `current.left`.
+             - Else:
+                 - Remove thread (`predecessor.right = null`).
+                 - Move to `current.right`.
+
+ 📌 Traverses nodes in Root → Left → Right order.
+
+ 🕒 Time Taken:
+     - O(n) for both traversals.
+     - Each node is visited at most twice.
+
+ 🧠 Space Used:
+     - O(1) auxiliary space (no stack/recursion used).
+     - Result list takes O(n) space.
+
+✅ Morris Traversal is an optimal way to traverse a binary tree without using stack or recursion.

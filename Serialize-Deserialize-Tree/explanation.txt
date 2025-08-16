@@ -1,0 +1,59 @@
+✅ Given Question:
+    You're given a binary tree.
+    Your task is to:
+        - Serialize the binary tree into a string.
+        - Deserialize the string back into the original binary tree structure.
+    Serialization is the process of converting a tree into a string so that it can be stored or transmitted.
+    Deserialization is the reverse process: converting the string back into the original tree.
+
+✅ Given Data:
+    You have:
+        - A binary tree represented by the `Node` class (with `data`, `left`, and `right`).
+        - A `serialize(Node root)` method that converts a tree to a string.
+        - A `deserialize(String data)` method that rebuilds the tree from the string.
+
+✅ Intuition:
+    Use **level-order traversal (BFS)** to serialize the tree:
+        - Visit nodes level by level, left to right.
+        - Use "#" to represent null (missing) children to preserve tree structure.
+        - Use space as a delimiter for each node in the serialized string.
+    
+    During deserialization:
+        - Read the string and reconstruct the tree level by level using a queue.
+        - For each node, read its left and right child values in order.
+        - If a child is "#", skip creating a node (i.e., it’s null).
+
+------------------------------------------------------------
+Approach-1: Using Level-Order Traversal (BFS)
+------------------------------------------------------------
+
+🔹 serialize(Node root):
+    - If root is null → return an empty string.
+    - Initialize a queue and a StringBuilder.
+    - While the queue is not empty:
+        - Dequeue a node.
+        - If it's null → append "# ".
+        - Else → append the node’s value and enqueue its left and right children.
+    - Return the final string as the serialized representation.
+
+🔹 deserialize(String data):
+    - If input string is null or empty → return null.
+    - Split the string by space to get node values.
+    - Create the root node using the first value.
+    - Initialize a queue and add the root node.
+    - Loop through the rest of the array two elements at a time:
+        - The next two elements represent the left and right children.
+        - For each non-"#" value, create a node and attach to the current parent.
+        - Add non-null children to the queue for further processing.
+
+📌 The level-order approach ensures that the full structure of the tree is captured,
+    including null children, so it can be accurately reconstructed.
+
+🕒 Time Taken:
+    - O(n), where n = number of nodes in the tree.
+    - Each node is visited exactly once in both serialization and deserialization.
+    
+🧠 Space Used:
+    - O(n), due to the use of queues and the resulting string size.
+    - The queue stores up to n nodes in the worst case.
+
