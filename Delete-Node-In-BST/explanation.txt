@@ -1,0 +1,80 @@
+ ✅ Problem:
+ You're given the root of a Binary Search Tree (BST) and an integer `val`.
+ Your task is to delete the node with value `val` from the BST, while preserving the BST structure.
+
+ ------------------------------------------------------------
+ 🌐 Approach: Iterative Traversal + Helper Function
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ Deleting a node in a BST involves three cases:
+     1. Node has no children → Simply remove it.
+     2. Node has one child → Replace the node with its child.
+     3. Node has two children → Find a replacement to maintain the BST:
+         - Commonly done by replacing with:
+             - The inorder predecessor (maximum in left subtree), or
+             - The inorder successor (minimum in right subtree).
+
+ In this implementation:
+     - We use the **inorder predecessor** approach.
+     - The right subtree is attached to the rightmost node of the left subtree.
+
+ ✅ Algorithm Steps:
+
+ 🔎 Method: `deleteNode(root, val)`
+ 1. If root is null → return null.
+ 2. If `root.data == val`, delete this node using the helper method.
+ 3. Else, initialize `current` to root.
+ 4. Traverse the tree iteratively:
+     - If `val < current.data`, go left:
+         - If left child matches `val`, delete it using helper and break.
+         - Else, move left.
+     - Else, go right:
+         - If right child matches `val`, delete it using helper and break.
+         - Else, move right.
+ 5. Return the root after deletion.
+
+ 🔧 Method: `deleteNodeHelper(root)`
+ Handles the actual deletion of the node:
+ 1. If root has no left child → return right child.
+ 2. If root has no right child → return left child.
+ 3. If both children exist:
+     - Save `root.right` as a temporary subtree.
+     - Find the **rightmost node** in `root.left`.
+     - Attach the saved right subtree to the `rightest.right`.
+     - Return `root.left` as the new subtree root.
+
+ 🔁 Method: `findRightest(root)`
+ Recursively finds the rightmost node in a given subtree.
+
+ ✅ Traversal Type:
+ - Iterative for locating the node.
+ - Recursive for finding the rightmost node and restructuring subtrees.
+
+ 🕒 Time Complexity:
+ - O(h), where h = height of the tree.
+   - O(log n) for balanced BST.
+   - O(n) for skewed trees (worst case).
+
+ 🧠 Space Complexity:
+ - O(h) due to recursive call in `findRightest()`.
+
+ ✅ Example:
+ Initial BST:
+         10
+        /  \
+       5    15
+           /  \
+         12    20
+
+ deleteNode(root, 15)
+
+ Updated BST:
+         10
+        /  \
+       5    12
+               \
+               20
+
+ → Node 15 is deleted.
+ → Its right child 20 is attached to the rightmost node of the left subtree (12).

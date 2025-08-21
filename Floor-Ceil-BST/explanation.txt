@@ -1,0 +1,64 @@
+ ✅ Problem:
+ You're given the root of a Binary Search Tree (BST) and an integer key.
+ Your task is to find:
+     - The *floor* of the key → greatest value ≤ key in the BST.
+     - The *ceil* of the key → smallest value ≥ key in the BST.
+
+ ------------------------------------------------------------
+ 🌐 Approach: Recursive Search with Candidate Tracking
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ A BST allows efficient searching due to its ordering properties:
+     - Left child < root < Right child.
+     - This makes it ideal for finding floor and ceil values by navigating appropriately.
+
+ 🔑 Definitions:
+     - Floor: The largest node value ≤ key.
+     - Ceil: The smallest node value ≥ key.
+
+ ✅ Algorithm Steps:
+
+ 🔎 Method: `floorCeil(root, key)`
+ 1. If root is null, return null.
+ 2. Call helper function `findFloor()` to find floor.
+ 3. Call helper function `findCeil()` to find ceil.
+ 4. Return both nodes as an array of size 2.
+
+ 🟢 Method: `findFloor(root, floor, key)`
+ 1. If root is null, return the best candidate `floor`.
+ 2. If root.data ≤ key:
+     - Update floor to current root.
+     - Recur on right subtree (maybe a closer/larger floor exists).
+ 3. Else:
+     - Recur on left subtree (look for smaller floor).
+
+ 🔵 Method: `findCeil(root, ceil, key)`
+ 1. If root is null, return the best candidate `ceil`.
+ 2. If root.data ≥ key:
+     - Update ceil to current root.
+     - Recur on left subtree (maybe a closer/smaller ceil exists).
+ 3. Else:
+     - Recur on right subtree (look for larger ceil).
+
+ ✅ Traversal Type:
+ - Modified DFS (Depth-First Search) with conditional branching based on key comparisons.
+
+ 🕒 Time Complexity:
+ - O(h), where h = height of the BST.
+   - In a balanced tree, h = log(n).
+   - In the worst case (skewed tree), h = n.
+
+ 🧠 Space Complexity:
+ - O(h) due to recursion stack.
+
+ ✅ Example BST:
+         15
+        /  \
+       10   20
+      / \     \
+     8  12     25
+
+ - floorCeil(root, 13) → floor = 12, ceil = 15
+ - floorCeil(root, 10) → floor = 10, ceil = 10
+ - floorCeil(root, 7)  → floor = null, ceil = 8

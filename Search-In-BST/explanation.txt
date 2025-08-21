@@ -1,0 +1,54 @@
+ ✅ Problem:
+ You're given the root of a Binary Search Tree (BST).
+ Your tasks are:
+     - Search for a specific key in the BST.
+     - Find the minimum and maximum values in the BST.
+
+ ------------------------------------------------------------
+ 🌐 Approach: Recursion (for both search and min/max)
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ Binary Search Trees (BSTs) have the following property:
+     - All nodes in the left subtree have smaller values than the root.
+     - All nodes in the right subtree have larger values than the root.
+
+ Hence:
+     - To search for a key, compare it with the root and decide whether to go left or right.
+     - To find the minimum, follow the leftmost path.
+     - To find the maximum, follow the rightmost path.
+
+ ✅ Algorithm Steps:
+
+ 🔍 Search in BST (`searchBST`):
+ 1. If `root` is null, the key is not found → return null.
+ 2. If `root.data == key`, return the current node → key found.
+ 3. If `key < root.data`, recursively search in the left subtree.
+ 4. Otherwise, search in the right subtree.
+
+ 🟢 Find Min and Max (`findMinMax`):
+ 1. If root is null, return null (empty tree).
+ 2. Call `findMin(root)`:
+     - Traverse to the leftmost node.
+     - Return that node as it has the minimum value.
+ 3. Call `findMax(root)`:
+     - Traverse to the rightmost node.
+     - Return that node as it has the maximum value.
+ 4. Return the data from both nodes as an integer array.
+
+ 🕒 Time Complexity:
+ - Search: O(h), where h = height of the tree.
+ - Find Min/Max: O(h), since we may go down to the deepest leaf on one side.
+
+ 🧠 Space Complexity:
+ - O(h) due to recursive calls (could be O(n) in worst-case unbalanced tree).
+
+ ✅ Example BST:
+         10
+        /  \
+       5    15
+      / \     \
+     2   7     20
+
+ - searchBST(root, 7) → returns node with value 7.
+ - findMinMax(root) → returns [2, 20].

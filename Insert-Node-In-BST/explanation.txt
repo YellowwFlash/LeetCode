@@ -1,0 +1,64 @@
+ ✅ Problem:
+ You're given the root of a Binary Search Tree (BST) and a value `val`.
+ Your task is to insert `val` into the BST while maintaining its properties.
+
+ ------------------------------------------------------------
+ 🌐 Approach: Iterative Tree Traversal
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ In a BST:
+     - Left subtree contains nodes with values < root.
+     - Right subtree contains nodes with values > root.
+ To insert a value:
+     - Traverse the tree starting from the root.
+     - Compare the value with the current node.
+     - Decide whether to go left or right.
+     - Insert the new node where a null spot is found.
+
+ ✅ Algorithm Steps:
+
+ 1. If the root is `null`, create and return a new node with the given value.
+    → This becomes the new root of the BST.
+
+ 2. Initialize a `current` node pointing to the root.
+
+ 3. Loop until the correct position for insertion is found:
+     - If `val < current.data`, go left:
+         - If `current.left` is not null, move left.
+         - Else, set `current.left = new Node(val)` and break the loop.
+
+     - Else (`val >= current.data`), go right:
+         - If `current.right` is not null, move right.
+         - Else, set `current.right = new Node(val)` and break the loop.
+
+ 4. Return the original root, now updated with the inserted node.
+
+ ✅ Traversal Type:
+ - Iterative tree traversal using a while-loop.
+ - Avoids recursion, making it stack-safe for large trees.
+
+ 🕒 Time Complexity:
+ - O(h), where h = height of the BST.
+   - O(log n) for balanced BSTs.
+   - O(n) for skewed trees (worst case).
+
+ 🧠 Space Complexity:
+ - O(1), constant space (no recursion or additional data structures used).
+
+ ✅ Example:
+ Initial BST:
+         10
+        /  \
+       5   15
+
+ insertNode(root, 12)
+
+ Resulting BST:
+         10
+        /  \
+       5   15
+           /
+         12
+
+ → Node 12 is inserted as the left child of 15.
