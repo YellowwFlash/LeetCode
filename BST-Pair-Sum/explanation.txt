@@ -1,0 +1,36 @@
+ ✅ Given Question:
+ You're given a Binary Search Tree (BST) and a target integer `k`.
+ Your task is to determine whether there exist two distinct elements in the BST such that their sum equals `k`.
+
+ ✅ Given Data:
+ You have:
+     - A binary tree represented using a `Node` class with `data`, `left`, and `right` fields.
+     - A method `isPairPresent(Node root, int target)` that returns `true` if there exists a pair of nodes whose sum equals the target value, otherwise `false`.
+
+ ✅ Intuition:
+ A BST’s in-order traversal results in a sorted list of values.
+ Once we have the sorted list, the Two Pointers technique (commonly used with sorted arrays) can be applied:
+     - Initialize two pointers, one at the start (smallest value) and one at the end (largest value).
+     - Check the sum of elements at the two pointers:
+         - If the sum equals the target → return true.
+         - If the sum is less than the target → move the left pointer right.
+         - If the sum is greater than the target → move the right pointer left.
+     - Continue until the two pointers meet.
+
+ ------------------------------------------------------------
+ Approach: Inorder Traversal + Two Pointers
+ ------------------------------------------------------------
+     - Step 1: Traverse the BST in-order and store all node values in a list (sorted order).
+     - Step 2: Use the two pointers method to search for a pair whose sum equals the target.
+
+ 📌 This method leverages the BST's sorted nature through in-order traversal and efficiently finds the pair using linear scan.
+
+ 🕒 Time Taken:
+     - Inorder Traversal: O(n)
+     - Two Pointers Scan: O(n)
+     - Total: O(n), where n = number of nodes in the BST.
+
+ 🧠 Space Used:
+     - O(n) for storing the in-order traversal in a list.
+     - O(h) for recursion stack during traversal, where h = height of the tree.
+

@@ -1,0 +1,82 @@
+ ✅ Problem:
+ Given a **Binary Search Tree (BST)** and a target value `key`,
+ your task is to find:
+   1. The **Inorder Successor**: the smallest node greater than or equal to `key`.
+   2. The **Inorder Predecessor**: the largest node less than or equal to `key`.
+
+ ✅ Definitions:
+ - **Inorder Successor** of a node is the next node in the in-order traversal (next greater value).
+ - **Inorder Predecessor** is the previous node in the in-order traversal (next smaller value).
+
+ ✅ Given Data:
+ - A root node of a BST.
+ - A target key to compare against.
+ - Methods:
+     - `successorNode(Node root, int key)` → returns successor node.
+     - `predecessorNode(Node root, int key)` → returns predecessor node.
+
+ ------------------------------------------------------------
+ 🌐 Variation 1: Finding Inorder Successor
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ - In a BST, values to the **left are smaller**, and values to the **right are larger**.
+ - To find the smallest node ≥ `key`:
+     - Traverse from root.
+     - If current node's value ≥ `key`, store it as a candidate and go left.
+     - Otherwise, go right.
+
+ ✅ Steps:
+ 1. Initialize `successor` as `null`.
+ 2. While traversing:
+     - If `current.data >= key`, it's a potential successor:
+         - Store it.
+         - Move to the left to try finding a smaller valid node.
+     - Else:
+         - Move right to find a larger node.
+ 3. Return the last stored `successor`.
+
+ ✅ Time Complexity:
+ - O(h), where h = height of BST.
+     - O(log n) for balanced BST.
+     - O(n) for skewed BST.
+
+ ✅ Space Complexity:
+ - O(1), since only pointers are used.
+
+ ------------------------------------------------------------
+ 🌐 Variation 2: Finding Inorder Predecessor
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ - To find the largest node ≤ `key`:
+     - Traverse from root.
+     - If current node's value ≤ `key`, store it as a candidate and go right.
+     - Otherwise, go left.
+
+ ✅ Steps:
+ 1. Initialize `predecessor` as `null`.
+ 2. While traversing:
+     - If `current.data <= key`, it's a potential predecessor:
+         - Store it.
+         - Move to the right to try finding a larger valid node.
+     - Else:
+         - Move to the left to find a smaller node.
+ 3. Return the last stored `predecessor`.
+
+ ✅ Time Complexity:
+ - O(h), where h = height of BST.
+
+ ✅ Space Complexity:
+ - O(1), constant space usage.
+
+ ✅ Example:
+ For BST:
+         20
+        /  \
+      10    30
+     /  \     \
+    5   15     40
+
+ - successorNode(root, 16) → 20
+ - predecessorNode(root, 16) → 15

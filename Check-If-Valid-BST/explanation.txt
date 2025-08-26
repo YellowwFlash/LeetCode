@@ -1,0 +1,50 @@
+ ✅ Given Question:
+ You're given a binary tree.
+ Your task is to determine whether the tree satisfies the Binary Search Tree (BST) property.
+
+ A Binary Search Tree is defined as:
+     - For every node:
+         - All nodes in its left subtree contain values less than the node's value.
+         - All nodes in its right subtree contain values greater than the node's value.
+
+ ✅ Given Data:
+ You have:
+     - A binary tree represented using a `Node` class with `data`, `left`, and `right` fields.
+     - A method `isBST(Node root)` that returns `true` if the tree is a valid BST, otherwise `false`.
+
+ ✅ Intuition:
+ You can validate the BST property using recursion and maintaining a range of valid values for each node:
+     - Start from the root with the full long range.
+     - For each node:
+         - Its value must lie within a specific range:
+             - Initially: (Long.MIN_VALUE, Long.MAX_VALUE)
+             - For the left child: range becomes (min, node.data)
+             - For the right child: range becomes (node.data, max)
+     - Recursively check left and right subtrees with updated ranges.
+     - If any node violates its allowed range, the tree is not a BST.
+
+ This technique ensures that global constraints are enforced (not just immediate parent-child relations).
+
+ ------------------------------------------------------------
+ Approach-1: Using Recursion and Range Technique
+ ------------------------------------------------------------
+     - Base Case:
+         - If the current node is null:
+             - Return true (empty subtree is valid).
+     - Range Check:
+         - If node's value is not within the valid range (≤ min or ≥ max):
+             - Return false (violates BST property).
+     - Recursive Check:
+         - Recursively validate:
+             - Left subtree with updated max = current node's value.
+             - Right subtree with updated min = current node's value.
+     - Return true only if both left and right subtrees are valid.
+
+ 📌 This method ensures that the BST property is upheld throughout the tree, not just between direct parent and child.
+
+ 🕒 Time Taken:
+     - Each node is visited exactly once → O(n), where n = number of nodes in the tree.
+
+ 🧠 Space Used:
+     - Recursion stack → O(h), where h = height of the tree (O(log n) for balanced trees, O(n) for skewed).
+ 

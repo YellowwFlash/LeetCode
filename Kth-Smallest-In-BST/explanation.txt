@@ -1,0 +1,48 @@
+ ✅ Problem:
+ You're given the root of a Binary Search Tree (BST).
+ Your task is:
+     - Find the kth smallest element in the BST.
+
+ ------------------------------------------------------------
+ 🌐 Approach: Inorder Traversal (2 Variants)
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ Binary Search Trees (BSTs) have the following property:
+     - All nodes in the left subtree have smaller values than the root.
+     - All nodes in the right subtree have larger values than the root.
+
+ Inorder traversal (Left → Root → Right) of a BST yields elements in **sorted order**.
+ So, the kth element in the inorder traversal is the kth smallest element.
+
+ ✅ Algorithm Steps:
+
+ 🟩 Approach-1: `kthSmallestInorder`
+ 1. Perform an inorder traversal of the entire tree and store nodes in a list.
+ 2. Since inorder gives nodes in sorted order, simply return the (k-1)th element from the list.
+ 
+ 🔁 Time Complexity: O(n), where n = number of nodes (full traversal).
+ 💾 Space Complexity: O(n), to store the entire inorder sequence.
+
+ 🟩 Approach-2: `kthSmallest`
+ 1. Perform an inorder traversal with index tracking using an array.
+ 2. Use an integer array `result[]` where:
+     - `result[0]` stores remaining count to reach kth element.
+     - `result[1]` stores the answer when count hits 0.
+ 3. Traverse the tree recursively:
+     - Decrement `result[0]` at each node.
+     - When it becomes 0, store `root.data` as the answer.
+ 4. Stop traversal once the kth element is found.
+
+ 🔁 Time Complexity: O(h + k), where h = height of tree (early stop possible).
+ 💾 Space Complexity: O(h), due to recursion stack (O(log n) in balanced tree, O(n) in worst case).
+
+ ✅ Example BST:
+         10
+        /  \
+       5    15
+      / \     \
+     2   7     20
+
+ - kthSmallest(root, 3) → returns 7 (3rd smallest in sorted order: 2, 5, 7, 10, 15, 20)
+ - Both approaches return the same result, but Approach-2 is more memory efficient.

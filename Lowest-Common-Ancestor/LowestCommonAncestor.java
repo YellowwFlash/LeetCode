@@ -62,7 +62,7 @@ public class LowestCommonAncestor {
 
     // Approach-2 -> Using plain simple DFS
     public static Node findLCA(Node root, int n1, int n2) {
-        
+
         // If root is null or root is either n1 or n2, return root
         if (root == null || root.data == n1 || root.data == n2)
             return root;
@@ -82,6 +82,28 @@ public class LowestCommonAncestor {
             return left;
 
         // If both left and right are not null, return root
+        return root;
+    }
+    
+    // Variation-1 -> If its a BST
+    public static Node findLCABST(Node root, int n1, int n2) {
+
+        // If root is null, return null
+        if (root == null)
+            return null;
+
+        // Get the value of current node
+        int curr = root.data;
+
+        // If curr > n1 and n2, go to left subtree
+        if (curr > n1 && curr > n2)
+            return findLCABST(root.left, n1, n2);
+
+        // if curr < n1 and n2, go to right subtree
+        if (curr < n1 && curr < n2)
+            return findLCABST(root.right, n1, n2);
+
+        // if both conditions fail, return root since its intersection point
         return root;
     }
 }

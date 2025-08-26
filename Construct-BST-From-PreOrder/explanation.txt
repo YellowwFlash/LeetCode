@@ -1,0 +1,56 @@
+ ✅ Problem:
+ You're given a preorder traversal of a Binary Search Tree (BST) in an integer array.
+ Your task is to reconstruct the original BST from this preorder traversal.
+
+ In preorder traversal:
+     - You visit the root node first.
+     - Then recursively visit the left subtree.
+     - Finally, the right subtree.
+
+ ✅ Given Data:
+ - An integer array `preorder[]` representing the preorder traversal of a BST.
+ - A method `constructBST(int[] preorder)` that should return the root node of the constructed BST.
+
+ ------------------------------------------------------------
+ 🌐 Approach 1: Using Recursion with Upper Bound
+ ------------------------------------------------------------
+
+ ✅ Intuition:
+ - In a BST, all values in the left subtree must be less than the root,
+   and all values in the right subtree must be greater than the root.
+ - As we're given the preorder traversal (root → left → right), we can:
+     1. Take the first element as root.
+     2. Recursively construct the left subtree with an upper bound = root's value.
+     3. Recursively construct the right subtree with an upper bound = previous bound.
+
+ ✅ Key Details:
+ - Use an `index` array to track current position in the `preorder` array.
+ - `bound` ensures no value violates the BST property during recursion.
+ - The recursion stops when the current value exceeds the allowed bound or the array ends.
+
+ ✅ Steps:
+ 1. Start from index 0.
+ 2. For each value:
+     - If it exceeds the current bound, return null (invalid for this subtree).
+     - Else, create a node and:
+         - Recurse left with updated bound = node's value.
+         - Recurse right with the same bound passed down.
+ 3. Return the root node of the built tree.
+
+ ✅ Time Complexity:
+ - O(n): each node is visited once.
+
+ ✅ Space Complexity:
+ - O(h): recursion stack space, where h = height of tree.
+   - Worst case: O(n) for skewed tree.
+   - Best case: O(log n) for balanced BST.
+
+ ✅ Example:
+ Input: preorder = [10, 5, 1, 7, 40, 50]
+
+ Resulting BST:
+         10
+        /  \
+       5    40
+      / \     \
+     1   7     50

@@ -1,0 +1,64 @@
+ ✅ Given Question:
+ You're given a binary tree.
+ Your task is to find the size (number of nodes) of the largest subtree that is also a Binary Search Tree (BST).
+
+ ✅ Given Data:
+ You have:
+     - A binary tree represented using a `Node` class with `data`, `left`, and `right` fields.
+     - A helper class `Pair` that stores:
+         - `min`: minimum value in the subtree
+         - `max`: maximum value in the subtree
+         - `size`: size of the largest BST in the subtree
+     - A method `largestBST(Node root)` that returns the size of the largest BST found in the tree.
+
+ ✅ Intuition:
+ The key idea is to use postorder traversal (Left → Right → Root) to:
+     - Collect information from the left and right subtrees.
+     - Determine whether the current subtree rooted at `root` is a valid BST.
+     - If it is a valid BST:
+         - Update the size as `left.size + right.size + 1`.
+         - Update the valid range for parent checks using `min` and `max`.
+     - If it is not a valid BST:
+         - Return the maximum size from either left or right subtree.
+
+ ------------------------------------------------------------
+ Approach: Postorder Traversal + BST Validation
+ ------------------------------------------------------------
+     - Base Case:
+         - If the current node is null:
+             - Return a neutral `Pair`:
+                 - min = Integer.MAX_VALUE
+                 - max = Integer.MIN_VALUE
+                 - size = 0
+     - Recursive Case:
+         - Recurse on left and right subtrees to get their `Pair` information.
+         
+ ✅ 🔍 Deep Dive into the `if` and `else` conditions:
+     
+     - ✅ IF Condition:
+         - This checks if the current node can form a valid BST with its left and right subtrees.
+         - Conditions for a valid BST:
+             - All values in the left subtree must be less than the current node.
+             - All values in the right subtree must be greater than the current node.
+         - If this condition is true:
+             - The current subtree is a BST.
+             - So, we return a `Pair` with:
+                 - `min`: the smallest value in the entire subtree → `min(left.min, root.data)`
+                 - `max`: the largest value in the entire subtree → `max(right.max, root.data)`
+                 - `size`: total number of nodes in this valid BST → `left.size + right.size + 1`
+
+     - ❌ ELSE Condition:
+         - This means the current subtree violates the BST property.
+         - We still want to keep track of the largest BST found so far in the left or right subtree.
+         - So we:
+             - Return a `size` equal to the maximum of the two subtree sizes.
+             - Set `min = Integer.MIN_VALUE` and `max = Integer.MAX_VALUE` to signal that this subtree is not a BST.
+             - This ensures that parent nodes cannot mistakenly treat this invalid subtree as part of a larger BST.
+
+ 📌 This approach ensures that each node is evaluated bottom-up, and we only propagate BST-valid subtrees upwards.
+
+ 🕒 Time Taken:
+     - Each node is visited once → O(n), where n = number of nodes.
+
+ 🧠 Space Used:
+     - O(h) for recursion stack, where h = height of the tree.

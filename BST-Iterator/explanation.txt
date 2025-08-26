@@ -1,0 +1,63 @@
+ ✅ Given Question:
+ You're given a Binary Search Tree (BST).
+ Your task is to implement an iterator for the BST that returns the next smallest element in the tree.
+
+ ✅ Given Data:
+ You have:
+     - A binary tree represented using a `Node` class with `data`, `left`, and `right` fields.
+     - A class `BSTIterator` that supports the following operations:
+         - `next()`: Returns the next smallest number in the BST.
+         - `hasNext()`: Returns true if there exists a next number in the traversal.
+
+ ✅ Intuition:
+ A BST’s in-order traversal yields elements in sorted (ascending) order.
+ To implement a BST iterator, we can simulate an in-order traversal in two main ways:
+     - Store the entire in-order traversal in a list and iterate over it.
+     - Use a stack to simulate the traversal and yield one element at a time (lazy evaluation).
+
+ ------------------------------------------------------------
+ Approach-1: Using Inorder Traversal Storage
+ ------------------------------------------------------------
+     - Idea:
+         - Perform a complete in-order traversal of the BST during the constructor.
+         - Store the result in a list.
+         - Use an index pointer to iterate over the list.
+     - `next()`:
+         - Increment the index and return the value at the new index.
+     - `hasNext()`:
+         - Check if there are more elements in the list (index < list.size() - 1).
+
+ 📌 This approach is simple but uses O(n) space to store all elements upfront.
+
+ 🕒 Time Taken:
+     - Constructor: O(n) → full traversal.
+     - next(): O(1)
+     - hasNext(): O(1)
+
+ 🧠 Space Used:
+     - O(n) for the list of in-order elements.
+     - O(h) for recursion stack during traversal (h = tree height).
+
+ ------------------------------------------------------------
+ Approach-2: Using Stack (Lazy Inorder Traversal)
+ ------------------------------------------------------------
+     - Idea:
+         - Use a stack to simulate in-order traversal.
+         - During initialization, push all the left nodes from the root to the stack.
+         - For `next()`:
+             - Pop the top node (smallest current value).
+             - If the popped node has a right child, push all its left descendants to the stack.
+         - For `hasNext()`:
+             - Simply check if the stack is not empty.
+
+ 📌 This approach is memory-efficient as it only keeps part of the traversal state in the stack.
+
+ 🕒 Time Taken:
+     - Constructor: O(h)
+     - next(): Amortized O(1) (each node is pushed and popped once)
+     - hasNext(): O(1)
+
+ 🧠 Space Used:
+     - O(h) stack space, where h = height of the tree.
+     - More space-efficient than Approach-1 for large trees.
+

@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class LongestSubstring {
+public class LongestSubstringOfDistinctCharacters {
 
     // Approach-1 -> Using sliding window technique
     public static int lengthOfLongestSubstringKDistinctSliding(String s, int k) {

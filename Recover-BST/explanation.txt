@@ -1,0 +1,44 @@
+ ✅ Given Question:
+ You're given a Binary Search Tree (BST) where exactly two nodes have been swapped by mistake.
+ Your task is to recover the BST by correcting the swapped nodes without modifying the tree structure.
+
+ ✅ Given Data:
+ You have:
+     - A binary tree represented using a `Node` class with `data`, `left`, and `right` fields.
+     - A method `recoverTree(Node root)` that restores the BST by swapping the misplaced nodes' values.
+
+ ✅ Intuition:
+ In a valid BST, an in-order traversal yields nodes in strictly increasing order.
+ If two nodes are swapped:
+     - The in-order traversal will show one or two inversions (where a node has a greater value than the next).
+     - By detecting these anomalies, we can identify the two incorrect nodes and swap them back.
+
+ ------------------------------------------------------------
+ Approach: Inorder Traversal to Detect Swapped Nodes
+ ------------------------------------------------------------
+     - Traverse the BST using in-order traversal (Left → Root → Right).
+     - During traversal:
+         - Compare the current node with the previous node (`prev`).
+         - If `prev.data > current.data`, an anomaly is found:
+             - For the first anomaly, store:
+                 - `first = prev`
+                 - `second = current`
+             - If another anomaly is found later:
+                 - `last = current`
+     - After traversal:
+         - If only one anomaly was found → swapped nodes are adjacent → swap `first` and `second`.
+         - If two anomalies were found → swapped nodes are non-adjacent → swap `first` and `last`.
+
+ 📌 This method allows detection of swapped nodes in a single in-order traversal.
+
+ 🕒 Time Taken:
+     - O(n), where n = number of nodes in the tree (each node is visited once).
+
+ 🧠 Space Used:
+     - O(h) for recursion stack, where h = height of the tree.
+     - No extra space used for storing values (in-place correction).
+
+ 🔁 Example:
+     - Original BST (inorder): 1 3 4 5 6 7
+     - Swapped BST (inorder): 1 6 4 5 3 7 → anomalies at (6 > 4) and (5 > 3)
+     - After correction: 1 3 4 5 6 7

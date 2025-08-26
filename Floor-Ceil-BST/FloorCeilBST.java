@@ -1,4 +1,4 @@
-public class FloorCeil {
+public class FloorCeilBST {
 
     // Reference Node class for BST
     public static class Node {
