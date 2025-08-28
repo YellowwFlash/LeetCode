@@ -1,0 +1,58 @@
+ ✅ Given Question:
+ You're given a 2D grid representing a box of oranges:
+     - 0 represents an empty cell,
+     - 1 represents a fresh orange,
+     - 2 represents a rotten orange.
+ Every minute, any fresh orange that is adjacent (4-directionally) to a rotten orange becomes rotten.
+ Your task is to determine the minimum time required to rot all oranges.
+ If it is impossible, return -1.
+
+ ✅ Given Data:
+ You have:
+     - A 2D matrix `grid` of size m x n:
+         - Each cell contains either 0, 1, or 2.
+     - A BFS approach using a queue to track the rotting process.
+     - A helper class `Pair` that stores row, col, and time information for each orange.
+
+ ✅ Intuition:
+ The rotting of oranges is similar to multi-source BFS, where:
+     - All initially rotten oranges start the infection (i.e., multiple BFS starting points).
+     - Each minute, the rot spreads to adjacent fresh oranges.
+     - The goal is to find the maximum time taken for this spread.
+     - If any fresh orange remains at the end, return -1 (not all oranges could rot).
+
+ ------------------------------------------------------------
+ Approach-1: BFS (Multi-source)
+ ------------------------------------------------------------
+     - Step 1: Traverse the grid:
+         - Count the number of fresh oranges.
+         - Add all rotten oranges to a queue with initial time = 0.
+     - Step 2: While the queue is not empty:
+         - Poll a `Pair` from the queue (contains row, col, and time).
+         - For each of the 4 directions (up, right, down, left):
+             - If adjacent cell is a fresh orange:
+                 - Mark it as rotten (grid value = 2).
+                 - Decrease the fresh count.
+                 - Add it to the queue with time + 1.
+         - Track the maximum time during the process.
+     - Step 3: After BFS completes:
+         - If any fresh oranges remain → return -1.
+         - Else → return the maximum time taken for all oranges to rot.
+
+ ✅ 🔍 Deep Dive into the BFS:
+     - ✅ Initial Setup:
+         - All rotten oranges act as starting points.
+         - Fresh count helps determine if any unrotted oranges remain.
+     - ✅ Rotting Logic:
+         - BFS ensures level-by-level traversal (i.e., minute-by-minute simulation).
+         - Time is updated as the maximum of all current times during spread.
+     - ❌ If fresh > 0 after BFS:
+         - Not all oranges could rot (some are isolated) → return -1.
+
+ 🕒 Time Complexity:
+     - O(m * n) where m = rows and n = columns of the grid.
+         - Each cell is visited at most once during BFS.
+
+ 🧠 Space Complexity:
+     - O(m * n) in the worst case:
+         - For storing all rotten oranges in the queue.

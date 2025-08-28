@@ -1,0 +1,48 @@
+ ✅ Given Question:
+ You're given a 2D image represented as an `m x n` integer matrix.
+ Each integer represents the pixel value of the image.
+ You are also given the starting pixel `(sr, sc)` and a new color value `newColor`.
+ Your task is to recolor the starting pixel and all 4-directionally connected pixels with the same color as the starting pixel to the `newColor`.
+
+ ✅ Given Data:
+ You have:
+     - A 2D matrix `image` representing the original pixel colors.
+     - Starting coordinates: `sr` (start row) and `sc` (start col).
+     - A target `newColor` that must replace all connected matching pixels.
+     - The pixel connection is only in 4 directions (up, down, left, right).
+
+
+ ✅ Intuition:
+ This is a classic flood fill problem, similar to the paint-bucket tool in graphics software.
+ You want to "flood" all connected pixels of the same color starting from the initial point and change their color to a new one.
+ This is essentially a DFS traversal starting from a pixel and visiting all same-colored neighbors recursively.
+
+ ------------------------------------------------------------
+ Approach-1: DFS Flood Fill
+ ------------------------------------------------------------
+     - Step 1: Store the original color at `(sr, sc)` in a variable `currentColor`.
+     - Step 2: If `currentColor` is the same as `newColor`, there's nothing to do → return.
+     - Step 3: Call a helper DFS function:
+         - It will check bounds and whether the current pixel is of the target color.
+         - If so, it recolors it to `newColor`.
+         - Then, it recursively calls DFS in all 4 directions.
+     - Step 4: The recursion spreads until all connected pixels of `currentColor` are filled.
+
+ ✅ 🔍 Deep Dive into the DFS:
+     - ✅ Base Conditions:
+         - If pixel is out of bounds or not of `currentColor`, we stop the recursion.
+     - ✅ Coloring Logic:
+         - Recolor the pixel and move to adjacent pixels.
+         - DFS ensures that we complete one connected region before moving on.
+     - ❌ If currentColor == newColor:
+         - No change needed, as the entire fill would be a no-op (prevents infinite recursion).
+
+ 📌 This algorithm uses recursion to simulate a bucket fill operation.
+
+ 🕒 Time Complexity:
+     - O(m * n) where m = number of rows, n = number of columns.
+         - In the worst case, all pixels could be the same color and connected.
+
+ 🧠 Space Complexity:
+     - O(m * n) in the worst case (due to recursion stack in DFS).
+         - Can lead to stack overflow on large images unless optimized with iterative DFS or BFS.

@@ -1,0 +1,66 @@
+ ✅ Given Question:
+ You're given a matrix `isConnected` of size N x N where `isConnected[i][j] == 1` 
+ indicates that the ith and jth cities are directly connected.
+ Your task is to find the number of provinces (i.e., groups of directly or indirectly connected cities).
+
+ ✅ Given Data:
+ You have:
+     - An adjacency matrix `isConnected` where:
+         - isConnected[i][j] == 1 means city i is connected to city j.
+         - Cities can be indirectly connected through other cities.
+     - Two approaches:
+         1. Approach-1 → Convert the matrix into a graph (adjacency list) and use DFS.
+         2. Approach-2 → Directly apply DFS on the matrix without converting it.
+
+ ✅ Intuition:
+ The problem is essentially about finding the number of **connected components** in an undirected graph.
+ A province is a connected component.
+ DFS helps us explore all cities in a connected component starting from any city.
+
+ ------------------------------------------------------------
+ Approach-1: Graph Conversion + DFS
+ ------------------------------------------------------------
+     - Step 1: Convert the matrix into an adjacency list (`graph`).
+         - For each pair (i, j) where isConnected[i][j] == 1, add edges both ways.
+         - We use `i+1` and `j+1` as vertex labels for 1-based indexing.
+     - Step 2: Initialize a visited array of size n + 1 (to match 1-based vertices).
+     - Step 3: Loop from i = 1 to n:
+         - If vertex `i` is unvisited:
+             - Increment the province count.
+             - Perform DFS to mark all reachable cities from city `i` as visited.
+     - Step 4: Return the number of provinces.
+
+ ✅ 🔍 Deep Dive into the DFS:
+     - ✅ DFS Logic:
+         - Visit a node → Mark it as visited.
+         - Recursively visit all its neighbors not yet visited.
+         - This helps us cover one full province (connected component).
+     - ❌ If a node is already visited:
+         - Skip it as it's already part of a discovered province.
+
+ ------------------------------------------------------------
+ Approach-2: Direct Matrix DFS
+ ------------------------------------------------------------
+     - Step 1: Initialize a visited array of size n.
+     - Step 2: Loop over each city i:
+         - If city `i` is unvisited:
+             - Increment the province count.
+             - Perform DFS on matrix directly to mark all reachable cities from `i`.
+     - Step 3: Return the number of provinces.
+
+ ✅ 🔍 Deep Dive into the DFS (Matrix-based):
+     - ✅ DFS Logic:
+         - For the current city, iterate over all possible neighbors.
+         - If `isConnected[vertex][i] == 1` and `i` is unvisited:
+             - Recursively DFS on city `i`.
+     - This avoids the need for a graph conversion and simplifies space.
+
+ 📌 Both approaches aim to count the number of **connected components** in the graph.
+
+ 🕒 Time Complexity:
+     - O(N²) where N = number of cities.
+         - For both approaches, we potentially visit each cell in the matrix once.
+
+ 🧠 Space Complexity:
+     - Approach-1: O(N + E) for adjacency list + O(N) for visited array.
+     - Approach-2: O(N) for visited array (no graph structure used).
