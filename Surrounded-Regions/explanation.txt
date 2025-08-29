@@ -1,0 +1,54 @@
+ ✅ Given Question:
+ You're given a 2D board containing 'X' and 'O'.
+ Your task is to capture all regions surrounded by 'X'. A region is captured by flipping all 'O's into 'X's 
+ in that surrounded region.
+ An 'O' region is **not** captured if it is connected to any boundary 'O'.
+
+ ✅ Given Data:
+ You have:
+     - A 2D character board `char[][] board` filled with 'X' and 'O'.
+     - Your goal is to flip all 'O's that are completely surrounded by 'X' into 'X'.
+     - Any 'O' connected to a boundary (top, bottom, left, or right edge) is considered **not** surrounded.
+
+ ✅ Intuition:
+ Any 'O' on the boundary or connected to an 'O' on the boundary **cannot** be flipped.
+ The idea is to mark all such safe 'O's using DFS starting from the boundary,
+ and then flip the remaining unmarked 'O's (i.e., surrounded ones) to 'X'.
+
+ ------------------------------------------------------------
+ Approach-1: Boundary DFS
+ ------------------------------------------------------------
+ ✅ Idea:
+     - Traverse the boundary of the board.
+     - For every boundary cell with 'O', run DFS to mark all connected 'O's as safe (use a temp marker like '#').
+     - After marking:
+         - Flip all remaining 'O's (which are surrounded) to 'X'.
+         - Convert all '#' back to 'O' (restore safe regions).
+
+ ✅ Step-by-step:
+     - Step 1: Loop through all boundary cells:
+         - Top row and bottom row.
+         - Leftmost column and rightmost column.
+         - For each 'O' found on the boundary, call DFS.
+     - Step 2: In DFS:
+         - Mark the current cell as '#' to indicate it's safe.
+         - Recurse in all 4 directions (up, down, left, right).
+         - Stop if the cell is out of bounds or not an 'O'.
+     - Step 3: Final conversion:
+         - Traverse the entire board.
+         - Flip all remaining 'O's to 'X' (they are surrounded).
+         - Flip all '#' back to 'O' (they were connected to boundary).
+
+ ✅ 🔍 Why DFS from boundary?
+     - Because surrounded regions must be fully enclosed by 'X'.
+     - Any 'O' not connected to boundary is considered fully surrounded and can be flipped.
+     - Boundary DFS helps avoid unnecessary BFS/DFS from all internal cells.
+
+ 🕒 Time Complexity:
+     - O(m × n), where m = number of rows, n = number of columns.
+     - Each cell is visited at most once during DFS and final traversal.
+
+ 🧠 Space Complexity:
+     - O(m × n) in worst case for recursion stack (if entire board is 'O').
+     - No extra data structures used except recursion.
+ 

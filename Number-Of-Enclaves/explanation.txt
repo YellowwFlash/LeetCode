@@ -1,0 +1,73 @@
+ ✅ Given Question:
+ You're given an `m x n` binary grid where:
+     - `1` represents land.
+     - `0` represents water.
+ An enclave is a land cell that cannot reach the boundary of the grid via other land cells.
+ Your task is to return the number of land cells that form enclaves (i.e., cannot reach any boundary).
+
+ ✅ Given Data:
+ You have:
+     - A 2D integer grid `int[][] grid` with values 0 (water) and 1 (land).
+     - You must count all land cells not connected to the grid boundary through any path of land cells.
+
+ ✅ Intuition:
+ Land cells on the boundary or connected to boundary land cannot be part of an enclave.
+ So, we can perform a traversal (DFS or BFS) from all boundary land cells and mark all reachable land cells.
+ After that, the unvisited land cells are enclaves.
+
+ ------------------------------------------------------------
+ Approach-1: Boundary DFS
+ ------------------------------------------------------------
+ ✅ Idea:
+     - Traverse all boundary cells.
+     - For each boundary cell with value `1`, start a DFS and mark all connected land cells as visited.
+     - After visiting all boundary-connected land, count the number of unvisited land cells — these are enclaves.
+
+ ✅ Step-by-step:
+     - Step 1: Initialize a `visited[][]` matrix.
+     - Step 2: For top, bottom, left, and right boundaries:
+         - If a cell is land and unvisited, call DFS.
+     - Step 3: In DFS:
+         - Stop if cell is out of bounds, water, or already visited.
+         - Otherwise, mark it visited and call DFS on its 4 neighbors.
+     - Step 4: After traversal, iterate through the entire grid.
+         - Count all cells with value 1 and not visited → these are enclaves.
+
+ ✅ 🔍 Why DFS from boundary?
+     - Because we want to eliminate all land that can reach boundary.
+     - DFS helps to explore all connected land efficiently and recursively.
+
+ 🕒 Time Complexity:
+     - O(m × n), where m = rows, n = columns — each cell is visited at most once.
+
+ 🧠 Space Complexity:
+     - O(m × n) for visited matrix + recursion stack (can be O(m × n) in worst case).
+
+ ------------------------------------------------------------
+ Approach-2: Multi-source BFS from Boundary
+ ------------------------------------------------------------
+ ✅ Idea:
+     - Same core logic as DFS.
+     - Instead of recursive DFS, we perform BFS starting from each boundary land cell.
+     - All reachable land is marked as visited during BFS.
+
+ ✅ Step-by-step:
+     - Step 1: Initialize a `visited[][]` matrix and a queue.
+     - Step 2: For top, bottom, left, and right boundaries:
+         - If a cell is land and unvisited, add to queue and mark as visited.
+     - Step 3: BFS:
+         - While queue is not empty:
+             - Pop a cell.
+             - For each of 4 directions, check if neighbor is valid land and not visited.
+             - If valid, mark as visited and enqueue it.
+     - Step 4: After traversal, count all land cells not visited.
+
+ ✅ 🔍 Why BFS instead of DFS?
+     - BFS avoids deep recursion and is often safer for large inputs.
+     - BFS visits nearest neighbors first, which is fine for this marking problem.
+
+ 🕒 Time Complexity:
+     - O(m × n), each land cell is visited once.
+
+ 🧠 Space Complexity:
+     - O(m × n) for visited matrix + O(m × n) for queue in worst case.

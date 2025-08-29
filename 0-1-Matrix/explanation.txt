@@ -1,0 +1,56 @@
+ ✅ Given Question:
+ You're given a binary matrix of 0s and 1s. Your task is to compute the distance of each cell 
+ from the nearest 0. The distance between two adjacent cells is 1.
+ 
+ ✅ Given Data:
+ You have:
+     - A 2D matrix `int[][] matrix` containing only 0s and 1s.
+     - The goal is to return a matrix `int[][] distance` where each cell contains the shortest
+       distance to the nearest 0.
+     - Distance is measured in terms of number of steps (up, down, left, right).
+
+ ✅ Intuition:
+ Cells with value 0 are the sources — their distance is 0.
+ From every 0-cell, we perform a Breadth-First Search (BFS) and propagate the distances
+ to surrounding 1-cells, ensuring that each cell is updated with the shortest path.
+
+ ------------------------------------------------------------
+ Approach-1: BFS from all 0s (Multi-source BFS)
+ ------------------------------------------------------------
+ ✅ Idea:
+     - Start BFS from all 0-cells simultaneously.
+     - Use a queue to keep track of cells to process.
+     - Use a `visited[][]` array to avoid reprocessing cells.
+     - For each unvisited neighbor, assign it a distance = parent distance + 1.
+     - Continue BFS until all reachable 1-cells are visited.
+
+ ✅ Step-by-step:
+     - Step 1: Initialize:
+         - `distance[][]` matrix to store the result.
+         - `visited[][]` boolean matrix.
+         - A queue to perform BFS traversal.
+     - Step 2: Traverse the matrix:
+         - For every cell with value 0:
+             - Add its coordinates to the queue.
+             - Mark it as visited.
+             - Distance for these cells is already 0.
+     - Step 3: Perform BFS:
+         - For each cell in queue:
+             - Check its 4 neighbors (up, down, left, right).
+             - If a neighbor is in bounds and unvisited:
+                 - Update its distance to current distance + 1.
+                 - Mark it as visited.
+                 - Add neighbor to queue.
+     - Step 4: Once queue is empty, return the `distance[][]` matrix.
+
+ ✅ 🔍 Why BFS and not DFS?
+     - BFS guarantees that the first time we reach a cell, it's through the shortest path.
+     - DFS might explore longer paths first, requiring extra checks or backtracking.
+
+ 🕒 Time Complexity:
+     - O(m × n), where m = number of rows, n = number of columns.
+     - Each cell is visited once.
+
+ 🧠 Space Complexity:
+     - O(m × n) for `distance` and `visited` matrices.
+     - O(m × n) for queue in worst-case (when all cells are 1 except one 0).
