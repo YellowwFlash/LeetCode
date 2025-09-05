@@ -1,0 +1,97 @@
+ ✅ Given Question:
+ You're given a `m x n` 2D binary grid representing land (1) and water (0).
+ An **island** is a group of connected 1s (horizontally or vertically).
+ Your task is to:
+     - Count the total number of islands (connected components of 1s).
+     - In variations, find the number of **distinct islands** based on their shapes.
+
+ ✅ Given Data:
+     - A 2D integer grid `int[][] grid` where:
+         → 1 represents land.
+         → 0 represents water.
+     - You must find:
+         1. Total islands.
+         2. Number of distinct islands by shape (direction or relative coordinates).
+
+ ✅ Intuition:
+ An island is just a connected region of 1s.
+ So we use DFS to visit and mark all land cells connected to a starting land cell.
+ For counting distinct islands, we capture each island's "shape":
+     → Either as a **path signature** using directions,
+     → Or as a **relative coordinate pattern** from the starting cell.
+
+ ------------------------------------------------------------
+ Approach-1: Count Total Islands using DFS
+ ------------------------------------------------------------
+ ✅ Idea:
+     - Traverse the grid.
+     - For each unvisited land cell, perform DFS to mark the entire island.
+     - Each DFS call from a new land cell means a new island.
+
+ ✅ Step-by-step:
+     - Step 1: Loop through all grid cells.
+     - Step 2: If the cell is 1 (land), call DFS and increment island count.
+     - Step 3: In DFS:
+         - Mark the current cell as 0 (visited).
+         - Call DFS recursively on 4 neighboring directions (up/down/left/right).
+
+ ✅ 🔍 Why DFS?
+     - DFS allows you to recursively explore all connected land cells efficiently.
+
+ 🕒 Time Complexity:
+     - O(m × n) where m = number of rows, n = number of columns.
+
+ 🧠 Space Complexity:
+     - O(m × n) in the worst case due to recursion stack.
+
+ ------------------------------------------------------------
+ Approach-2: Count Distinct Islands by Directional Shape (DFS + Direction Encoding)
+ ------------------------------------------------------------
+ ✅ Idea:
+     - Two islands are considered the same if their DFS traversal directions are the same.
+     - Capture the movement directions (U, D, L, R) during DFS.
+     - Add each island’s direction path to a set to ensure uniqueness.
+
+ ✅ Step-by-step:
+     - Step 1: Traverse all cells in the grid.
+     - Step 2: On finding land (1), start DFS.
+     - Step 3: In DFS:
+         - Append direction to a `StringBuilder` to represent the path.
+         - Use "B" (backtrack) to prevent direction overlaps.
+     - Step 4: Add the path string to a `Set<String>`.
+     - Step 5: Return the size of the set.
+
+ ✅ 🔍 Why use "B" for backtracking?
+     - Without it, different shaped islands could generate the same path.
+     - Backtracking ensures directional path uniqueness.
+
+ 🕒 Time Complexity:
+     - O(m × n) for traversal and path generation.
+
+ 🧠 Space Complexity:
+     - O(m × n) for visited space and string building.
+
+ ------------------------------------------------------------
+ Approach-3: Count Distinct Islands by Relative Coordinates (DFS + Coordinate Normalization)
+ ------------------------------------------------------------
+ ✅ Idea:
+     - Instead of tracking movement directions, store the relative positions of land cells from the starting point.
+     - Two islands are the same if their relative coordinates match (regardless of location in the grid).
+
+ ✅ Step-by-step:
+     - Step 1: Traverse the grid.
+     - Step 2: On finding land (1), start DFS with (baseRow, baseCol).
+     - Step 3: In DFS:
+         - For each land cell, add `(row - baseRow):(col - baseCol)` to a shape list.
+     - Step 4: After DFS, convert shape list to string and store in set.
+     - Step 5: Return the set size.
+
+ ✅ 🔍 Why use relative coordinates?
+     - Absolute positions will differ for same-shaped islands at different locations.
+     - Normalizing to (0,0) helps compare shapes independent of position.
+
+ 🕒 Time Complexity:
+     - O(m × n) for traversal and coordinate calculations.
+
+ 🧠 Space Complexity:
+     - O(m × n) for visited tracking and shape storage.

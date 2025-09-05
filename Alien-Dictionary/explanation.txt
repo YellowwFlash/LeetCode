@@ -1,0 +1,58 @@
+ ✅ Given Question:
+ You're given a list of words sorted according to an alien dictionary with an unknown character order.
+ The dictionary has `n` unique characters, all within the range `'a'` to `'a' + n - 1` (i.e., `'a'` to `'e'` if n = 5).
+ Your task is to determine the correct order of characters in this alien language.
+
+ ✅ Given Data:
+ You have:
+     - A `String[] words` of size >= 2, representing words sorted in alien dictionary order.
+     - An integer `n` representing the total number of characters (from `'a'` to `'a' + n - 1`).
+     - Goal: Return a list of characters representing a valid topological order of the alien alphabet.
+     - Constraint: No characters outside `'a'` to `'a' + n - 1` are used.
+
+ ✅ Intuition:
+ The idea is to treat this as a graph problem:
+     - Each character is a node.
+     - If `ch1` comes before `ch2` in some pair of words, we add a directed edge from `ch1 → ch2`.
+     - This creates a Directed Acyclic Graph (DAG) representing character precedence.
+     - Topological sorting on this DAG gives the correct character order.
+
+ ------------------------------------------------------------
+ Approach-1: BFS (Topological Sort using Kahn's Algorithm)
+ ------------------------------------------------------------
+     - Step 1: Build the graph:
+         - Initialize an adjacency list `graph` of size `n` (0 = 'a', 1 = 'b', ..., n-1).
+         - Initialize `indegree[]` to track the number of incoming edges (dependencies) for each character.
+     - Step 2: Extract character dependencies from adjacent words:
+         - Compare each pair of consecutive words:
+             - Find the first mismatching character in both words.
+             - If `ch1 != ch2`, then `ch1` comes before `ch2` → add edge `ch1 → ch2`.
+             - Increase indegree of `ch2`.
+     - Step 3: Topological Sort (BFS):
+         - Add all characters with `indegree == 0` to the queue (no dependencies).
+         - While queue is not empty:
+             - Remove character from queue → add to result list.
+             - For each neighbor of that character:
+                 - Decrease its indegree.
+                 - If indegree becomes 0 → add to queue.
+     - Step 4: Return result list as the valid character order.
+
+ ✅ 🔍 Deep Dive:
+     - ✅ Character-to-index mapping:
+         - Since only `n` characters are used, we safely map `char - 'a'` to 0-based index.
+     - ✅ Cycle Detection:
+         - If result size < n → indicates a cycle or disconnected component (optional check).
+     - ✅ Determinism:
+         - There may be multiple valid topological orders depending on the words.
+
+ 🕒 Time Complexity:
+     - O(N * L + V + E), where:
+         - N = number of words
+         - L = average word length (comparison cost)
+         - V = number of unique characters (`n`)
+         - E = number of precedence rules (edges)
+     - Overall, efficient for small alphabets (like 26 or less).
+
+ 🧠 Space Complexity:
+     - O(V + E):
+         - For adjacency list (`graph`), indegree array, queue, and result list.

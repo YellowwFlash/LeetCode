@@ -1,0 +1,49 @@
+ ✅ Given Question:
+ You're given a list of classes, where each class has a certain number of students who passed and the total number of students.
+ You also have a fixed number of extra students, and each extra student is guaranteed to pass.
+ Your task is to assign each extra student to one of the classes such that the average pass ratio across all classes is maximized.
+
+ ✅ Given Data:
+ You have:
+     - A 2D array `int[][] classes` where each element is of the form [pass, total].
+     - An integer `extraStudents` representing the number of students who can be added to the classes.
+     - Each added student increases both `pass` and `total` by 1 for the class they are added to.
+
+ ✅ Intuition:
+     - Since each extra student is guaranteed to pass, adding them to a class increases the pass ratio.
+     - But the increase (gain) is not uniform — some classes benefit more than others.
+     - So we use a greedy approach:
+         → Always assign the extra student to the class that gives the **maximum increase (gain)** in pass ratio.
+
+ ------------------------------------------------------------
+ Approach-1: Greedy + Max Heap
+ ------------------------------------------------------------
+ ✅ Idea:
+     - For each class, calculate the "gain" of adding one more passing student.
+     - Use a max-heap to always pick the class with the highest gain.
+     - After using all extra students, compute the average pass ratio of all classes.
+
+ ✅ Step-by-step:
+     - Step 1: Define a helper `Pair` class to store:
+         → `pass` (students who passed)
+         → `total` (total students)
+         → `ratio()` method to get current pass ratio.
+         → `gain()` method to calculate the improvement in pass ratio if an extra student is added.
+     - Step 2: Initialize a Max Heap (PriorityQueue) using the `gain()` as comparator.
+     - Step 3: Add all classes to the Max Heap.
+     - Step 4: While `extraStudents > 0`:
+         → Pop the class with the maximum gain from the heap.
+         → Add one passing student (increase `pass` and `total` by 1).
+         → Push the updated class back into the heap.
+     - Step 5: After all extra students are distributed, calculate the final average pass ratio by summing up all class ratios.
+
+ ✅ 🔍 Why Max Heap?
+     - Because we always want to give the next extra student to the class where it yields the highest marginal gain in average ratio.
+
+ 🕒 Time Complexity:
+     - O(n log n + extraStudents × log n)
+         → n = number of classes.
+         → Each heap operation takes log n time.
+
+ 🧠 Space Complexity:
+     - O(n) for storing all classes in the max heap.

@@ -1,84 +1,111 @@
  ✅ Given Question:
- You're given an undirected graph represented as an adjacency list (`List<List<Integer>> graph`).
+ You are given a graph represented as an adjacency list (`List<List<Integer>> graph`).
  Your task is to detect whether the graph contains a cycle.
- You need to implement two approaches:
-     - Approach-1 → Using BFS and a parent map.
-     - Approach-2 → Using DFS and a parent reference.
+
+ You need to handle:
+     - Undirected graphs (detect cycles using BFS and DFS).
+     - Directed graphs (detect cycles using DFS + recursion stack).
 
  ✅ Given Data:
  You have:
-     - An adjacency list `graph` representing an undirected graph.
-     - Nodes are numbered from 0 to N-1.
-     - The graph can have multiple disconnected components.
-     - Your goal is to return `true` if any cycle exists, otherwise `false`.
+     - An adjacency list `graph` where `graph.get(i)` returns the list of neighbors of node `i`.
+     - The graph may contain multiple disconnected components.
+     - For undirected graphs, you must return `true` if any cycle exists.
+     - For directed graphs, you must also return `true` if any cycle exists.
 
  ✅ Intuition:
- A cycle in an undirected graph occurs when:
-     - You revisit a node that is already visited, and it's not the parent of the current node.
-     - This check ensures we’re not mistaking a two-way edge (which is normal in undirected graphs) as a cycle.
+ - In undirected graphs, a cycle exists when we revisit a node already visited and it’s not the parent.
+ - In directed graphs, a cycle exists if a node is revisited in the same DFS recursion path.
 
  ------------------------------------------------------------
- Approach-1: BFS + Parent Map
+ Approach-1: Undirected Graph - BFS + Parent Map
  ------------------------------------------------------------
  ✅ Idea:
-     - We perform BFS traversal from every unvisited node.
-     - Track the parent of each node in a `HashMap`.
-     - While exploring neighbors:
-         - If a neighbor is visited and not the parent, a cycle exists.
-         - If not visited, mark as visited, add to queue, and set its parent.
+     - Use BFS from each unvisited node.
+     - Maintain a parent map to keep track of the node from which each node was discovered.
+     - If we encounter a neighbor that’s visited but not the parent → cycle exists.
 
  ✅ Step-by-step:
      - Step 1: Initialize a `visited[]` array.
-     - Step 2: Loop over all nodes:
-         - If a node is unvisited, start BFS from it.
+     - Step 2: Loop through all nodes:
+         - If unvisited, start BFS from the node.
      - Step 3: In BFS:
-         - Use a queue to traverse the graph.
-         - Use a `HashMap` to track each node's parent.
+         - Use a queue to explore nodes level by level.
+         - Store each node’s parent in a HashMap.
          - For each neighbor:
-             - If already visited and not parent → cycle found.
-             - Else, mark visited, enqueue it, and record parent.
-     - Step 4: If no cycle is detected after traversing all components, return `false`.
+             - If it's visited and not the parent → cycle found.
+             - If not visited → mark visited, enqueue it, and set its parent.
 
- ✅ 🔍 Why parent is needed?
-     - In an undirected graph, every edge appears twice: (u → v) and (v → u).
-     - When visiting a neighbor, we must check if it's not the node we came from (its parent).
-     - This avoids false positives due to the undirected nature.
+ ✅ 🔍 Why parent map is needed?
+     - In undirected graphs, each edge is bidirectional.
+     - So revisiting the parent is valid — it shouldn't be treated as a cycle.
+     - Hence we check if the visited neighbor is not the parent.
 
  🕒 Time Complexity:
-     - O(V + E), where V is number of vertices, E is number of edges.
+     - O(V + E), V = vertices, E = edges.
 
  🧠 Space Complexity:
      - O(V) for visited array + O(V) for queue + O(V) for parent map.
 
  ------------------------------------------------------------
- Approach-2: DFS + Parent Parameter
+ Approach-2: Undirected Graph - DFS + Parent Parameter
  ------------------------------------------------------------
  ✅ Idea:
-     - Perform DFS from every unvisited node.
-     - Pass the parent node in the recursive call.
+     - Use DFS from each unvisited node.
      - For each neighbor:
-         - If unvisited → recurse DFS with current node as parent.
-         - If visited and not parent → cycle exists.
+         - If unvisited, recurse with current node as parent.
+         - If visited and not parent → cycle found.
 
  ✅ Step-by-step:
-     - Step 1: Initialize a `visited[]` array.
-     - Step 2: Loop through all nodes:
-         - If a node is unvisited, call DFS on it with parent = -1.
+     - Step 1: Initialize `visited[]` array.
+     - Step 2: For each unvisited node, call DFS with parent = -1.
      - Step 3: In DFS:
          - Mark node as visited.
          - For each neighbor:
-             - If not visited → recurse with `node` as the new parent.
-             - If already visited and not parent → cycle found.
-     - Step 4: Return `true` if any cycle found; else `false`.
+             - If unvisited → call DFS with current node as parent.
+             - If visited and not parent → cycle exists.
 
- ✅ 🔍 Why parent is needed?
-     - Without tracking the parent, we may think the immediate back-edge to the previous node is a cycle.
-     - By passing the parent, we can safely skip the edge that brought us to the current node.
+ ✅ 🔍 Why parent parameter is needed?
+     - Prevents false cycle detection from immediate back-edge to parent node.
 
  🕒 Time Complexity:
-     - O(V + E), where V is number of vertices, E is number of edges.
+     - O(V + E), where V = number of vertices and E = number of edges.
 
  🧠 Space Complexity:
-     - O(V) for visited array + O(depth) recursion stack (can be O(V) in worst case).
+     - O(V) for visited array + O(V) recursion stack in worst case.
 
- 
+ ------------------------------------------------------------
+ Approach-3: Directed Graph - DFS + Recursion Path Tracking
+ ------------------------------------------------------------
+ ✅ Idea:
+     - Use DFS for each unvisited node.
+     - Use two arrays:
+         → `visited[]` to mark fully processed nodes.
+         → `path[]` (aka recursion stack) to track nodes in the current DFS path.
+     - If during DFS, you visit a node that is already in the path → cycle detected.
+
+ ✅ Step-by-step:
+     - Step 1: Initialize `visited[]` and `path[]` arrays.
+     - Step 2: For each unvisited node, call DFS.
+     - Step 3: In DFS:
+         - Mark node as visited and add it to path.
+         - For each neighbor:
+             - If not visited → recurse.
+             - If visited and in path → cycle exists.
+         - After DFS, remove node from path.
+
+ ✅ 🔍 Why recursion path is needed?
+     - In directed graphs, cycles can be detected by re-entering the same recursion path (not just visited nodes).
+     - A visited node not in current path is not part of a cycle.
+
+ 🕒 Time Complexity:
+     - O(V + E)
+
+ 🧠 Space Complexity:
+     - O(V) for visited + O(V) for recursion path stack.
+
+ ✅ Summary:
+     - Undirected Graph:
+         - Use BFS with parent map or DFS with parent tracking.
+     - Directed Graph:
+         - Use DFS with recursion path tracking.

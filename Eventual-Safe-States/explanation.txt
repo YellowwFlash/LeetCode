@@ -1,0 +1,53 @@
+ ✅ Given Question:
+ You're given a directed graph with `V` vertices (0 to V-1), represented as an adjacency list.
+ A node is considered eventually safe if:
+     - Every possible path starting from that node leads to a terminal node.
+     - A terminal node is a node with no outgoing edges.
+ Your task is to return all eventual safe nodes, in sorted order.
+
+ ✅ Given Data:
+ You have:
+     - `V`: Number of vertices.
+     - `adj`: Adjacency list representing the directed graph.
+     - Goal: Identify nodes that are eventually safe.
+     - Approach: Use a reverse graph + BFS (Kahn's Algorithm variation).
+
+ ✅ Intuition:
+ A node is unsafe if it is part of a cycle or leads to a cycle.
+ The core idea:
+     - Reverse the graph so that edges go toward the original node.
+     - Nodes with no outgoing edges in original graph → no incoming edges in reversed graph → terminal/safe.
+     - Apply BFS (Kahn's algorithm) to eliminate nodes in reverse topological order.
+     - Nodes that can be fully "resolved" in this process are safe.
+     - Remaining nodes (in cycles or leading to them) are not added to result.
+
+ ------------------------------------------------------------
+ Approach-1: Reverse Graph + BFS (Topological Sort)
+ ------------------------------------------------------------
+     - Step 1: Build the reverse graph:
+         - For each edge u → v in original graph:
+             - Add edge v → u in reverse graph.
+             - Increment `inDegree[u]` (since `u` has an outgoing edge in original).
+     - Step 2: Identify terminal nodes:
+         - All nodes with `inDegree = 0` are terminal (no outgoing edges).
+         - Add them to a queue.
+     - Step 3: Perform BFS:
+         - While queue is not empty:
+             - Pop a node → it's safe → add to result list.
+             - For each neighbor in the reverse graph:
+                 - Decrement its indegree.
+                 - If indegree becomes 0, add it to queue.
+     - Step 4: Sort the safe nodes list before returning.
+
+ ✅ 🔍 Deep Dive:
+     - ✅ Reversing the graph lets us track which nodes eventually lead to terminal nodes.
+     - ✅ Kahn's algorithm ensures we only add nodes whose all "future paths" are safe.
+     - ❌ Nodes part of cycles will never reach indegree 0 and will be excluded.
+
+ 🕒 Time Complexity:
+     - O(V + E):
+         - Each node and edge is visited once.
+
+ 🧠 Space Complexity:
+     - O(V + E):
+         - For the reversed graph, indegree array, queue, and result list.

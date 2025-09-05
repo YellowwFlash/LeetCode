@@ -1,0 +1,78 @@
+ ✅ Given Question:
+ You're given a directed graph represented as an adjacency matrix:
+     - Each `graph[i][j] != 0` indicates a directed edge from node `i` to node `j`.
+ Your task is to return a list representing the topological order of the graph.
+ A valid topological sort is only possible if the graph is a DAG (Directed Acyclic Graph).
+
+ ✅ Given Data:
+ You have:
+     - A 2D matrix `graph` of size `n x n` representing the adjacency of nodes.
+     - Two approaches:
+         - DFS-based Topological Sort (post-order push to stack).
+         - BFS-based Topological Sort using Kahn’s Algorithm (indegree tracking).
+     - Supportive structures: `visited[]`, `stack`, `queue`, and `indegree[]`.
+
+ ✅ Intuition:
+ Topological Sorting helps determine the linear ordering of tasks/nodes respecting dependency edges.
+ It can be approached in two main ways:
+     - DFS (post-order): process children first, then push current node.
+     - BFS (Kahn’s): process nodes with zero dependencies first, and reduce indegrees of others.
+
+ ------------------------------------------------------------
+ Approach-1: DFS (Topological Sort using Post-Order)
+ ------------------------------------------------------------
+     - Step 1: Initialize:
+         - `visited[]`: tracks visited nodes.
+         - `stack`: stores the post-order traversal (reverse gives topological sort).
+     - Step 2: For each unvisited node `i`, call `dfs()`:
+         - In `dfs()`:
+             - Mark the node as visited.
+             - Recurse on all unvisited neighbors.
+             - After visiting all neighbors, push the node to the stack.
+     - Step 3: After DFS completes, pop all nodes from the stack to get the final order.
+
+ ✅ 🔍 Deep Dive into DFS:
+     - ✅ Post-order logic:
+         - Ensures all outgoing edges (dependencies) are resolved before placing a node.
+     - ✅ Stack reversal:
+         - Stack contains the reverse of the desired order — popping gives correct sort.
+     - ❗ Note:
+         - This implementation assumes no cycles.
+         - In real-world usage, add cycle detection for robustness.
+
+ 🕒 Time Complexity (DFS):
+     - O(V + E):
+         - Each node and edge is visited once.
+
+ 🧠 Space Complexity (DFS):
+     - O(V):
+         - For the `visited[]` array and `stack`.
+
+ ------------------------------------------------------------
+ Approach-2: Kahn's Algorithm (Topological Sort using BFS)
+ ------------------------------------------------------------
+     - Step 1: Initialize:
+         - `indegree[]`: count of incoming edges for each node.
+         - Traverse the matrix and compute indegree for each node.
+     - Step 2: Add all nodes with `indegree = 0` to a queue.
+     - Step 3: While the queue is not empty:
+         - Poll a node from the queue and add it to the result list.
+         - For each neighbor:
+             - If edge exists (`graph[vertex][i] != 0`), decrement its indegree.
+             - If indegree becomes 0, add it to the queue.
+     - Step 4: After traversal, the `result` list will contain the topological order.
+
+ ✅ 🔍 Deep Dive into Kahn’s BFS:
+     - ✅ Zero indegree logic:
+         - Only nodes with no dependencies can be placed in the result.
+         - As we remove a node, its neighbors' dependencies reduce.
+     - ✅ Cycle detection:
+         - If result size < total number of nodes → graph has a cycle.
+
+ 🕒 Time Complexity (BFS - Kahn's Algorithm):
+     - O(V + E):
+         - Each edge and node processed once.
+
+ 🧠 Space Complexity (BFS):
+     - O(V):
+         - For `indegree[]`, `queue`, and `result`.

@@ -1,0 +1,78 @@
+ ✅ Given Question:
+ You are given an undirected graph represented as an adjacency list: `int[][] graph`.
+ Your task is to determine whether the graph is bipartite.
+ A graph is bipartite if you can split its set of vertices into two groups
+ such that no two adjacent vertices belong to the same group.
+
+ ✅ Given Data:
+     - `int[][] graph` where:
+         → graph[i] contains the neighbors of vertex `i`.
+         → The graph may be disconnected, i.e., consist of multiple components.
+     - You must return `true` if the graph is bipartite, otherwise `false`.
+
+ ✅ Intuition:
+     - A bipartite graph can be colored using two colors (e.g., 0 and 1),
+       such that no two connected nodes have the same color.
+     - If any such coloring fails (i.e., two adjacent nodes must be the same color), 
+       then the graph is not bipartite.
+
+     ✅ Key Insight:
+         - Perform BFS or DFS to try coloring the graph.
+         - If a valid coloring is possible for all components, return true.
+         - If any component fails, return false.
+
+ ------------------------------------------------------------
+ Approach-1: Using BFS
+ ------------------------------------------------------------
+ ✅ Idea:
+     - Use Breadth-First Search (BFS) to traverse the graph.
+     - Start from any uncolored node and try coloring it and its neighbors
+       using alternating colors (0 and 1).
+     - If at any point two adjacent nodes have the same color, return false.
+
+ ✅ Step-by-step:
+     - Step 1: Initialize `colors[]` array with -1 (meaning uncolored).
+     - Step 2: Loop through all vertices:
+         - If vertex is uncolored, start BFS from it with color 0.
+     - Step 3: In BFS:
+         - Use a queue to traverse level-by-level.
+         - Color each node and enqueue its neighbors with opposite color.
+         - If a node is already colored and its color conflicts, return false.
+     - Step 4: If BFS succeeds for all components, return true.
+
+ ✅ 🔍 Why BFS?
+     - Easy level-based traversal to alternate colors between levels.
+
+ 🕒 Time Complexity:
+     - O(V + E), where V = number of vertices, E = number of edges.
+
+ 🧠 Space Complexity:
+     - O(V) for the color array and BFS queue.
+
+ ------------------------------------------------------------
+ Approach-2: Using DFS
+ ------------------------------------------------------------
+ ✅ Idea:
+     - Use Depth-First Search (DFS) to color the graph recursively.
+     - Start from an uncolored vertex and assign a color.
+     - Recursively assign the opposite color to its neighbors.
+     - If a coloring conflict occurs, return false.
+
+ ✅ Step-by-step:
+     - Step 1: Initialize `colors[]` with -1.
+     - Step 2: Loop through each vertex:
+         - If vertex is uncolored, start DFS with color 0.
+     - Step 3: In DFS:
+         - If vertex is already colored, check if it matches the expected color.
+         - Otherwise, color it and recurse on all neighbors with opposite color.
+         - If any recursive call fails, return false.
+     - Step 4: If all DFS calls succeed, return true.
+
+ ✅ 🔍 Why DFS?
+     - Recursive approach is concise and naturally explores depth-wise.
+
+ 🕒 Time Complexity:
+     - O(V + E), standard DFS traversal of all nodes and edges.
+
+ 🧠 Space Complexity:
+     - O(V) for color array and recursion stack (in worst case).

@@ -118,4 +118,46 @@ public class CycleDetection {
         // Return false since there is no cycle
         return false;
     }
+
+    // Variation-1 -> Detecting cycle in directed graph
+    public boolean isCycleDirected(List<List<Integer>> graph) {
+
+        // Define a boolean array to mark visited nodes
+        boolean[] visited = new boolean[graph.size()];
+
+        // Define a boolean array to mark nodes in the current path
+        boolean[] path = new boolean[graph.size()];
+
+        // Iterate over the graph
+        for (int i = 0; i < graph.size(); i++)
+
+            // If the node is not visited, perform DFS
+            if (!visited[i] && dfsDirected(graph, visited, path, i))
+                return true;
+
+        // Return false since the cycle does not exist
+        return false;
+    }
+
+    private boolean dfsDirected(List<List<Integer>> graph, boolean[] visited, boolean[] path, int vertex) {
+
+        // Mark the current node as visited and add it to the path
+        visited[vertex] = true;
+        path[vertex] = true;
+
+        // Iterate over the neighbors of the current node
+        for (int neighbor : graph.get(vertex))
+
+            // If the neighbor is not visited, perform DFS
+            if (!visited[neighbor] && dfsDirected(graph, visited, path, neighbor))
+                return true;
+
+            // If neighbor is visited and is in path, return true since cycle exists
+            else if (path[neighbor])
+                return true;
+
+        // Remove the current node from the path
+        path[vertex] = false;
+        return false;
+    }
 }
